@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.part {
+  display: flex;
+  align-items: center;
+  width: calc(100% / 3);
+}
+
+.center {
+  justify-content: center;
+}
+
+.end {
+  justify-content: flex-end;
+}

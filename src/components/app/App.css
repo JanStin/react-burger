@@ -1,0 +1,18 @@
+.app {
+  box-sizing: border-box;
+  max-width: 1280px;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.main {
+  display: flex;
+  height: calc(100% - 100px);
+}
+
+.column {
+  box-sizing: border-box;
+  width: 50%;
+  height: 100%;
+}
+
