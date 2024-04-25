@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../app-header/App-header";
 import { BurgerIngredients } from "../burger-ingredients/Burger-ingredients";
+import { BurgerConstructor } from "../burger-constructor/Burger-constructor";
 import { ingredients } from "../../utils/data.js";
 import styles from "./styles.module.css";
 
@@ -20,7 +21,9 @@ function App() {
         <div className={styles.column}>
           <BurgerIngredients data={state} />
         </div>
-        <div className={styles.column}></div>
+        <div className={styles.column}>
+          <BurgerConstructor data={state} />
+        </div>
       </main>
     </div>
   );
