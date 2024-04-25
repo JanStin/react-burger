@@ -1,0 +1,17 @@
+.card {
+    position: relative;
+    width: calc(50% - 56px);
+}
+
+.price {
+    composes: mb-1 from global;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.name {
+    text-align: center;
+}
