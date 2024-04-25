@@ -1,7 +1,9 @@
 .button {
+  composes: p-5 from global;
   display: flex;
   align-items: center;
   max-width: max-content;
+  cursor: pointer;
   opacity: 0.5;
 }
 

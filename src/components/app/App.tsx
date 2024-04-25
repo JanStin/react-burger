@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../app-header/App-header";
 import { BurgerIngredients } from "../burger-ingredients/Burger-ingredients";
 import { ingredients } from "../../utils/data.js";
-import "./App.modules.css";
+import styles from "./styles.module.css";
 
 function App() {
   const [state, setState] = React.useState({});
@@ -14,13 +14,13 @@ function App() {
 
   // const {data} = state;
   return (
-    <div className="app pl-4 pr-4">
+    <div className={styles.app}>
       <Header />
-      <main className="main">
-        <div className="column pl-4 pr-4">
+      <main className={styles.main}>
+        <div className={styles.column}>
           <BurgerIngredients data={state} />
         </div>
-        <div className="column pl-4 pr-4"></div>
+        <div className={styles.column}></div>
       </main>
     </div>
   );

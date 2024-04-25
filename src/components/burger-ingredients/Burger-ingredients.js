@@ -3,7 +3,7 @@ import React from "react";
 // import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from '../burger-ingredients-tab/Burger-ingredients-tab';
-import styles from "./Burger-ingredients.module.css";
+import styles from "./styles.module.css";
 
 export const BurgerIngredients = ( {data} ) => {
   const [state, setState] = React.useState({
