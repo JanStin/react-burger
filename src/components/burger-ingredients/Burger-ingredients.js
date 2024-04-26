@@ -26,8 +26,8 @@ export const BurgerIngredients = ( {data} ) => {
   });
 
   React.useEffect(() => {
-    if (data.state) {
-      const ingredients = Object.values(data.state);
+    if (data.data) {
+      const ingredients = Object.values(data.data);
       setState({...state, ingredients: ingredients});
     }
   }, [data]);
@@ -58,10 +58,8 @@ export const BurgerIngredients = ( {data} ) => {
         {
           ingredientTypes.map(type => {
             const dataTab = ingredients.filter(element => {
-              // console.log(element);
               return element.type === type.id ? element : false;
             });
-            // console.log(dataTab);
             return <BurgerIngredientsTab title={type.name} data={dataTab} key={type.id} />
           })
         }

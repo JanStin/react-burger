@@ -9,71 +9,84 @@ import {
 import styles from "./styles.module.css";
 
 export const BurgerConstructor = ({ data }) => {
-  const [state, setState] = React.useState({});
+  const [state, setState] = React.useState({
+    top: [],
+    ingredients: [],
+    bottom: [],
+    sum: 0,
+    isLoading: true,
+  });
 
   React.useEffect(() => {
-    if (data.state) {
-      let ingredients = Object.values(data.state);
+    if (data.data) {
+      let ingredients = Object.values(data.data);
+      const bun = ingredients.find(element => element.type === "bun");
+      ingredients = ingredients.filter(element => element !== bun);
+
       const sum = ingredients.reduce(function (sum, elem) {
         return sum + elem.price;
-      }, 0);
-      const topBun = ingredients.shift();
-      const bottomBun = ingredients.pop();
+      }, bun.price * 2);
 
       setState({
         ...state,
-        top: topBun,
+        top: bun,
         ingredients: ingredients,
-        bottom: bottomBun,
+        bottom: bun,
         sum: sum,
+        isLoading: false,
       });
     }
   }, [data]);
 
-  const { top, ingredients, bottom, sum } = state;
+  const { top, ingredients, bottom, sum, isLoading } = state;
+
   return (
-    <div className={styles.constructor}>
-      <div className={styles.body}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={top.name}
-          price={top.price}
-          thumbnail={top.image_mobile}
-          extraClass={styles.bun}
-        />
-        <div className={styles.ingredients}>
-          {ingredients.map((elem) => (
-            <div className={styles.ingredient}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                key={elem.id}
-                text={elem.name}
-                price={elem.price}
-                thumbnail={elem.image_mobile}
-              />
+    <>
+      {!isLoading && (
+        <div className={styles.constructor}>
+          <div className={styles.body}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={top.name}
+              price={top.price}
+              thumbnail={top.image_mobile}
+              extraClass={styles.bun}
+            />
+            <div className={styles.ingredients}>
+              {ingredients.map((elem) => (
+                <div className={styles.ingredient}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    key={elem.id}
+                    text={elem.name}
+                    price={elem.price}
+                    thumbnail={elem.image_mobile}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={bottom.name}
+              price={bottom.price}
+              thumbnail={bottom.image_mobile}
+              extraClass={styles.bun}
+            />
+          </div>
+          <div className={styles.bottom}>
+            <div className={styles.price}>
+              {sum}
+              <CurrencyIcon type="primary" extraClass={styles.icon} />
+            </div>
+            <Button htmlType="button" type="primary" size="large">
+              Оформить заказ
+            </Button>
+          </div>
         </div>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={bottom.name}
-          price={bottom.price}
-          thumbnail={bottom.image_mobile}
-          extraClass={styles.bun}
-        />
-      </div>
-      <div className={styles.bottom}>
-        <div className={styles.price}>
-          {sum}
-          <CurrencyIcon type="primary" extraClass={styles.icon} />
-        </div>
-        <Button htmlType="button" type="primary" size="large">
-          Оформить заказ
-        </Button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

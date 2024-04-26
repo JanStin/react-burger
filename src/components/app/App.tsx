@@ -6,25 +6,40 @@ import { ingredients } from "../../utils/data.js";
 import styles from "./styles.module.css";
 
 function App() {
-  const [state, setState] = React.useState({});
-  // const [types, setTypes] = React.useState({});
+  const [state, setState] = React.useState({
+    data: [],
+    isLoading: true,
+    hasError: false,
+  });
 
   React.useEffect(() => {
-    setState({state: ingredients});
+    setState({ ...state, hasError: false, isLoading: true });
+    fetch(`https://norma.nomoreparties.space/api/ingredients`)
+      .then((res) => res.json())
+      .then(data =>
+        setState({ ...state, data, isLoading: false, hasError: false })
+      )
+      .catch((e) => {
+        setState({ ...state, hasError: true, isLoading: false });
+      });
   }, []);
 
-  // const {data} = state;
+  const { data, isLoading, hasError } = state;
   return (
     <div className={styles.app}>
       <Header />
-      <main className={styles.main}>
-        <div className={styles.column}>
-          <BurgerIngredients data={state} />
-        </div>
-        <div className={styles.column}>
-          <BurgerConstructor data={state} />
-        </div>
-      </main>
+      {isLoading && "Загрузка..."}
+      {hasError && "Произошла ошибка"}
+      {!isLoading && !hasError && (
+        <main className={styles.main}>
+          <div className={styles.column}>
+            <BurgerIngredients data={data} />
+          </div>
+          <div className={styles.column}>
+            <BurgerConstructor data={data} />
+          </div>
+        </main>
+      )}
     </div>
   );
 }
