@@ -43,20 +43,6 @@ export const BurgerConstructor = ({ data }) => {
     }
   }, [data]);
 
-  const open = () => {
-    console.log("Не работает");
-    const modalRoot = document.getElementById('modal-root');
-    setIsOpen(true);
-    return createPortal(
-      <ModalOverlay setIsOpen={setIsOpen}>
-        <Modal title="" setIsOpen={setIsOpen}>
-          <OrderDetails />
-        </Modal>
-      </ModalOverlay>,
-      modalRoot
-    );
-  };
-
   const { top, ingredients, bottom, sum, isLoading } = state;
 
   return (
@@ -103,12 +89,20 @@ export const BurgerConstructor = ({ data }) => {
               htmlType="button"
               type="primary"
               size="large"
-              onClick={open}
+              onClick={() => setIsOpen(true)}
             >
               Оформить заказ
             </Button>
           </div>
         </div>
+      )}
+
+      {isOpen && (
+        <ModalOverlay setIsOpen={setIsOpen}>
+          <Modal title="">
+            <OrderDetails />
+          </Modal>
+        </ModalOverlay>
       )}
     </>
   );

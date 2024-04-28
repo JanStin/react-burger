@@ -7,13 +7,6 @@
     background-color: #000;
 }
 
-.close {
-    position: absolute;
-    top: 60px;
-    right: 40px;
-    cursor: pointer;
-}
-
 .top {
     display: flex;
     align-items: center;
