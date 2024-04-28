@@ -4,10 +4,11 @@ import { BurgerIngredients } from "../burger-ingredients/Burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/Burger-constructor";
 import { ModalOverlay } from "../modal-overlay/ModalOverlay";
 import { Modal } from "../modal/Modal";
+import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
 
 function App() {
-  const [isOpen, setIsOpen] = React.useState(true);
+  // const [isOpen, setIsOpen] = React.useState(true);
   const [state, setState] = React.useState({
     data: [],
     isLoading: true,
@@ -44,11 +45,13 @@ function App() {
           </main>
         )}
       </div>
-      {isOpen && (
+      {/* {isOpen && (
         <ModalOverlay setIsOpen={setIsOpen}>
-          <Modal title="test" setIsOpen={setIsOpen}></Modal>
+          <Modal title="" setIsOpen={setIsOpen}>
+            <OrderDetails />
+          </Modal>
         </ModalOverlay>
-      )}
+      )} */}
     </>
   );
 }

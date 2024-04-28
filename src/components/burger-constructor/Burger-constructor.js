@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from 'react-dom';
 // import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
@@ -6,9 +7,13 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ModalOverlay } from "../modal-overlay/ModalOverlay";
+import { Modal } from "../modal/Modal";
+import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
 
 export const BurgerConstructor = ({ data }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const [state, setState] = React.useState({
     top: [],
     ingredients: [],
@@ -20,8 +25,8 @@ export const BurgerConstructor = ({ data }) => {
   React.useEffect(() => {
     if (data.data) {
       let ingredients = Object.values(data.data);
-      const bun = ingredients.find(element => element.type === "bun");
-      ingredients = ingredients.filter(element => element !== bun);
+      const bun = ingredients.find((element) => element.type === "bun");
+      ingredients = ingredients.filter((element) => element !== bun);
 
       const sum = ingredients.reduce(function (sum, elem) {
         return sum + elem.price;
@@ -37,6 +42,20 @@ export const BurgerConstructor = ({ data }) => {
       });
     }
   }, [data]);
+
+  const open = () => {
+    console.log("Не работает");
+    const modalRoot = document.getElementById('modal-root');
+    setIsOpen(true);
+    return createPortal(
+      <ModalOverlay setIsOpen={setIsOpen}>
+        <Modal title="" setIsOpen={setIsOpen}>
+          <OrderDetails />
+        </Modal>
+      </ModalOverlay>,
+      modalRoot
+    );
+  };
 
   const { top, ingredients, bottom, sum, isLoading } = state;
 
@@ -80,7 +99,12 @@ export const BurgerConstructor = ({ data }) => {
               {sum}
               <CurrencyIcon type="primary" extraClass={styles.icon} />
             </div>
-            <Button htmlType="button" type="primary" size="large">
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              onClick={open}
+            >
               Оформить заказ
             </Button>
           </div>
