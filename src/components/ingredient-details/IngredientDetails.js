@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 
-export const IngredientDetails = ({data}) => {
+export const IngredientDetails = ({ data }) => {
   return (
     <div className={styles.body}>
       <img className={styles.image} src={data.image_large} alt="" />
@@ -28,7 +29,6 @@ export const IngredientDetails = ({data}) => {
   );
 };
 
-// Modal.propTypes = {
-//   data: PropTypes.object.isRequired,
-//   number: PropTypes.number,
-// }
+IngredientDetails.propTypes = {
+  data: PropTypes.object.isRequired,
+};

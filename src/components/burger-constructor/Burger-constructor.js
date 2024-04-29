@@ -1,6 +1,5 @@
 import React from "react";
-import { createPortal } from 'react-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
   Button,
@@ -41,7 +40,7 @@ export const BurgerConstructor = ({ data }) => {
         isLoading: false,
       });
     }
-  }, [data]);
+  }, [state, data]);
 
   const { top, ingredients, bottom, sum, isLoading } = state;
 
@@ -108,8 +107,6 @@ export const BurgerConstructor = ({ data }) => {
   );
 };
 
-// BurgerIngredients.propTypes = {
-//   icon: PropTypes.element.isRequired,
-//   text: PropTypes.string.isRequired,
-//   active: PropTypes.bool
-// }
+BurgerConstructor.propTypes = {
+  data: PropTypes.object.isRequired,
+}

@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import { BurgerCard } from "../burger-card/Burger-card";
 
@@ -21,8 +21,7 @@ export const BurgerIngredientsTab = ({ title, data }) => {
   );
 };
 
-// BurgerIngredientsTab.propTypes = {
-//   icon: PropTypes.element.isRequired,
-//   text: PropTypes.string.isRequired,
-//   active: PropTypes.bool
-// }
+BurgerIngredientsTab.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+};

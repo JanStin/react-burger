@@ -15,7 +15,7 @@ export const ModalOverlay = ({ setIsOpen, children }) => {
     return () => window.removeEventListener("keydown", close);
   }, [setIsOpen, children]);
 
-  const id = document.getElementById('modal-root');
+  const id = document.getElementById("modal-root");
   const modal = (
     <>
       <div className={styles.overflow} onClick={() => setIsOpen(false)} />
@@ -31,7 +31,7 @@ export const ModalOverlay = ({ setIsOpen, children }) => {
   return createPortal(modal, id);
 };
 
-// Modal.propTypes = {
-//   data: PropTypes.object.isRequired,
-//   number: PropTypes.number,
-// }
+ModalOverlay.propTypes = {
+  setIsOpen: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};

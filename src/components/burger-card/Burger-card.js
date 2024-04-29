@@ -19,8 +19,12 @@ export const BurgerCard = ({ number, data }) => {
         data-id={data._id}
         onClick={() => setIsOpen(true)}
       >
-        {(number > 0) && (
-          <Counter count={number} size={number > 10 ? "small" : "default"} extraClass={styles.number} />
+        {number > 0 && (
+          <Counter
+            count={number}
+            size={number > 10 ? "small" : "default"}
+            extraClass={styles.number}
+          />
         )}
         <img src={data.image} className={styles.image} alt={data.name} />
         <div className={styles.price}>

@@ -1,11 +1,10 @@
 import React from "react";
-// import PropTypes from 'prop-types';
-// import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerIngredientsTab } from '../burger-ingredients-tab/Burger-ingredients-tab';
+import { BurgerIngredientsTab } from "../burger-ingredients-tab/Burger-ingredients-tab";
 import styles from "./styles.module.css";
 
-export const BurgerIngredients = ( {data} ) => {
+export const BurgerIngredients = ({ data }) => {
   const [state, setState] = React.useState({
     currentType: "bun",
     ingredientTypes: [
@@ -22,18 +21,18 @@ export const BurgerIngredients = ( {data} ) => {
         name: "Начинки",
       },
     ],
-    ingredients: []
+    ingredients: [],
   });
 
   React.useEffect(() => {
     if (data.data) {
       const ingredients = Object.values(data.data);
-      setState({...state, ingredients: ingredients});
+      setState({ ...state, ingredients: ingredients });
     }
-  }, [data]);
+  }, [state, data]);
 
-  function setCurrentType (event) {
-    setState({...state, currentType: event})
+  function setCurrentType(event) {
+    setState({ ...state, currentType: event });
   }
 
   const { currentType, ingredientTypes, ingredients } = state;
@@ -53,21 +52,23 @@ export const BurgerIngredients = ( {data} ) => {
         ))}
       </div>
       <div className={styles.body}>
-        {
-          ingredientTypes.map(type => {
-            const dataTab = ingredients.filter(element => {
-              return element.type === type.id ? element : false;
-            });
-            return <BurgerIngredientsTab title={type.name} data={dataTab} key={type.id} />
-          })
-        }
+        {ingredientTypes.map((type) => {
+          const dataTab = ingredients.filter((element) => {
+            return element.type === type.id ? element : false;
+          });
+          return (
+            <BurgerIngredientsTab
+              title={type.name}
+              data={dataTab}
+              key={type.id}
+            />
+          );
+        })}
       </div>
     </>
   );
 };
 
-// BurgerIngredients.propTypes = {
-//   icon: PropTypes.element.isRequired,
-//   text: PropTypes.string.isRequired,
-//   active: PropTypes.bool
-// }
+BurgerIngredients.propTypes = {
+  data: PropTypes.object.isRequired,
+};
