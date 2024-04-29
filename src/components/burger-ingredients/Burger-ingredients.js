@@ -36,8 +36,6 @@ export const BurgerIngredients = ( {data} ) => {
     setState({...state, currentType: event})
   }
 
-
-
   const { currentType, ingredientTypes, ingredients } = state;
   return (
     <>

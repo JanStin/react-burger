@@ -13,7 +13,7 @@ export const ModalOverlay = ({ setIsOpen, children }) => {
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
-  }, [setIsOpen]);
+  }, [setIsOpen, children]);
 
   const id = document.getElementById('modal-root');
   const modal = (

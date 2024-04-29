@@ -12,8 +12,8 @@ export const BurgerIngredientsTab = ({ title, data }) => {
           <BurgerCard
             key={item._id}
             data={item}
-            number={false}
-            // onClick={this.setCurrentType}
+            number={1}
+            // onClick={}
           />
         ))}
       </div>
