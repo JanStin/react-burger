@@ -5,6 +5,7 @@ import { BurgerConstructor } from "../burger-constructor/Burger-constructor";
 import styles from "./styles.module.css";
 
 function App() {
+  const ingredientsURL = 'https://norma.nomoreparties.space/api/ingredients';
   const [state, setState] = React.useState({
     data: [],
     isLoading: true,
@@ -13,7 +14,7 @@ function App() {
 
   React.useEffect(() => {
     setState({ ...state, hasError: false, isLoading: true });
-    fetch(`https://norma.nomoreparties.space/api/ingredients`)
+    fetch(ingredientsURL)
       .then((res) => res.json())
       .then((data) =>
         setState({ ...state, data, isLoading: false, hasError: false })
@@ -21,6 +22,7 @@ function App() {
       .catch((e) => {
         setState({ ...state, hasError: true, isLoading: false });
       });
+      // eslint-disable-next-line
   }, []);
 
   const { data, isLoading, hasError } = state;

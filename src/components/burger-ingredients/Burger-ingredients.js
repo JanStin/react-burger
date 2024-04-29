@@ -29,7 +29,8 @@ export const BurgerIngredients = ({ data }) => {
       const ingredients = Object.values(data.data);
       setState({ ...state, ingredients: ingredients });
     }
-  }, [state, data]);
+    // eslint-disable-next-line
+  }, [data]);
 
   function setCurrentType(event) {
     setState({ ...state, currentType: event });

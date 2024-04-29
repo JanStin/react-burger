@@ -23,5 +23,5 @@ export const BurgerIngredientsTab = ({ title, data }) => {
 
 BurgerIngredientsTab.propTypes = {
   title: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };

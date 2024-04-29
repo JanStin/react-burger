@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Button,
@@ -40,7 +40,8 @@ export const BurgerConstructor = ({ data }) => {
         isLoading: false,
       });
     }
-  }, [state, data]);
+    // eslint-disable-next-line
+  }, [data]);
 
   const { top, ingredients, bottom, sum, isLoading } = state;
 
@@ -98,7 +99,7 @@ export const BurgerConstructor = ({ data }) => {
 
       {isOpen && (
         <ModalOverlay setIsOpen={setIsOpen}>
-          <Modal title="">
+          <Modal title="" setIsOpen={setIsOpen}>
             <OrderDetails />
           </Modal>
         </ModalOverlay>
@@ -109,4 +110,4 @@ export const BurgerConstructor = ({ data }) => {
 
 BurgerConstructor.propTypes = {
   data: PropTypes.object.isRequired,
-}
+};

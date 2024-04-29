@@ -34,7 +34,7 @@ export const BurgerCard = ({ number, data }) => {
       </div>
       {isOpen && (
         <ModalOverlay setIsOpen={setIsOpen}>
-          <Modal title="Детали ингредиента">
+          <Modal title="Детали ингредиента" setIsOpen={setIsOpen}>
             <IngredientDetails data={data} />
           </Modal>
         </ModalOverlay>
