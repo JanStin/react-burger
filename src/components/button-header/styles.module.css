@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   max-width: max-content;
+  color: #fff;
+  text-decoration: none;
   cursor: pointer;
   opacity: 0.5;
 }

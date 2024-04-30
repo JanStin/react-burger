@@ -11,14 +11,14 @@ function AppHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.part}>
-        <Button icon={<BurgerIcon />} text="Конструктор" active={true} />
-        <Button icon={<ListIcon />} text="Лента заказов" />
+        <Button icon={<BurgerIcon />} text="Конструктор" href="#" active={true} />
+        <Button icon={<ListIcon />} text="Лента заказов" href="#" />
       </div>
       <div className={styles.center}>
         <Logo className="logo" />
       </div>
       <div className={styles.end}>
-        <Button icon={<ProfileIcon />} text="Личный кабинет" />
+        <Button icon={<ProfileIcon />} text="Личный кабинет" href="#" />
       </div>
     </header>
   );
