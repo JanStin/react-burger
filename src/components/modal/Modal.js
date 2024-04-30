@@ -5,7 +5,7 @@ import { ModalOverlay } from "../modal-overlay/ModalOverlay";
 import styles from "./styles.module.css";
 
 export const Modal = ({ onTrigger, title, children }) => {
-  const closeButton = "Escape"
+  const closeButton = "Escape";
   React.useEffect(() => {
     const close = (e) => {
       if (e.key === closeButton) {

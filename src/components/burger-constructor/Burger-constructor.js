@@ -12,37 +12,32 @@ import styles from "./styles.module.css";
 
 export const BurgerConstructor = ({ ingredientsList }) => {
   const [isOpen, onTrigger] = React.useState(false);
-  const [ingredientsData, setIngredientsData] = React.useState({
-    top: [],
-    ingredients: [],
-    bottom: [],
-    sum: 0,
-    isLoading: true,
-  });
 
-  React.useEffect(() => {
-    if (ingredientsList) {
-      let ingredients = Object.values(ingredientsList);
-      const bun = ingredients.find((element) => element.type === "bun");
-      ingredients = ingredients.filter((element) => element !== bun);
-
-      const sum = ingredients.reduce(function (sum, elem) {
-        return sum + elem.price;
-      }, bun.price * 2);
-
-      setIngredientsData({
-        ...ingredientsData,
-        top: bun,
-        ingredients: ingredients,
-        bottom: bun,
-        sum: sum,
-        isLoading: false,
-      });
-    }
-    // eslint-disable-next-line
+  const isLoading = React.useMemo(() => {
+    return ingredientsList ? false : true;
   }, [ingredientsList]);
 
-  const { top, ingredients, bottom, sum, isLoading } = ingredientsData;
+  const ingredients = React.useMemo(() => {
+    let ingredients = Object.values(ingredientsList);
+    const bun = ingredients.find((element) => element.type === "bun");
+    ingredients = ingredients.filter((element) => element !== bun);
+
+    return ingredients;
+  }, [ingredientsList]);
+
+  const bun = React.useMemo(() => {
+    const ingredients = Object.values(ingredientsList);
+    return ingredients.find((element) => element.type === "bun");
+  }, [ingredientsList]);
+
+
+  const sum = React.useMemo(() => {
+    const result = ingredients.reduce(function (sum, elem) {
+      return sum + elem.price;
+    }, bun.price * 2);
+
+    return result;
+  }, [bun, ingredients]);
 
   return (
     <>
@@ -52,9 +47,9 @@ export const BurgerConstructor = ({ ingredientsList }) => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={top.name}
-              price={top.price}
-              thumbnail={top.image_mobile}
+              text={bun.name}
+              price={bun.price}
+              thumbnail={bun.image_mobile}
               extraClass={styles.bun}
             />
             <div className={styles.ingredients}>
@@ -72,9 +67,9 @@ export const BurgerConstructor = ({ ingredientsList }) => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bottom.name}
-              price={bottom.price}
-              thumbnail={bottom.image_mobile}
+              text={bun.name}
+              price={bun.price}
+              thumbnail={bun.image_mobile}
               extraClass={styles.bun}
             />
           </div>

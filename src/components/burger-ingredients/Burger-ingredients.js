@@ -5,10 +5,7 @@ import { BurgerIngredientsTab } from "../burger-ingredients-tab/Burger-ingredien
 import styles from "./styles.module.css";
 
 export const BurgerIngredients = ({ ingredientsList }) => {
-  const [ingredientsData, setIngredientsData] = React.useState({
-    currentType: "bun",
-    ingredients: [],
-  });
+  const [currentType, setCurrentType] = React.useState("bun");
 
   const ingredientTypes = [
     {
@@ -25,19 +22,10 @@ export const BurgerIngredients = ({ ingredientsList }) => {
     },
   ];
 
-  React.useEffect(() => {
-    if (ingredientsList) {
-      const ingredients = Object.values(ingredientsList);
-      setIngredientsData({ ...ingredientsData, ingredients: ingredients });
-    }
-    // eslint-disable-next-line
+  const ingredients = React.useMemo(() => {
+    return Object.values(ingredientsList);
   }, [ingredientsList]);
 
-  function setCurrentType(event) {
-    setIngredientsData({ ...ingredientsData, currentType: event });
-  }
-
-  const { currentType, ingredients } = ingredientsData;
   return (
     <>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -47,7 +35,7 @@ export const BurgerIngredients = ({ ingredientsList }) => {
             key={type.id}
             active={currentType === type.id}
             value={type.id}
-            onClick={setCurrentType}
+            onClick={(e) => setCurrentType(e)}
           >
             {type.name}
           </Tab>
