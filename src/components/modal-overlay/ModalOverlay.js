@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import { createPortal } from "react-dom";
 
-export const ModalOverlay = ({ setIsOpen, children }) => {
+export const ModalOverlay = ({ onTrigger, children }) => {
   const id = document.getElementById("modal-root");
   const modal = (
     <>
-      <div className={styles.overflow} onClick={() => setIsOpen(false)} />
+      <div className={styles.overflow} onClick={() => onTrigger(false)} />
       <div className={styles.centered}>{children}</div>
     </>
   );
@@ -16,6 +16,6 @@ export const ModalOverlay = ({ setIsOpen, children }) => {
 };
 
 ModalOverlay.propTypes = {
-  setIsOpen: PropTypes.func.isRequired,
+  onTrigger: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };

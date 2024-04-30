@@ -6,13 +6,12 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ModalOverlay } from "../modal-overlay/ModalOverlay";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
 
 export const BurgerConstructor = ({ ingredientsList }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, onTrigger] = React.useState(false);
   const [ingredientsData, setIngredientsData] = React.useState({
     top: [],
     ingredients: [],
@@ -88,7 +87,7 @@ export const BurgerConstructor = ({ ingredientsList }) => {
               htmlType="button"
               type="primary"
               size="large"
-              onClick={() => setIsOpen(true)}
+              onClick={() => onTrigger(true)}
             >
               Оформить заказ
             </Button>
@@ -97,11 +96,9 @@ export const BurgerConstructor = ({ ingredientsList }) => {
       )}
 
       {isOpen && (
-        <ModalOverlay setIsOpen={setIsOpen}>
-          <Modal title="" setIsOpen={setIsOpen}>
-            <OrderDetails />
-          </Modal>
-        </ModalOverlay>
+        <Modal title="" onTrigger={onTrigger}>
+          <OrderDetails />
+        </Modal>
       )}
     </>
   );

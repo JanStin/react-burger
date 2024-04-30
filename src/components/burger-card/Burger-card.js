@@ -5,19 +5,18 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ModalOverlay } from "../modal-overlay/ModalOverlay";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 
 export const BurgerCard = ({ number, data }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, onTrigger] = React.useState(false);
 
   return (
     <>
       <div
         className={styles.card}
         data-id={data._id}
-        onClick={() => setIsOpen(true)}
+        onClick={() => onTrigger(true)}
       >
         {number > 0 && (
           <Counter
@@ -33,11 +32,9 @@ export const BurgerCard = ({ number, data }) => {
         <p className={styles.name}>{data.name}</p>
       </div>
       {isOpen && (
-        <ModalOverlay setIsOpen={setIsOpen}>
-          <Modal title="Детали ингредиента" setIsOpen={setIsOpen}>
-            <IngredientDetails data={data} />
-          </Modal>
-        </ModalOverlay>
+        <Modal title="Детали ингредиента" onTrigger={onTrigger}>
+          <IngredientDetails data={data} />
+        </Modal>
       )}
     </>
   );
