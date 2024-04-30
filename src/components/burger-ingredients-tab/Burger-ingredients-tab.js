@@ -5,8 +5,8 @@ import { BurgerCard } from "../burger-card/Burger-card";
 
 export const BurgerIngredientsTab = ({ title, ingredients }) => {
   return (
-    <div className="mb-10">
-      <h2 className="text text_type_main-medium mt-10 mb-5">{title}</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>{title}</h2>
       <div className={styles.section}>
         {ingredients.map((item) => (
           <BurgerCard

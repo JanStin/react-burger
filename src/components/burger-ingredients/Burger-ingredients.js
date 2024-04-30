@@ -28,8 +28,8 @@ export const BurgerIngredients = ({ ingredientsList }) => {
 
   return (
     <>
-      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <div style={{ display: "flex" }}>
+      <h1 className={styles.title}>Соберите бургер</h1>
+      <div className={styles.tabs}>
         {ingredientTypes.map((type) => (
           <Tab
             key={type.id}
