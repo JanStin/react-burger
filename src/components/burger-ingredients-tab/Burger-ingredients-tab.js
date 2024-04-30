@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import { BurgerCard } from "../burger-card/Burger-card";
 
-export const BurgerIngredientsTab = ({ title, data }) => {
+export const BurgerIngredientsTab = ({ title, ingredients }) => {
   return (
     <div className="mb-10">
       <h2 className="text text_type_main-medium mt-10 mb-5">{title}</h2>
       <div className={styles.section}>
-        {data.map((item) => (
+        {ingredients.map((item) => (
           <BurgerCard
             key={item._id}
             data={item}
@@ -23,5 +23,5 @@ export const BurgerIngredientsTab = ({ title, data }) => {
 
 BurgerIngredientsTab.propTypes = {
   title: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  ingredients: PropTypes.array.isRequired,
 };

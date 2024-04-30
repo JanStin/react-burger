@@ -58,13 +58,13 @@ function App() {
         <Header />
         {isLoading && "Загрузка..."}
         {hasError && "Произошла ошибка"}
-        {!isLoading && !hasError && (
+        {!isLoading && !hasError && data.data && (
           <main className={styles.main}>
             <div className={styles.column}>
-              <BurgerIngredients data={data} />
+              <BurgerIngredients ingredientsList={data.data} />
             </div>
             <div className={styles.column}>
-              <BurgerConstructor data={data} />
+              <BurgerConstructor ingredientsList={data.data} />
             </div>
           </main>
         )}

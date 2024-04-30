@@ -4,39 +4,40 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from "../burger-ingredients-tab/Burger-ingredients-tab";
 import styles from "./styles.module.css";
 
-export const BurgerIngredients = ({ data }) => {
-  const [state, setState] = React.useState({
+export const BurgerIngredients = ({ ingredientsList }) => {
+  const [ingredientsData, setIngredientsData] = React.useState({
     currentType: "bun",
-    ingredientTypes: [
-      {
-        id: "bun",
-        name: "Булки",
-      },
-      {
-        id: "main",
-        name: "Соусы",
-      },
-      {
-        id: "sauce",
-        name: "Начинки",
-      },
-    ],
     ingredients: [],
   });
 
+  const ingredientTypes = [
+    {
+      id: "bun",
+      name: "Булки",
+    },
+    {
+      id: "main",
+      name: "Соусы",
+    },
+    {
+      id: "sauce",
+      name: "Начинки",
+    },
+  ];
+
   React.useEffect(() => {
-    if (data.data) {
-      const ingredients = Object.values(data.data);
-      setState({ ...state, ingredients: ingredients });
+    if (ingredientsList) {
+      const ingredients = Object.values(ingredientsList);
+      setIngredientsData({ ...ingredientsData, ingredients: ingredients });
     }
     // eslint-disable-next-line
-  }, [data]);
+  }, [ingredientsList]);
 
   function setCurrentType(event) {
-    setState({ ...state, currentType: event });
+    setIngredientsData({ ...ingredientsData, currentType: event });
   }
 
-  const { currentType, ingredientTypes, ingredients } = state;
+  const { currentType, ingredients } = ingredientsData;
   return (
     <>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -60,7 +61,7 @@ export const BurgerIngredients = ({ data }) => {
           return (
             <BurgerIngredientsTab
               title={type.name}
-              data={dataTab}
+              ingredients={dataTab}
               key={type.id}
             />
           );
@@ -71,5 +72,5 @@ export const BurgerIngredients = ({ data }) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.object.isRequired,
+  ingredientsList: PropTypes.array.isRequired,
 };

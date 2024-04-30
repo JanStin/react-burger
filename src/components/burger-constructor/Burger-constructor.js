@@ -11,9 +11,9 @@ import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
 
-export const BurgerConstructor = ({ data }) => {
+export const BurgerConstructor = ({ ingredientsList }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [state, setState] = React.useState({
+  const [ingredientsData, setIngredientsData] = React.useState({
     top: [],
     ingredients: [],
     bottom: [],
@@ -22,8 +22,8 @@ export const BurgerConstructor = ({ data }) => {
   });
 
   React.useEffect(() => {
-    if (data.data) {
-      let ingredients = Object.values(data.data);
+    if (ingredientsList) {
+      let ingredients = Object.values(ingredientsList);
       const bun = ingredients.find((element) => element.type === "bun");
       ingredients = ingredients.filter((element) => element !== bun);
 
@@ -31,8 +31,8 @@ export const BurgerConstructor = ({ data }) => {
         return sum + elem.price;
       }, bun.price * 2);
 
-      setState({
-        ...state,
+      setIngredientsData({
+        ...ingredientsData,
         top: bun,
         ingredients: ingredients,
         bottom: bun,
@@ -41,9 +41,9 @@ export const BurgerConstructor = ({ data }) => {
       });
     }
     // eslint-disable-next-line
-  }, [data]);
+  }, [ingredientsList]);
 
-  const { top, ingredients, bottom, sum, isLoading } = state;
+  const { top, ingredients, bottom, sum, isLoading } = ingredientsData;
 
   return (
     <>
@@ -60,10 +60,9 @@ export const BurgerConstructor = ({ data }) => {
             />
             <div className={styles.ingredients}>
               {ingredients.map((elem) => (
-                <div className={styles.ingredient}>
+                <div className={styles.ingredient} key={elem._id}>
                   <DragIcon type="primary" />
                   <ConstructorElement
-                    key={elem.id}
                     text={elem.name}
                     price={elem.price}
                     thumbnail={elem.image_mobile}
@@ -109,5 +108,5 @@ export const BurgerConstructor = ({ data }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.object.isRequired,
+  ingredientsList: PropTypes.array.isRequired,
 };
