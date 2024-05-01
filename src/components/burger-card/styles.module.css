@@ -1,0 +1,35 @@
+.card {
+    position: relative;
+    width: 272px;
+    cursor: pointer;
+}
+
+.image {
+    composes: mb-1 ml-4 mr-4 from global;
+}
+
+.price {
+    composes: price mb-1 text text_type_digits-default from global;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.span {
+    composes: mr-3 from global;
+}
+
+.name {
+    composes: text text_type_main-small from global;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+.number {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

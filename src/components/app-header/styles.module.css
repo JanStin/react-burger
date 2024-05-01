@@ -1,0 +1,22 @@
+.header {
+  composes: pt-4 pb-4 from global;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.part {
+  display: flex;
+  align-items: center;
+  width: calc(100% / 3);
+}
+
+.center {
+  composes: part;
+  justify-content: center;
+}
+
+.end {
+  composes: part;
+  justify-content: flex-end;
+}

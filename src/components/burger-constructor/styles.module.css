@@ -1,0 +1,56 @@
+.constructor {
+    composes: pl-4 pr-4 from global;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 99px);
+}
+
+.body {
+    composes: mt-25 mb-10 pl-8 from global;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 650px;
+    height: 100%;
+}
+
+.ingredients {
+    composes: custom-scroll from global;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: calc(100% - 192px);
+    scrollbar-width: thin;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.bun {
+    composes: ml-8 from global;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 40px;
+}
+
+.bottom svg {
+    width: 33px;
+    height: 33px;
+}
+
+.price {
+    composes: text text_type_main-large from global;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
