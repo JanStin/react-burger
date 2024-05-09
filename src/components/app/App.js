@@ -2,69 +2,34 @@ import React from "react";
 import Header from "../app-header/App-header";
 import { BurgerIngredients } from "../burger-ingredients/Burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/Burger-constructor";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles.module.css";
+import { loadIngredients } from "../../services/actions/ingredientsData";
 
 function App() {
-  const ingredientsURL = "https://norma.nomoreparties.space/api/ingredients";
-  const [ingredientsData, setIngredientsData] = React.useState({
-    data: [],
-    isLoading: true,
-    hasError: false,
-  });
-
-  React.useEffect(() => {
-    setIngredientsData({
-      ...ingredientsData,
-      hasError: false,
-      isLoading: true,
-    });
-    fetch(ingredientsURL)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Ответ сети был не ok.");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          setIngredientsData({
-            ...ingredientsData,
-            data,
-            isLoading: false,
-            hasError: false,
-          });
-        } else {
-          setIngredientsData({
-            ...ingredientsData,
-            hasError: true,
-            isLoading: false,
-          });
-        }
-      })
-      .catch((e) => {
-        setIngredientsData({
-          ...ingredientsData,
-          hasError: true,
-          isLoading: false,
-        });
-      });
+  const dispatch = useDispatch();
+  const { loading, ingredients, error } = useSelector(
+    (state) => state.ingredients
+  );
+  useEffect(() => {
+    dispatch(loadIngredients());
     // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
 
-  const { data, isLoading, hasError } = ingredientsData;
   return (
     <>
       <div className={styles.app}>
         <Header />
-        {isLoading && "Загрузка..."}
-        {hasError && "Произошла ошибка"}
-        {!isLoading && !hasError && data.data && (
+        {loading && "Загрузка..."}
+        {error && "Произошла ошибка"}
+        {!loading && !error && ingredients.length > 0 && (
           <main className={styles.main}>
             <div className={styles.column}>
-              <BurgerIngredients ingredientsList={data.data} />
+              <BurgerIngredients ingredientsList={ingredients} />
             </div>
             <div className={styles.column}>
-              <BurgerConstructor ingredientsList={data.data} />
+              <BurgerConstructor ingredientsList={ingredients} />
             </div>
           </main>
         )}
