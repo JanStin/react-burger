@@ -7,17 +7,21 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+import { useDispatch } from "react-redux";
+import { GET_POPUP_INGREDIANT } from "../../services/actions/ingredientsData";
 
 export const BurgerCard = ({ number, data }) => {
   const [isOpen, onTrigger] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const open = () => {
+    dispatch({ type: GET_POPUP_INGREDIANT, id: data._id });
+    onTrigger(true);
+  };
 
   return (
     <>
-      <div
-        className={styles.card}
-        data-id={data._id}
-        onClick={() => onTrigger(true)}
-      >
+      <div className={styles.card} data-id={data._id} onClick={open}>
         {number > 0 && (
           <Counter
             count={number}
@@ -33,7 +37,7 @@ export const BurgerCard = ({ number, data }) => {
       </div>
       {isOpen && (
         <Modal title="Детали ингредиента" onTrigger={onTrigger}>
-          <IngredientDetails data={data} />
+          <IngredientDetails />
         </Modal>
       )}
     </>
