@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Button,
@@ -9,29 +8,17 @@ import {
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
+import { useSelector } from "react-redux";
 
-export const BurgerConstructor = ({ ingredientsList }) => {
+export const BurgerConstructor = () => {
   const [isOpen, onTrigger] = React.useState(false);
-
-  const isLoading = React.useMemo(() => {
-    return ingredientsList ? false : true;
-  }, [ingredientsList]);
-
-  const ingredients = React.useMemo(() => {
-    let ingredients = Object.values(ingredientsList);
-    const bun = ingredients.find((element) => element.type === "bun");
-    ingredients = ingredients.filter((element) => element !== bun);
-
-    return ingredients;
-  }, [ingredientsList]);
-
-  const bun = React.useMemo(() => {
-    const ingredients = Object.values(ingredientsList);
-    return ingredients.find((element) => element.type === "bun");
-  }, [ingredientsList]);
-
+  const { bun, ingredients } = useSelector((state) => state.constructor);
 
   const sum = React.useMemo(() => {
+    if (!bun || ingredients.length === 0) {
+      return 0;
+    }
+
     const result = ingredients.reduce(function (sum, elem) {
       return sum + elem.price;
     }, bun.price * 2);
@@ -41,9 +28,9 @@ export const BurgerConstructor = ({ ingredientsList }) => {
 
   return (
     <>
-      {!isLoading && (
-        <div className={styles.constructor}>
-          <div className={styles.body}>
+      <div className={styles.constructor}>
+        <div className={styles.body}>
+          {bun ? (
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -52,8 +39,12 @@ export const BurgerConstructor = ({ ingredientsList }) => {
               thumbnail={bun.image_mobile}
               extraClass={styles.bun}
             />
-            <div className={styles.ingredients}>
-              {ingredients.map((elem) => (
+          ) : (
+            <div className={styles.emptyBun}>Булка</div>
+          )}
+          <div className={styles.ingredients}>
+            {ingredients && ingredients.length > 0 ? (
+              ingredients.map((elem) => (
                 <div className={styles.ingredient} key={elem._id}>
                   <DragIcon type="primary" />
                   <ConstructorElement
@@ -62,8 +53,12 @@ export const BurgerConstructor = ({ ingredientsList }) => {
                     thumbnail={elem.image_mobile}
                   />
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <div className={styles.emptyIngredients}>Начинки</div>
+            )}
+          </div>
+          {bun ? (
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -72,23 +67,25 @@ export const BurgerConstructor = ({ ingredientsList }) => {
               thumbnail={bun.image_mobile}
               extraClass={styles.bun}
             />
-          </div>
-          <div className={styles.bottom}>
-            <div className={styles.price}>
-              {sum}
-              <CurrencyIcon type="primary" extraClass={styles.icon} />
-            </div>
-            <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={() => onTrigger(true)}
-            >
-              Оформить заказ
-            </Button>
-          </div>
+          ) : (
+            <div className={styles.emptyBun}>Булка</div>
+          )}
         </div>
-      )}
+        <div className={styles.bottom}>
+          <div className={styles.price}>
+            {sum}
+            <CurrencyIcon type="primary" extraClass={styles.icon} />
+          </div>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={() => onTrigger(true)}
+          >
+            Оформить заказ
+          </Button>
+        </div>
+      </div>
 
       {isOpen && (
         <Modal title="" onTrigger={onTrigger}>
@@ -97,8 +94,4 @@ export const BurgerConstructor = ({ ingredientsList }) => {
       )}
     </>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredientsList: PropTypes.array.isRequired,
 };
