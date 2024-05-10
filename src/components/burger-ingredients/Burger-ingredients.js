@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { useMemo, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from "../burger-ingredients-tab/Burger-ingredients-tab";
 import styles from "./styles.module.css";
+import { useSelector } from "react-redux";
 
-export const BurgerIngredients = ({ ingredientsList }) => {
-  const [currentType, setCurrentType] = React.useState("bun");
-
+export const BurgerIngredients = () => {
+  const [currentType, setCurrentType] = useState("bun");
+  const { ingredients } = useSelector((state) => state.ingredients);
   const ingredientTypes = [
     {
       id: "bun",
@@ -22,9 +22,48 @@ export const BurgerIngredients = ({ ingredientsList }) => {
     },
   ];
 
-  const ingredients = React.useMemo(() => {
-    return Object.values(ingredientsList);
-  }, [ingredientsList]);
+  const listRef = useRef(null);
+  const listRefCurrent = listRef.current;
+
+  const heightContainer = useMemo(() => {
+    if (listRefCurrent !== null) {
+      return listRefCurrent.getBoundingClientRect().height;
+    } else {
+      return 0;
+    }
+  }, [listRefCurrent]);
+
+  const scrollToSection = (index) => {
+    const listNode = Array.from(listRefCurrent.children).filter(
+      (element) => element.dataset.id === index
+    )[0];
+
+    listNode.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  const handleScroll = () => {
+    const listNodes = Array.from(listRefCurrent.children).reverse();
+    let currentTab = currentType;
+
+    listNodes.forEach((element) => {
+      const top = element.getBoundingClientRect().top;
+
+      if (top > 0 && top < heightContainer) {
+        currentTab = element.dataset.id;
+      }
+    });
+
+    if (currentTab !== currentType) {
+      setCurrentType(currentTab);
+    }
+  };
+
+  const handleTabClick = (e) => {
+    scrollToSection(e);
+    setCurrentType(e);
+  };
 
   return (
     <>
@@ -35,13 +74,13 @@ export const BurgerIngredients = ({ ingredientsList }) => {
             key={type.id}
             active={currentType === type.id}
             value={type.id}
-            onClick={(e) => setCurrentType(e)}
+            onClick={(e) => handleTabClick(e)}
           >
             {type.name}
           </Tab>
         ))}
       </div>
-      <div className={styles.body}>
+      <div className={styles.body} ref={listRef} onScroll={handleScroll}>
         {ingredientTypes.map((type) => {
           const dataTab = ingredients.filter((element) => {
             return element.type === type.id ? element : false;
@@ -51,14 +90,11 @@ export const BurgerIngredients = ({ ingredientsList }) => {
               title={type.name}
               ingredients={dataTab}
               key={type.id}
+              id={type.id}
             />
           );
         })}
       </div>
     </>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredientsList: PropTypes.array.isRequired,
 };

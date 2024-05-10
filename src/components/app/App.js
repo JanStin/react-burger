@@ -26,7 +26,7 @@ function App() {
         {!loading && !error && ingredients.length > 0 && (
           <main className={styles.main}>
             <div className={styles.column}>
-              <BurgerIngredients ingredientsList={ingredients} />
+              <BurgerIngredients />
             </div>
             <div className={styles.column}>
               <BurgerConstructor ingredientsList={ingredients} />
