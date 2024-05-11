@@ -8,13 +8,14 @@ import {
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import { BUN } from "../../services/actions/constructor";
+import { BUN, REMOVE_INGREDIENT } from "../../services/actions/constructor";
 
 export const BurgerConstructor = ({ allowedDropEffect }) => {
   const [isOpen, onTrigger] = React.useState(false);
   const { bun, ingredients } = useSelector((state) => state.constructor);
+  const dispatch = useDispatch();
   const dropAnotherType = ["main", "sauce"];
 
   const sum = React.useMemo(() => {
@@ -104,6 +105,9 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
                     text={elem.name}
                     price={elem.price}
                     thumbnail={elem.image_mobile}
+                    handleClose={() =>
+                      dispatch({ type: REMOVE_INGREDIENT, key: elem.key })
+                    }
                   />
                 </div>
               ))

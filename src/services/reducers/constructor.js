@@ -11,6 +11,8 @@ const initialState = {
   bun: false,
 };
 
+let ingredients = [];
+
 export const constructorIngredients = (state = initialState, action) => {
   switch (action.type) {
     case ADD_BUN:
@@ -24,8 +26,8 @@ export const constructorIngredients = (state = initialState, action) => {
         bun: false,
       };
     case ADD_INGREDIENT:
-      let ingredients = [];
-      if (state.ingredients !== undefined) {
+      ingredients = [];
+      if (state.ingredients !== undefined && Array.isArray(state.ingredients)) {
         ingredients = state.ingredients;
       }
       ingredients.push(action.item);
@@ -35,11 +37,18 @@ export const constructorIngredients = (state = initialState, action) => {
         ingredients: ingredients,
       };
     case REMOVE_INGREDIENT:
+      ingredients = state.ingredients;
+
+      const deleteIndex = ingredients.findIndex(
+        (element) => element.key === action.key
+      );
+      if (deleteIndex !== -1) {
+        ingredients.splice(deleteIndex, 1);
+      }
+
       return {
         ...state,
-        ingredients: [...state.ingredients].map(
-          (item) => item.key !== action.key
-        )[0],
+        ingredients: ingredients,
       };
     // https://youtu.be/P6RZtgqRhZc?si=nY7qWJvTQN4eKngy&t=2147
     case CHANGE_ORDER_INGREDIENTS:
