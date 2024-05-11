@@ -32,7 +32,7 @@ function App() {
                 <BurgerIngredients />
               </div>
               <div className={styles.column}>
-                <BurgerConstructor allowedDropEffect="copy" />
+                <BurgerConstructor />
               </div>
             </DndProvider>
           </main>

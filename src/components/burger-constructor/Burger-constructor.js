@@ -1,35 +1,26 @@
-import React from "react";
+import { useCallback, useState, useMemo } from "react";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
+import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/Burger-constructor-ingredient";
 import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import { BUN, REMOVE_INGREDIENT } from "../../services/actions/constructor";
+import {
+  BUN,
+  CHANGE_ORDER_INGREDIENTS,
+} from "../../services/actions/constructor";
 import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
 
-export const BurgerConstructor = ({ allowedDropEffect }) => {
-  const [isOpen, onTrigger] = React.useState(false);
+export const BurgerConstructor = () => {
+  const [isOpen, onTrigger] = useState(false);
   const { bun, ingredients } = useSelector((state) => state.constructor);
   const dispatch = useDispatch();
   const dropAnotherType = ["main", "sauce"];
-
-  const sum = React.useMemo(() => {
-    if (!bun || ingredients === undefined || ingredients.length === 0) {
-      return 0;
-    }
-
-    const result = ingredients.reduce(function (sum, elem) {
-      return sum + elem.price;
-    }, bun.price * 2);
-
-    return result;
-  }, [bun, ingredients]);
 
   const collect = (monitor) => ({
     isOver: monitor.isOver(),
@@ -48,7 +39,7 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
       drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [allowedDropEffect, bun]
+    [, bun]
   );
 
   const [, dropBunBottom] = useDrop(
@@ -57,7 +48,7 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
       drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [allowedDropEffect, bun]
+    [, bun]
   );
 
   const [, dropIngredients] = useDrop(
@@ -65,7 +56,7 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
       accept: dropAnotherType,
       collect: (monitor) => collect(monitor),
     }),
-    [allowedDropEffect]
+    []
   );
 
   function selectBackgroundColor(isActive, canDrop) {
@@ -78,14 +69,28 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
     }
   }
 
-  const handleClose = (elem) => {
-    console.log(elem._id);
-    dispatch({ type: DECREASE_INGREDIANT, id: elem._id });
-    dispatch({ type: REMOVE_INGREDIENT, key: elem.key });
-  };
-
   const isActive = canDrop && isOver;
   const backgroundColor = selectBackgroundColor(isActive, canDrop);
+
+  const sum = useMemo(() => {
+    if (!bun || ingredients === undefined || ingredients.length === 0) {
+      return 0;
+    }
+
+    const result = ingredients.reduce(function (sum, elem) {
+      return sum + elem.price;
+    }, bun.price * 2);
+
+    return result;
+  }, [bun, ingredients]);
+
+  const moveIngredients = useCallback((dragIndex, hoverIndex) => {
+    dispatch({
+      type: CHANGE_ORDER_INGREDIENTS,
+      toIndex: hoverIndex,
+      fromIndex: dragIndex,
+    });
+  }, []);
 
   return (
     <>
@@ -109,20 +114,14 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
           </div>
           <div className={styles.ingredients} ref={dropIngredients}>
             {ingredients && ingredients.length > 0 ? (
-              ingredients.map((elem) => (
-                <div
-                  className={styles.ingredient}
+              ingredients.map((elem, index) => (
+                <BurgerConstructorIngredient
                   key={elem.key}
-                  data-key={elem.key}
-                >
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={elem.name}
-                    price={elem.price}
-                    thumbnail={elem.image_mobile}
-                    handleClose={() => handleClose(elem)}
-                  />
-                </div>
+                  id={elem.key}
+                  index={index}
+                  elem={elem}
+                  moveIngredients={moveIngredients}
+                />
               ))
             ) : (
               <div className={styles.emptyIngredients}>Начинки</div>

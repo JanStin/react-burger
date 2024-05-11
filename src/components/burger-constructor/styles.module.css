@@ -25,13 +25,6 @@
     scrollbar-width: thin;
 }
 
-.ingredient {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
-
 .bun {
     composes: ml-8 from global;
 }

@@ -50,13 +50,19 @@ export const constructorIngredients = (state = initialState, action) => {
         ...state,
         ingredients: ingredients,
       };
-    // https://youtu.be/P6RZtgqRhZc?si=nY7qWJvTQN4eKngy&t=2147
     case CHANGE_ORDER_INGREDIENTS:
+      ingredients = state.ingredients;
+      ingredients.splice(
+        action.toIndex,
+        0,
+        ingredients.splice(action.fromIndex, 1)[0]
+      );
+      ingredients = ingredients.filter(
+        (ingredient) => ingredient !== undefined
+      );
       return {
         ...state,
-        // popupData: [...state.ingredients].filter(
-        //   (item) => item._id === action.id
-        // )[0],
+        ingredients: ingredients,
       };
     default:
       return state;

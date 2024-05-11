@@ -1,4 +1,3 @@
-// Описываем функцию для изменения состояния.
 import {
   INGREDIANTS_LOAD_SUCCESS,
   LOADING_INGREDIANTS,
