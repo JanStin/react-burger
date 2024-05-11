@@ -39,7 +39,7 @@ export const BurgerConstructor = () => {
       drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [, bun]
+    [bun]
   );
 
   const [, dropBunBottom] = useDrop(
@@ -48,7 +48,7 @@ export const BurgerConstructor = () => {
       drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [, bun]
+    [bun]
   );
 
   const [, dropIngredients] = useDrop(
@@ -90,6 +90,7 @@ export const BurgerConstructor = () => {
       toIndex: hoverIndex,
       fromIndex: dragIndex,
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
