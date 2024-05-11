@@ -19,6 +19,7 @@ import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
 export const BurgerConstructor = () => {
   const [isOpen, onTrigger] = useState(false);
   const { bun, ingredients } = useSelector((state) => state.constructor);
+  const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
   const dispatch = useDispatch();
   const dropAnotherType = ["main", "sauce"];
 
@@ -56,7 +57,7 @@ export const BurgerConstructor = () => {
       accept: dropAnotherType,
       collect: (monitor) => collect(monitor),
     }),
-    []
+    [ingredients]
   );
 
   function selectBackgroundColor(isActive, canDrop) {
@@ -73,7 +74,7 @@ export const BurgerConstructor = () => {
   const backgroundColor = selectBackgroundColor(isActive, canDrop);
 
   const sum = useMemo(() => {
-    if (!bun || ingredients === undefined || ingredients.length === 0) {
+    if (!bun || ingredientsLength === 0) {
       return 0;
     }
 
@@ -82,7 +83,8 @@ export const BurgerConstructor = () => {
     }, bun.price * 2);
 
     return result;
-  }, [bun, ingredients]);
+    // eslint-disable-next-line
+  }, [bun, ingredientsLength]);
 
   const moveIngredients = useCallback((dragIndex, hoverIndex) => {
     dispatch({
