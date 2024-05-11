@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles.module.css";
 import { loadIngredients } from "../../services/actions/ingredientsData";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,12 +27,14 @@ function App() {
         {error && "Произошла ошибка"}
         {!loading && !error && ingredients.length > 0 && (
           <main className={styles.main}>
-            <div className={styles.column}>
-              <BurgerIngredients />
-            </div>
-            <div className={styles.column}>
-              <BurgerConstructor ingredientsList={ingredients} />
-            </div>
+            <DndProvider backend={HTML5Backend}>
+              <div className={styles.column}>
+                <BurgerIngredients />
+              </div>
+              <div className={styles.column}>
+                <BurgerConstructor allowedDropEffect="copy" />
+              </div>
+            </DndProvider>
           </main>
         )}
       </div>

@@ -1,9 +1,9 @@
 import {
   ADD_BUN,
   REMOVE_BUN,
-  ADD_INGREDIANT,
-  REMOVE_INGREDIANT,
-  CHANGE_ORDER_INGREDIANTS,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  CHANGE_ORDER_INGREDIENTS,
 } from "../actions/constructor";
 
 const initialState = {
@@ -23,12 +23,18 @@ export const constructorIngredients = (state = initialState, action) => {
         ...state,
         bun: false,
       };
-    case ADD_INGREDIANT:
+    case ADD_INGREDIENT:
+      let ingredients = [];
+      if (state.ingredients !== undefined) {
+        ingredients = state.ingredients;
+      }
+      ingredients.push(action.item);
+
       return {
         ...state,
-        ingredients: [...state.ingredients].push(action.item),
+        ingredients: ingredients,
       };
-    case REMOVE_INGREDIANT:
+    case REMOVE_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients].map(
@@ -36,7 +42,7 @@ export const constructorIngredients = (state = initialState, action) => {
         )[0],
       };
     // https://youtu.be/P6RZtgqRhZc?si=nY7qWJvTQN4eKngy&t=2147
-    case CHANGE_ORDER_INGREDIANTS:
+    case CHANGE_ORDER_INGREDIENTS:
       return {
         ...state,
         // popupData: [...state.ingredients].filter(

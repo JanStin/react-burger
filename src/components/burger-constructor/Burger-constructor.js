@@ -9,13 +9,16 @@ import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { BUN } from "../../services/actions/constructor";
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = ({ allowedDropEffect }) => {
   const [isOpen, onTrigger] = React.useState(false);
   const { bun, ingredients } = useSelector((state) => state.constructor);
+  const dropAnotherType = ["main", "sauce"];
 
   const sum = React.useMemo(() => {
-    if (!bun || ingredients.length === 0) {
+    if (!bun || ingredients === undefined || ingredients.length === 0) {
       return 0;
     }
 
@@ -26,26 +29,76 @@ export const BurgerConstructor = () => {
     return result;
   }, [bun, ingredients]);
 
+  const collect = (monitor) => ({
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+  });
+
+  const [{ canDrop, isOver }, dropBunTop] = useDrop(
+    () => ({
+      accept: BUN,
+      collect: (monitor) => collect(monitor),
+    }),
+    [allowedDropEffect]
+  );
+
+  const [, dropBunBottom] = useDrop(
+    () => ({
+      accept: BUN,
+      collect: (monitor) => collect(monitor),
+    }),
+    [allowedDropEffect]
+  );
+
+  const [, dropIngredients] = useDrop(
+    () => ({
+      accept: dropAnotherType,
+      collect: (monitor) => collect(monitor),
+    }),
+    [allowedDropEffect]
+  );
+
+  function selectBackgroundColor(isActive, canDrop) {
+    if (isActive) {
+      return "darkgreen";
+    } else if (canDrop) {
+      return "darkkhaki";
+    } else {
+      return "#222";
+    }
+  }
+
+  const isActive = canDrop && isOver;
+  const backgroundColor = selectBackgroundColor(isActive, canDrop);
+
   return (
     <>
       <div className={styles.constructor}>
         <div className={styles.body}>
-          {bun ? (
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={bun.name}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              extraClass={styles.bun}
-            />
-          ) : (
-            <div className={styles.emptyBun}>Булка</div>
-          )}
-          <div className={styles.ingredients}>
+          <div ref={dropBunTop}>
+            {bun ? (
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
+                extraClass={styles.bun}
+              />
+            ) : (
+              <div className={styles.emptyBun} style={{ backgroundColor }}>
+                Булка
+              </div>
+            )}
+          </div>
+          <div className={styles.ingredients} ref={dropIngredients}>
             {ingredients && ingredients.length > 0 ? (
               ingredients.map((elem) => (
-                <div className={styles.ingredient} key={elem._id}>
+                <div
+                  className={styles.ingredient}
+                  key={elem.key}
+                  data-key={elem.key}
+                >
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={elem.name}
@@ -58,18 +111,22 @@ export const BurgerConstructor = () => {
               <div className={styles.emptyIngredients}>Начинки</div>
             )}
           </div>
-          {bun ? (
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={bun.name}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              extraClass={styles.bun}
-            />
-          ) : (
-            <div className={styles.emptyBun}>Булка</div>
-          )}
+          <div ref={dropBunBottom}>
+            {bun ? (
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
+                extraClass={styles.bun}
+              />
+            ) : (
+              <div className={styles.emptyBun} style={{ backgroundColor }}>
+                Булка
+              </div>
+            )}
+          </div>
         </div>
         <div className={styles.bottom}>
           <div className={styles.price}>

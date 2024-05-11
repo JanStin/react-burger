@@ -8,7 +8,9 @@ import {
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 import { GET_POPUP_INGREDIANT } from "../../services/actions/ingredientsData";
+import { ADD_BUN, ADD_INGREDIENT, BUN } from "../../services/actions/constructor";
 
 export const BurgerCard = ({ number, data }) => {
   const [isOpen, onTrigger] = React.useState(false);
@@ -19,9 +21,38 @@ export const BurgerCard = ({ number, data }) => {
     onTrigger(true);
   };
 
+  const [{ opacity }, drag] = useDrag(
+    () => ({
+      type: data.type,
+      end(item, monitor) {
+        const dropResult = monitor.getDropResult();
+        if (item && dropResult) {
+          let clone = { ...data };
+          clone.key = crypto.randomUUID();
+
+          if (data.type === BUN) {
+            dispatch({ type: ADD_BUN, bun: clone });
+          } else {
+            dispatch({ type: ADD_INGREDIENT, item: clone });
+          }
+        }
+      },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.4 : 1,
+      }),
+    }),
+    [data]
+  );
+
   return (
     <>
-      <div className={styles.card} data-id={data._id} onClick={open}>
+      <div
+        className={styles.card}
+        data-id={data._id}
+        onClick={open}
+        ref={drag}
+        style={{ opacity: opacity }}
+      >
         {number > 0 && (
           <Counter
             count={number}
