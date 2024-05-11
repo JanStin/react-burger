@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { BUN, REMOVE_INGREDIENT } from "../../services/actions/constructor";
+import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
 
 export const BurgerConstructor = ({ allowedDropEffect }) => {
   const [isOpen, onTrigger] = React.useState(false);
@@ -35,20 +36,28 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
     canDrop: monitor.canDrop(),
   });
 
+  const dropBun = () => {
+    if (bun !== undefined) {
+      dispatch({ type: DECREASE_INGREDIANT, id: bun._id });
+    }
+  };
+
   const [{ canDrop, isOver }, dropBunTop] = useDrop(
     () => ({
       accept: BUN,
+      drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [allowedDropEffect]
+    [allowedDropEffect, bun]
   );
 
   const [, dropBunBottom] = useDrop(
     () => ({
       accept: BUN,
+      drop: () => dropBun(),
       collect: (monitor) => collect(monitor),
     }),
-    [allowedDropEffect]
+    [allowedDropEffect, bun]
   );
 
   const [, dropIngredients] = useDrop(
@@ -68,6 +77,12 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
       return "#222";
     }
   }
+
+  const handleClose = (elem) => {
+    console.log(elem._id);
+    dispatch({ type: DECREASE_INGREDIANT, id: elem._id });
+    dispatch({ type: REMOVE_INGREDIENT, key: elem.key });
+  };
 
   const isActive = canDrop && isOver;
   const backgroundColor = selectBackgroundColor(isActive, canDrop);
@@ -105,9 +120,7 @@ export const BurgerConstructor = ({ allowedDropEffect }) => {
                     text={elem.name}
                     price={elem.price}
                     thumbnail={elem.image_mobile}
-                    handleClose={() =>
-                      dispatch({ type: REMOVE_INGREDIENT, key: elem.key })
-                    }
+                    handleClose={() => handleClose(elem)}
                   />
                 </div>
               ))

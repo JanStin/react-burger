@@ -4,6 +4,8 @@ import {
   LOADING_INGREDIANTS,
   ERROR_INGREDIANTS,
   GET_POPUP_INGREDIANT,
+  INCREASE_INGREDIANT,
+  DECREASE_INGREDIANT,
 } from "../actions/ingredientsData";
 
 const initialState = {
@@ -39,6 +41,32 @@ export const reducerIngredients = (state = initialState, action) => {
         popupData: [...state.ingredients].filter(
           (item) => item._id === action.id
         )[0],
+      };
+    case INCREASE_INGREDIANT:
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map((ingredient) => {
+          if (ingredient._id === action.id) {
+            let count;
+            if (!ingredient.hasOwnProperty("count")) {
+              count = 1;
+            } else {
+              count = ++ingredient.count;
+            }
+            return { ...ingredient, count: count };
+          } else {
+            return ingredient;
+          }
+        }),
+      };
+    case DECREASE_INGREDIANT:
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map((ingredient) =>
+          ingredient._id === action.id
+            ? { ...ingredient, count: --ingredient.count }
+            : ingredient
+        ),
       };
     default:
       return state;

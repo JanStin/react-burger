@@ -4,16 +4,11 @@ import { BurgerCard } from "../burger-card/Burger-card";
 
 export const BurgerIngredientsTab = ({ title, id, ingredients }) => {
   return (
-    <div className={styles.container} data-id={id} >
+    <div className={styles.container} data-id={id}>
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.section}>
         {ingredients.map((item) => (
-          <BurgerCard
-            key={item._id}
-            data={item}
-            number={1}
-            // onClick={}
-          />
+          <BurgerCard key={item._id} data={item} />
         ))}
       </div>
     </div>

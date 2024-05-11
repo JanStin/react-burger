@@ -9,10 +9,17 @@ import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
-import { GET_POPUP_INGREDIANT } from "../../services/actions/ingredientsData";
-import { ADD_BUN, ADD_INGREDIENT, BUN } from "../../services/actions/constructor";
+import {
+  GET_POPUP_INGREDIANT,
+  INCREASE_INGREDIANT,
+} from "../../services/actions/ingredientsData";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  BUN,
+} from "../../services/actions/constructor";
 
-export const BurgerCard = ({ number, data }) => {
+export const BurgerCard = ({ data }) => {
   const [isOpen, onTrigger] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -35,6 +42,8 @@ export const BurgerCard = ({ number, data }) => {
           } else {
             dispatch({ type: ADD_INGREDIENT, item: clone });
           }
+
+          dispatch({ type: INCREASE_INGREDIANT, id: clone._id });
         }
       },
       collect: (monitor) => ({
@@ -53,10 +62,10 @@ export const BurgerCard = ({ number, data }) => {
         ref={drag}
         style={{ opacity: opacity }}
       >
-        {number > 0 && (
+        {data.count > 0 && (
           <Counter
-            count={number}
-            size={number > 10 ? "small" : "default"}
+            count={data.count}
+            size={data.count > 10 ? "small" : "default"}
             extraClass={styles.number}
           />
         )}
@@ -77,5 +86,4 @@ export const BurgerCard = ({ number, data }) => {
 
 BurgerCard.propTypes = {
   data: PropTypes.object.isRequired,
-  number: PropTypes.number,
 };
