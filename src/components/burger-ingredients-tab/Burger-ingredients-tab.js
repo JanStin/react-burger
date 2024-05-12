@@ -17,5 +17,6 @@ export const BurgerIngredientsTab = ({ title, id, ingredients }) => {
 
 BurgerIngredientsTab.propTypes = {
   title: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   ingredients: PropTypes.array.isRequired,
 };

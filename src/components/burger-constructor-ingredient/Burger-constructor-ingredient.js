@@ -4,6 +4,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { REMOVE_INGREDIENT } from "../../services/actions/constructor";
@@ -88,4 +89,11 @@ export const BurgerConstructorIngredient = ({
       />
     </div>
   );
+};
+
+BurgerConstructorIngredient.propTypes = {
+  id: PropTypes.string.isRequired,
+  elem: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  moveIngredients: PropTypes.func.isRequired,
 };
