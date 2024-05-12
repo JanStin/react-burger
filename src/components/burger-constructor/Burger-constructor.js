@@ -15,6 +15,7 @@ import {
   CHANGE_ORDER_INGREDIENTS,
 } from "../../services/actions/constructor";
 import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
+import { postOrder } from "../../services/actions/order";
 
 export const BurgerConstructor = () => {
   const [isOpen, onTrigger] = useState(false);
@@ -95,6 +96,17 @@ export const BurgerConstructor = () => {
     // eslint-disable-next-line
   }, []);
 
+  const onOrder = () => {
+    if (!bun || ingredientsLength === 0) {
+      return;
+    }
+    let postIngredients = ingredients.map((item) => item._id);
+    postIngredients.unshift(bun._id);
+    postIngredients.push(bun._id);
+    dispatch(postOrder(postIngredients));
+    onTrigger(true);
+  };
+
   return (
     <>
       <div className={styles.constructor}>
@@ -156,7 +168,7 @@ export const BurgerConstructor = () => {
             htmlType="button"
             type="primary"
             size="large"
-            onClick={() => onTrigger(true)}
+            onClick={() => onOrder()}
           >
             Оформить заказ
           </Button>

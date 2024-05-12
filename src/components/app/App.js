@@ -16,7 +16,6 @@ function App() {
   );
   useEffect(() => {
     dispatch(loadIngredients());
-    // eslint-disable-next-line
   }, [dispatch]);
 
   return (
