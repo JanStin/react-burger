@@ -7,7 +7,7 @@ export const ModalOverlay = ({ onTrigger, children }) => {
   const id = document.getElementById("modal-root");
   const modal = (
     <>
-      <div className={styles.overflow} onClick={() => onTrigger(false)} />
+      <div className={styles.overflow} onClick={() => onTrigger()} />
       <div className={styles.centered}>{children}</div>
     </>
   );

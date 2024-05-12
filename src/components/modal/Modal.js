@@ -9,7 +9,7 @@ export const Modal = ({ onTrigger, title, children }) => {
   React.useEffect(() => {
     const close = (e) => {
       if (e.key === closeButton) {
-        onTrigger(false);
+        onTrigger();
       }
     };
     window.addEventListener("keydown", close);
@@ -19,7 +19,7 @@ export const Modal = ({ onTrigger, title, children }) => {
   return (
     <ModalOverlay onTrigger={onTrigger}>
       <div className={styles.body}>
-        <button className={styles.close} onClick={() => onTrigger(false)}>
+        <button className={styles.close} onClick={() => onTrigger()}>
           <CloseIcon type="primary" />
         </button>
         <div className={styles.top}>

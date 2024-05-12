@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -15,11 +15,11 @@ import {
   CHANGE_ORDER_INGREDIENTS,
 } from "../../services/actions/constructor";
 import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
-import { postOrder } from "../../services/actions/order";
+import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
 
 export const BurgerConstructor = () => {
-  const [isOpen, onTrigger] = useState(false);
   const { bun, ingredients } = useSelector((state) => state.constructor);
+  const { isOpenPoup } = useSelector((state) => state.order);
   const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
   const dispatch = useDispatch();
   const dropAnotherType = ["main", "sauce"];
@@ -104,7 +104,10 @@ export const BurgerConstructor = () => {
     postIngredients.unshift(bun._id);
     postIngredients.push(bun._id);
     dispatch(postOrder(postIngredients));
-    onTrigger(true);
+  };
+
+  const onCloseOrder = () => {
+    dispatch({ type: CLOSE_ORDER });
   };
 
   return (
@@ -175,8 +178,8 @@ export const BurgerConstructor = () => {
         </div>
       </div>
 
-      {isOpen && (
-        <Modal title="" onTrigger={onTrigger}>
+      {isOpenPoup && (
+        <Modal title="" onTrigger={onCloseOrder}>
           <OrderDetails />
         </Modal>
       )}

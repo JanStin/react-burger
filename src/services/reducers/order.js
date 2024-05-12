@@ -2,12 +2,14 @@ import {
   ORDER_LOAD_SUCCESS,
   ORDER_LOADING,
   ORDER_ERROR,
+  CLOSE_ORDER,
 } from "../actions/order";
 
 const initialState = {
   order: null,
   loading: false,
   error: false,
+  isOpenPoup: false,
 };
 
 export const orderIngredients = (state = initialState, action) => {
@@ -29,6 +31,15 @@ export const orderIngredients = (state = initialState, action) => {
         ...state,
         loading: false,
         order: action.payload,
+        isOpenPoup: true,
+      };
+    case CLOSE_ORDER:
+      return {
+        ...state,
+        order: null,
+        loading: false,
+        error: false,
+        isOpenPoup: false,
       };
     default:
       return state;

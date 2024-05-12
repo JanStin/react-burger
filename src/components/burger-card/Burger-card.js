@@ -5,12 +5,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../modal/Modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
-  GET_POPUP_INGREDIANT,
+  OPEN_POPUP,
   INCREASE_INGREDIANT,
 } from "../../services/actions/ingredientsData";
 import {
@@ -20,12 +18,10 @@ import {
 } from "../../services/actions/constructor";
 
 export const BurgerCard = ({ data }) => {
-  const [isOpen, onTrigger] = React.useState(false);
   const dispatch = useDispatch();
 
   const open = () => {
-    dispatch({ type: GET_POPUP_INGREDIANT, id: data._id });
-    onTrigger(true);
+    dispatch({ type: OPEN_POPUP, id: data._id });
   };
 
   const [{ opacity }, drag] = useDrag(
@@ -75,11 +71,6 @@ export const BurgerCard = ({ data }) => {
         </div>
         <p className={styles.name}>{data.name}</p>
       </div>
-      {isOpen && (
-        <Modal title="Детали ингредиента" onTrigger={onTrigger}>
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 };
