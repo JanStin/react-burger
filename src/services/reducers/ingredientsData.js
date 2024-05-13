@@ -1,10 +1,10 @@
 import {
-  INGREDIANTS_LOAD_SUCCESS,
-  LOADING_INGREDIANTS,
-  ERROR_INGREDIANTS,
-  GET_POPUP_INGREDIANT,
-  INCREASE_INGREDIANT,
-  DECREASE_INGREDIANT,
+  INGREDIENTS_LOAD_SUCCESS,
+  LOADING_INGREDIENTS,
+  ERROR_INGREDIENTS,
+  GET_POPUP_INGREDIENT,
+  INCREASE_INGREDIENT,
+  DECREASE_INGREDIENT,
 } from "../actions/ingredientsData";
 
 const initialState = {
@@ -16,32 +16,32 @@ const initialState = {
 
 export const reducerIngredients = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_INGREDIANTS:
+    case LOADING_INGREDIENTS:
       return {
         ...state,
         loading: true,
         error: false,
       };
-    case ERROR_INGREDIANTS:
+    case ERROR_INGREDIENTS:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    case INGREDIANTS_LOAD_SUCCESS:
+    case INGREDIENTS_LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
         ingredients: action.payload,
       };
-    case GET_POPUP_INGREDIANT:
+    case GET_POPUP_INGREDIENT:
       return {
         ...state,
         popupData: [...state.ingredients].filter(
           (item) => item._id === action.id
         )[0],
       };
-    case INCREASE_INGREDIANT:
+    case INCREASE_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients].map((ingredient) => {
@@ -58,7 +58,7 @@ export const reducerIngredients = (state = initialState, action) => {
           }
         }),
       };
-    case DECREASE_INGREDIANT:
+    case DECREASE_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients].map((ingredient) =>

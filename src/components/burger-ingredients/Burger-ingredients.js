@@ -82,9 +82,9 @@ export const BurgerIngredients = () => {
       </div>
       <div className={styles.body} ref={listRef} onScroll={handleScroll}>
         {ingredientTypes.map((type) => {
-          const dataTab = ingredients.filter((element) => {
-            return element.type === type.id ? element : false;
-          });
+          const dataTab = ingredients.filter(
+            (element) => element.type === type.id
+          );
           return (
             <BurgerIngredientsTab
               title={type.name}

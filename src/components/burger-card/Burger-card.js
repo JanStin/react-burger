@@ -10,8 +10,8 @@ import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
-  GET_POPUP_INGREDIANT,
-  INCREASE_INGREDIANT,
+  GET_POPUP_INGREDIENT,
+  INCREASE_INGREDIENT,
 } from "../../services/actions/ingredientsData";
 import {
   ADD_BUN,
@@ -24,7 +24,7 @@ export const BurgerCard = ({ data }) => {
   const dispatch = useDispatch();
 
   const open = () => {
-    dispatch({ type: GET_POPUP_INGREDIANT, id: data._id });
+    dispatch({ type: GET_POPUP_INGREDIENT, id: data._id });
     onTrigger(true);
   };
 
@@ -43,7 +43,7 @@ export const BurgerCard = ({ data }) => {
             dispatch({ type: ADD_INGREDIENT, item: clone });
           }
 
-          dispatch({ type: INCREASE_INGREDIANT, id: clone._id });
+          dispatch({ type: INCREASE_INGREDIENT, id: clone._id });
         }
       },
       collect: (monitor) => ({

@@ -14,7 +14,7 @@ import {
   BUN,
   CHANGE_ORDER_INGREDIENTS,
 } from "../../services/actions/constructor";
-import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
+import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 import { postOrder } from "../../services/actions/order";
 
 export const BurgerConstructor = () => {
@@ -31,7 +31,7 @@ export const BurgerConstructor = () => {
 
   const dropBun = () => {
     if (bun !== undefined) {
-      dispatch({ type: DECREASE_INGREDIANT, id: bun._id });
+      dispatch({ type: DECREASE_INGREDIENT, id: bun._id });
     }
   };
 
