@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
   OPEN_POPUP,
-  INCREASE_INGREDIANT,
+  INCREASE_INGREDIENT,
 } from "../../services/actions/ingredientsData";
 import {
   ADD_BUN,
@@ -39,7 +39,7 @@ export const BurgerCard = ({ data }) => {
             dispatch({ type: ADD_INGREDIENT, item: clone });
           }
 
-          dispatch({ type: INCREASE_INGREDIANT, id: clone._id });
+          dispatch({ type: INCREASE_INGREDIENT, id: clone._id });
         }
       },
       collect: (monitor) => ({

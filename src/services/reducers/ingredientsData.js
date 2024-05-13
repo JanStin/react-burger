@@ -1,9 +1,9 @@
 import {
-  INGREDIANTS_LOAD_SUCCESS,
-  LOADING_INGREDIANTS,
-  ERROR_INGREDIANTS,
-  INCREASE_INGREDIANT,
-  DECREASE_INGREDIANT,
+  INGREDIENTS_LOAD_SUCCESS,
+  LOADING_INGREDIENTS,
+  ERROR_INGREDIENTS,
+  INCREASE_INGREDIENT,
+  DECREASE_INGREDIENT,
   OPEN_POPUP,
   CLOSE_POPUP,
 } from "../actions/ingredientsData";
@@ -18,19 +18,19 @@ const initialState = {
 
 export const reducerIngredients = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_INGREDIANTS:
+    case LOADING_INGREDIENTS:
       return {
         ...state,
         loading: true,
         error: false,
       };
-    case ERROR_INGREDIANTS:
+    case ERROR_INGREDIENTS:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    case INGREDIANTS_LOAD_SUCCESS:
+    case INGREDIENTS_LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -50,7 +50,7 @@ export const reducerIngredients = (state = initialState, action) => {
         popupData: {},
         popupIsOpen: false,
       };
-    case INCREASE_INGREDIANT:
+    case INCREASE_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients].map((ingredient) => {
@@ -67,7 +67,7 @@ export const reducerIngredients = (state = initialState, action) => {
           }
         }),
       };
-    case DECREASE_INGREDIANT:
+    case DECREASE_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients].map((ingredient) =>

@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { REMOVE_INGREDIENT } from "../../services/actions/constructor";
-import { DECREASE_INGREDIANT } from "../../services/actions/ingredientsData";
+import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 
 export const BurgerConstructorIngredient = ({
   id,
@@ -21,7 +21,7 @@ export const BurgerConstructorIngredient = ({
   const position = "ingredient";
 
   const handleClose = (elem) => {
-    dispatch({ type: DECREASE_INGREDIANT, id: elem._id });
+    dispatch({ type: DECREASE_INGREDIENT, id: elem._id });
     dispatch({ type: REMOVE_INGREDIENT, key: elem.key });
   };
 
