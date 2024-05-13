@@ -1,94 +1,179 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { useCallback, useState, useMemo } from "react";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
+import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/Burger-constructor-ingredient";
 import styles from "./styles.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
+import {
+  BUN,
+  CHANGE_ORDER_INGREDIENTS,
+} from "../../services/actions/constructor";
+import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
+import { postOrder } from "../../services/actions/order";
 
-export const BurgerConstructor = ({ ingredientsList }) => {
-  const [isOpen, onTrigger] = React.useState(false);
+export const BurgerConstructor = () => {
+  const [isOpen, onTrigger] = useState(false);
+  const { bun, ingredients } = useSelector((state) => state.constructor);
+  const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
+  const dispatch = useDispatch();
+  const dropAnotherType = ["main", "sauce"];
 
-  const isLoading = React.useMemo(() => {
-    return ingredientsList ? false : true;
-  }, [ingredientsList]);
+  const collect = (monitor) => ({
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+  });
 
-  const ingredients = React.useMemo(() => {
-    let ingredients = Object.values(ingredientsList);
-    const bun = ingredients.find((element) => element.type === "bun");
-    ingredients = ingredients.filter((element) => element !== bun);
+  const dropBun = () => {
+    if (bun !== undefined) {
+      dispatch({ type: DECREASE_INGREDIENT, id: bun._id });
+    }
+  };
 
-    return ingredients;
-  }, [ingredientsList]);
+  const [{ canDrop, isOver }, dropBunTop] = useDrop(
+    () => ({
+      accept: BUN,
+      drop: () => dropBun(),
+      collect: (monitor) => collect(monitor),
+    }),
+    [bun]
+  );
 
-  const bun = React.useMemo(() => {
-    const ingredients = Object.values(ingredientsList);
-    return ingredients.find((element) => element.type === "bun");
-  }, [ingredientsList]);
+  const [, dropBunBottom] = useDrop(
+    () => ({
+      accept: BUN,
+      drop: () => dropBun(),
+      collect: (monitor) => collect(monitor),
+    }),
+    [bun]
+  );
 
+  const [, dropIngredients] = useDrop(
+    () => ({
+      accept: dropAnotherType,
+      collect: (monitor) => collect(monitor),
+    }),
+    [ingredients]
+  );
 
-  const sum = React.useMemo(() => {
+  function selectBackgroundColor(isActive, canDrop) {
+    if (isActive) {
+      return "darkgreen";
+    } else if (canDrop) {
+      return "darkkhaki";
+    } else {
+      return "#222";
+    }
+  }
+
+  const isActive = canDrop && isOver;
+  const backgroundColor = selectBackgroundColor(isActive, canDrop);
+
+  const sum = useMemo(() => {
+    if (!bun || ingredientsLength === 0) {
+      return 0;
+    }
+
     const result = ingredients.reduce(function (sum, elem) {
       return sum + elem.price;
     }, bun.price * 2);
 
     return result;
-  }, [bun, ingredients]);
+    // eslint-disable-next-line
+  }, [bun, ingredientsLength]);
+
+  const moveIngredients = useCallback((dragIndex, hoverIndex) => {
+    dispatch({
+      type: CHANGE_ORDER_INGREDIENTS,
+      toIndex: hoverIndex,
+      fromIndex: dragIndex,
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const onOrder = () => {
+    if (!bun || ingredientsLength === 0) {
+      return;
+    }
+    let postIngredients = ingredients.map((item) => item._id);
+    postIngredients.unshift(bun._id);
+    postIngredients.push(bun._id);
+    dispatch(postOrder(postIngredients));
+    onTrigger(true);
+  };
 
   return (
     <>
-      {!isLoading && (
-        <div className={styles.constructor}>
-          <div className={styles.body}>
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={bun.name}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              extraClass={styles.bun}
-            />
-            <div className={styles.ingredients}>
-              {ingredients.map((elem) => (
-                <div className={styles.ingredient} key={elem._id}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={elem.name}
-                    price={elem.price}
-                    thumbnail={elem.image_mobile}
-                  />
-                </div>
-              ))}
-            </div>
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={bun.name}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              extraClass={styles.bun}
-            />
+      <div className={styles.constructor}>
+        <div className={styles.body}>
+          <div ref={dropBunTop}>
+            {bun ? (
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
+                extraClass={styles.bun}
+              />
+            ) : (
+              <div className={styles.emptyBun} style={{ backgroundColor }}>
+                Булка
+              </div>
+            )}
           </div>
-          <div className={styles.bottom}>
-            <div className={styles.price}>
-              {sum}
-              <CurrencyIcon type="primary" extraClass={styles.icon} />
-            </div>
-            <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={() => onTrigger(true)}
-            >
-              Оформить заказ
-            </Button>
+          <div className={styles.ingredients} ref={dropIngredients}>
+            {ingredients && ingredients.length > 0 ? (
+              ingredients.map((elem, index) => (
+                <BurgerConstructorIngredient
+                  key={elem.key}
+                  id={elem.key}
+                  index={index}
+                  elem={elem}
+                  moveIngredients={moveIngredients}
+                />
+              ))
+            ) : (
+              <div className={styles.emptyIngredients}>Начинки</div>
+            )}
+          </div>
+          <div ref={dropBunBottom}>
+            {bun ? (
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
+                extraClass={styles.bun}
+              />
+            ) : (
+              <div className={styles.emptyBun} style={{ backgroundColor }}>
+                Булка
+              </div>
+            )}
           </div>
         </div>
-      )}
+        <div className={styles.bottom}>
+          <div className={styles.price}>
+            {sum}
+            <CurrencyIcon type="primary" extraClass={styles.icon} />
+          </div>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={() => onOrder()}
+          >
+            Оформить заказ
+          </Button>
+        </div>
+      </div>
 
       {isOpen && (
         <Modal title="" onTrigger={onTrigger}>
@@ -97,8 +182,4 @@ export const BurgerConstructor = ({ ingredientsList }) => {
       )}
     </>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredientsList: PropTypes.array.isRequired,
 };

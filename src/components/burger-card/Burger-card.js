@@ -7,21 +7,65 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+import { useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
+import {
+  GET_POPUP_INGREDIENT,
+  INCREASE_INGREDIENT,
+} from "../../services/actions/ingredientsData";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  BUN,
+} from "../../services/actions/constructor";
 
-export const BurgerCard = ({ number, data }) => {
+export const BurgerCard = ({ data }) => {
   const [isOpen, onTrigger] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const open = () => {
+    dispatch({ type: GET_POPUP_INGREDIENT, id: data._id });
+    onTrigger(true);
+  };
+
+  const [{ opacity }, drag] = useDrag(
+    () => ({
+      type: data.type,
+      end(item, monitor) {
+        const dropResult = monitor.getDropResult();
+        if (item && dropResult) {
+          let clone = { ...data };
+          clone.key = crypto.randomUUID();
+
+          if (data.type === BUN) {
+            dispatch({ type: ADD_BUN, bun: clone });
+          } else {
+            dispatch({ type: ADD_INGREDIENT, item: clone });
+          }
+
+          dispatch({ type: INCREASE_INGREDIENT, id: clone._id });
+        }
+      },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.4 : 1,
+      }),
+    }),
+    [data]
+  );
 
   return (
     <>
       <div
         className={styles.card}
         data-id={data._id}
-        onClick={() => onTrigger(true)}
+        onClick={open}
+        ref={drag}
+        style={{ opacity: opacity }}
       >
-        {number > 0 && (
+        {data.count > 0 && (
           <Counter
-            count={number}
-            size={number > 10 ? "small" : "default"}
+            count={data.count}
+            size={data.count > 10 ? "small" : "default"}
             extraClass={styles.number}
           />
         )}
@@ -33,7 +77,7 @@ export const BurgerCard = ({ number, data }) => {
       </div>
       {isOpen && (
         <Modal title="Детали ингредиента" onTrigger={onTrigger}>
-          <IngredientDetails data={data} />
+          <IngredientDetails />
         </Modal>
       )}
     </>
@@ -42,5 +86,4 @@ export const BurgerCard = ({ number, data }) => {
 
 BurgerCard.propTypes = {
   data: PropTypes.object.isRequired,
-  number: PropTypes.number,
 };
