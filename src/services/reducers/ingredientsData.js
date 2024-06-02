@@ -2,9 +2,10 @@ import {
   INGREDIENTS_LOAD_SUCCESS,
   LOADING_INGREDIENTS,
   ERROR_INGREDIENTS,
-  GET_POPUP_INGREDIENT,
   INCREASE_INGREDIENT,
   DECREASE_INGREDIENT,
+  OPEN_POPUP,
+  CLOSE_POPUP,
 } from "../actions/ingredientsData";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   loading: false,
   error: false,
   popupData: {},
+  popupIsOpen: false,
 };
 
 export const reducerIngredients = (state = initialState, action) => {
@@ -34,12 +36,19 @@ export const reducerIngredients = (state = initialState, action) => {
         loading: false,
         ingredients: action.payload,
       };
-    case GET_POPUP_INGREDIENT:
+    case OPEN_POPUP:
       return {
         ...state,
         popupData: [...state.ingredients].filter(
           (item) => item._id === action.id
         )[0],
+        popupIsOpen: true,
+      };
+    case CLOSE_POPUP:
+      return {
+        ...state,
+        popupData: {},
+        popupIsOpen: false,
       };
     case INCREASE_INGREDIENT:
       return {
