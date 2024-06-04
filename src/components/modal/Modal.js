@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
@@ -6,7 +6,7 @@ import styles from "./styles.module.css";
 
 export const Modal = ({ onTrigger, title, children }) => {
   const closeButton = "Escape";
-  React.useEffect(() => {
+  useEffect(() => {
     const close = (e) => {
       if (e.key === closeButton) {
         onTrigger();

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 export const IngredientDetails = () => {
   const popupData = useSelector((state) => state.ingredients.popupData);
+  // console.log(popupData)
 
   return (
     <div className={styles.body}>

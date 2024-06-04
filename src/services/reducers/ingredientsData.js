@@ -4,6 +4,7 @@ import {
   ERROR_INGREDIENTS,
   INCREASE_INGREDIENT,
   DECREASE_INGREDIENT,
+  GET_INGREDIENT,
   OPEN_POPUP,
   CLOSE_POPUP,
 } from "../actions/ingredientsData";
@@ -12,7 +13,7 @@ const initialState = {
   ingredients: [],
   loading: false,
   error: false,
-  popupData: {},
+  popupData: false,
   popupIsOpen: false,
 };
 
@@ -35,6 +36,13 @@ export const reducerIngredients = (state = initialState, action) => {
         ...state,
         loading: false,
         ingredients: action.payload,
+      };
+    case GET_INGREDIENT:
+      return {
+        ...state,
+        popupData: [...state.ingredients].filter(
+          (item) => item._id === action.id
+        )[0],
       };
     case OPEN_POPUP:
       return {

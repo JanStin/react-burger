@@ -7,6 +7,7 @@ export const INCREASE_INGREDIENT = "INCREASE_INGREDIENT";
 export const DECREASE_INGREDIENT = "DECREASE_INGREDIENT";
 export const OPEN_POPUP = "OPEN_POPUP";
 export const CLOSE_POPUP = "CLOSE_POPUP";
+export const GET_INGREDIENT = "GET_INGREDIENT";
 
 export const loadIngredients = () => (dispatch) => {
   dispatch({ type: LOADING_INGREDIENTS });
