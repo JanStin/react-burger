@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadIngredients } from "../services/actions/ingredientsData";
-import { Main } from "../components/main/main"
+import { loadIngredients } from "../../services/actions/ingredientsData";
+import { Main } from "../../components/main/main"
 
 
 export const Home = () => {

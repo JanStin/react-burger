@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Home } from "../../pages/home";
+import { Home } from "../../pages/home/home";
 import { IngredientsDetails } from "../../pages/ingredient-details/ingredients-details";
 import Header from "../app-header/App-header";
 import styles from "./styles.module.css";
