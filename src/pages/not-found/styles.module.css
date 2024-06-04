@@ -1,0 +1,21 @@
+.body {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    margin: auto;
+}
+
+.link {
+    text-decoration: none;
+    color: #4c4cff;
+}

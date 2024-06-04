@@ -1,0 +1,50 @@
+.body {
+    composes: mt-20 from global;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 480px;
+}
+
+.button {
+    composes: mb-20 from global;
+}
+
+.text {
+    composes: mt-20 text text_type_main-default from global;
+    color: #8585ad;
+}
+
+.side {
+    composes: mr-15 from global;
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+.link {
+    composes: pl-1 pb-4 pt-4 text text_type_main-medium from global;
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    opacity: 0.5;
+}
+
+.link:hover {
+    opacity: 0.8;
+    background-color: rgba(56, 56, 56, 0.1);
+}
+
+.active {
+    composes: link;
+    opacity: 1;
+    pointer-events: none;
+}
