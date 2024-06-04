@@ -47,15 +47,12 @@ export const reducerIngredients = (state = initialState, action) => {
     case OPEN_POPUP:
       return {
         ...state,
-        popupData: [...state.ingredients].filter(
-          (item) => item._id === action.id
-        )[0],
         popupIsOpen: true,
       };
     case CLOSE_POPUP:
       return {
         ...state,
-        popupData: {},
+        popupData: false,
         popupIsOpen: false,
       };
     case INCREASE_INGREDIENT:

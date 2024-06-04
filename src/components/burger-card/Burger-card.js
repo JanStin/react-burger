@@ -8,6 +8,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
+  GET_INGREDIENT,
   OPEN_POPUP,
   INCREASE_INGREDIENT,
 } from "../../services/actions/ingredientsData";
@@ -21,7 +22,8 @@ export const BurgerCard = ({ data }) => {
   const dispatch = useDispatch();
 
   const open = () => {
-    dispatch({ type: OPEN_POPUP, id: data._id });
+    dispatch({ type: GET_INGREDIENT, id: data._id });
+    dispatch({ type: OPEN_POPUP });
   };
 
   const [{ opacity }, drag] = useDrag(
