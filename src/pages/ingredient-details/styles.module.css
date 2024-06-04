@@ -1,5 +1,4 @@
 .body {
-    composes: mt-20 from global;
     display: flex;
     justify-content: center;
     margin-left: auto;

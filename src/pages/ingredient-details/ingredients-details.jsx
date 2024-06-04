@@ -9,17 +9,20 @@ import styles from "./styles.module.css";
 export const IngredientsDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const popupData = useSelector((state) => state.ingredients.popupData);
+  const { popupData, ingredients } = useSelector((state) => state.ingredients);
+  const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
 
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(loadIngredients());
-    };
+    if (ingredientsLength === 0) {
+      const fetchData = async () => {
+        await dispatch(loadIngredients());
+      };
 
-    fetchData().then(() => {
-      dispatch({ type: GET_INGREDIENT, id: id });
-    });
-  }, [id, dispatch]);
+      fetchData().then(() => {
+        dispatch({ type: GET_INGREDIENT, id: id });
+      });
+    }
+  }, [id, ingredientsLength, dispatch]);
 
   return (
     <div class={styles.body}>

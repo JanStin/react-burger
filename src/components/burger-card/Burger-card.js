@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import {
@@ -7,6 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
 import {
   GET_INGREDIENT,
   OPEN_POPUP,
@@ -19,7 +19,9 @@ import {
 } from "../../services/actions/constructor";
 
 export const BurgerCard = ({ data }) => {
+  const ingredientId = data._id;
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const open = () => {
     dispatch({ type: GET_INGREDIENT, id: data._id });
@@ -52,26 +54,36 @@ export const BurgerCard = ({ data }) => {
   );
 
   return (
-    <div
-      className={styles.card}
-      data-id={data._id}
-      onClick={open}
-      ref={drag}
-      style={{ opacity: opacity }}
+    <Link
+      key={ingredientId}
+      // Тут мы формируем динамический путь для нашего ингредиента
+      to={`/ingredients/${ingredientId}`}
+      // а также сохраняем в свойство background роут,
+      // на котором была открыта наша модалка
+      state={{ background: location }}
+      className={styles.link}
     >
-      {data.count > 0 && (
-        <Counter
-          count={data.count}
-          size={data.count > 10 ? "small" : "default"}
-          extraClass={styles.number}
-        />
-      )}
-      <img src={data.image} className={styles.image} alt={data.name} />
-      <div className={styles.price}>
-        <span className={styles.span}>{data.price}</span> <CurrencyIcon />
+      <div
+        className={styles.card}
+        data-id={data._id}
+        onClick={open}
+        ref={drag}
+        style={{ opacity: opacity }}
+      >
+        {data.count > 0 && (
+          <Counter
+            count={data.count}
+            size={data.count > 10 ? "small" : "default"}
+            extraClass={styles.number}
+          />
+        )}
+        <img src={data.image} className={styles.image} alt={data.name} />
+        <div className={styles.price}>
+          <span className={styles.span}>{data.price}</span> <CurrencyIcon />
+        </div>
+        <p className={styles.name}>{data.name}</p>
       </div>
-      <p className={styles.name}>{data.name}</p>
-    </div>
+    </Link>
   );
 };
 

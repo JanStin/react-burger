@@ -1,17 +1,12 @@
 import { useMemo, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from "../burger-ingredients-tab/Burger-ingredients-tab";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
 
 export const BurgerIngredients = () => {
-  const dispatch = useDispatch();
   const [currentType, setCurrentType] = useState("bun");
-  const { ingredients, popupIsOpen } = useSelector(
+  const { ingredients } = useSelector(
     (state) => state.ingredients
   );
 
@@ -49,10 +44,6 @@ export const BurgerIngredients = () => {
     listNode.scrollIntoView({
       behavior: "smooth",
     });
-  };
-
-  const onClosePoup = () => {
-    dispatch({ type: CLOSE_POPUP });
   };
 
   const handleScroll = () => {
@@ -107,11 +98,6 @@ export const BurgerIngredients = () => {
           );
         })}
       </div>
-      {popupIsOpen && (
-        <Modal title="Детали ингредиента" onTrigger={onClosePoup}>
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 };
