@@ -4,7 +4,7 @@ import { loadIngredients } from "../../services/actions/ingredientsData";
 import { Main } from "../../components/main/main"
 
 
-export const Home = () => {
+export const HomePage = () => {
   const dispatch = useDispatch();
   const { loading, ingredients, error } = useSelector(
     (state) => state.ingredients

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadIngredients } from "../../services/actions/ingredientsData";
 import { useParams } from "react-router-dom";
 import { GET_INGREDIENT } from "../../services/actions/ingredientsData";
-import { IngredientDetails } from "../../components/ingredient-details/IngredientDetails";
+import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
 import styles from "./styles.module.css";
 
-export const IngredientsDetails = () => {
+export const IngredientDetailsPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { popupData, ingredients } = useSelector((state) => state.ingredients);
@@ -27,7 +27,10 @@ export const IngredientsDetails = () => {
   return (
     <div class={styles.body}>
       {popupData !== undefined && popupData ? (
-        <IngredientDetails />
+        <>
+          <h1 class={styles.title}>Детали ингредиента</h1>
+          <IngredientDetails />
+        </>
       ) : popupData === false ? (
         "Загрузка..."
       ) : (
