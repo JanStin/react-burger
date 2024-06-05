@@ -5,9 +5,9 @@ const URL_FORGOT_PASSWORD =
 const URL_RESET_PASSWORD =
   "https://norma.nomoreparties.space/api/password-reset/reset";
 const URL_REGISTER = "https://norma.nomoreparties.space/api/auth/register";
-const URL_LOGIN = "POST https://norma.nomoreparties.space/api/auth/login";
-const URL_LOGOUT = "POST https://norma.nomoreparties.space/api/auth/logout";
-const URL_TOKEN = "POST https://norma.nomoreparties.space/api/auth/token";
+const URL_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
+const URL_LOGOUT = "https://norma.nomoreparties.space/api/auth/logout";
+const URL_TOKEN = "https://norma.nomoreparties.space/api/auth/token";
 
 const getResponse = (res) => {
   if (res.ok) {

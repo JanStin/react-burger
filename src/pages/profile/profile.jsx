@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 
 export const ProfilePage = () => {
   return (
-    <div class={styles.body}>
-      <div class={styles.side}>
+    <div className={styles.body}>
+      <div className={styles.side}>
         <Link to="/login" className={styles.active}>
           Профиль
         </Link>
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <div class={styles.main}>
+      <div className={styles.main}>
         <Input
           type={"text"}
           placeholder={"Имя"}

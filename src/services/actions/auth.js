@@ -28,3 +28,14 @@ export const registeration = (form) => {
     });
   };
 };
+
+export const login = (form) => {
+  return (dispatch) => {
+    return api.loginRequest(form).then((res) => {
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
+    });
+  };
+};
