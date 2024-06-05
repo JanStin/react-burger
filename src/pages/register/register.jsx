@@ -5,46 +5,71 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { registeration } from "../../services/actions/auth";
 
 export const RegisterPage = () => {
+  const [form, setValue] = useState({ name: "", email: "", password: "" });
+
+  const dispatch = useDispatch();
+
+  let register = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(form);
+      dispatch(registeration(form));
+    },
+    [dispatch, form]
+  );
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div class={styles.body}>
-      <div class={styles.form}>
-        <h1 class={styles.title}>Регистрация</h1>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          // onChange={(e) => setValue(e.target.value)}
-          // value={value}
-          // ref={inputRef}
-          // onIconClick={onIconClick}
-          name={"name"}
-          error={false}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="mb-6"
-        />
-        <EmailInput
-          // onChange={onChange}
-          // value={value}
-          name={"email"}
-          placeholder="E-mail"
-          isIcon={true}
-          extraClass="mb-6"
-        />
-        <PasswordInput
-          // onChange={onChange}
-          // value={value}
-          name={"password"}
-          extraClass="mb-6"
-        />
-        <div class={styles.button}>
-          <Button htmlType="button" type="primary" size="large">
-            Зарегистрироваться
-          </Button>
-        </div>
-        <p class={styles.text}>
+    <div className={styles.body}>
+      <div className={styles.main}>
+        <h1 className={styles.title}>Регистрация</h1>
+        <form className={styles.form}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={(e) => onChange(e)}
+            value={form.name}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="mb-6"
+          />
+          <EmailInput
+            onChange={(e) => onChange(e)}
+            value={form.email}
+            name={"email"}
+            placeholder="E-mail"
+            isIcon={true}
+            extraClass="mb-6"
+          />
+          <PasswordInput
+            onChange={(e) => onChange(e)}
+            value={form.password}
+            name={"password"}
+            extraClass="mb-6"
+          />
+          <div className={styles.button}>
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              onClick={register}
+            >
+              Зарегистрироваться
+            </Button>
+          </div>
+        </form>
+        <p className={styles.text}>
           Уже зарегистрированы?{" "}
           <Link to="/login" className={styles.link}>
             Войти

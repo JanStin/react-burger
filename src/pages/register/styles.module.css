@@ -6,11 +6,17 @@
     width: 100%;
 }
 
-.form {
+.main {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 480px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .title {
