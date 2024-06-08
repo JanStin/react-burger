@@ -5,7 +5,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { registeration } from "../../services/actions/auth";

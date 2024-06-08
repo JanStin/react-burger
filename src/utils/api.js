@@ -1,5 +1,3 @@
-import { getCookie } from "./utils";
-
 const URL_FORGOT_PASSWORD =
   "https://norma.nomoreparties.space/api/password-reset";
 const URL_RESET_PASSWORD =
@@ -16,6 +14,15 @@ const getResponse = (res) => {
 
   return Promise.reject(`Ошибка ${res.status}`);
 };
+
+const getUser = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        user: {},
+      });
+    }, 1000);
+  });
 
 /**
  * Тело
@@ -55,6 +62,7 @@ const resetPasswordRequest = (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("refreshToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -141,7 +149,7 @@ const refreshTokenRequest = () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("refreshToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -165,7 +173,7 @@ const logoutRequest = () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("refreshToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -179,4 +187,5 @@ export const api = {
   loginRequest,
   refreshTokenRequest,
   logoutRequest,
+  getUser,
 };

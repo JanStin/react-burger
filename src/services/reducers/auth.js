@@ -1,4 +1,4 @@
-import { SET_AUTH_CHECKED } from "../actions/auth";
+import { SET_AUTH_CHECKED, SET_USER } from "../actions/auth";
 
 const initialState = {
   user: null,
@@ -10,8 +10,12 @@ export const userReducers = (state = initialState, action) => {
     case SET_AUTH_CHECKED:
       return {
         ...state,
-        loading: true,
-        error: false,
+        isAuthChecked: action.payload,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;

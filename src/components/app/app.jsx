@@ -1,5 +1,6 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import {
   HomePage,
   IngredientDetailsPage,
@@ -14,7 +15,9 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Header from "../app-header/App-header";
 import { Modal } from "../modal/modal";
 import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
+import { checkUserAuth } from "../../services/actions/auth";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +31,11 @@ function App() {
     navigate(-1);
   };
 
+  useEffect(() => {
+    dispatch(checkUserAuth());
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <div className={styles.app}>
@@ -35,11 +43,26 @@ function App() {
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />} />
           <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route
+            path="/login"
+            element={<OnlyUnAuth component={<LoginPage />} />}
+          />
+          <Route
+            path="/register"
+            element={<OnlyUnAuth component={<RegisterPage />} />}
+          />
+          <Route
+            path="/profile"
+            element={<OnlyAuth component={<ProfilePage />} />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<OnlyUnAuth component={<ForgotPasswordPage />} />}
+          />
+          <Route
+            path="/reset-password"
+            element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
 
