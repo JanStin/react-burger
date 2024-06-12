@@ -10,6 +10,7 @@ import {
   ForgotPasswordPage,
   ResetPasswordPage,
   NotFoundPage,
+  ProfileOrdersPage,
 } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Header from "../app-header/App-header";
@@ -54,6 +55,10 @@ function App() {
           <Route
             path="/profile"
             element={<OnlyAuth component={<ProfilePage />} />}
+          />
+          <Route
+            path="/profile/orders"
+            element={<OnlyAuth component={<ProfileOrdersPage />} />}
           />
           <Route
             path="/forgot-password"
