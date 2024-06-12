@@ -6,6 +6,7 @@ const URL_REGISTER = "https://norma.nomoreparties.space/api/auth/register";
 const URL_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
 const URL_LOGOUT = "https://norma.nomoreparties.space/api/auth/logout";
 const URL_TOKEN = "https://norma.nomoreparties.space/api/auth/token";
+const URL_GET_USER = "https://norma.nomoreparties.space/api/auth/user";
 
 const getResponse = (res) => {
   if (res.ok) {
@@ -15,14 +16,56 @@ const getResponse = (res) => {
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
-const getUser = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        user: {},
-      });
-    }, 1000);
-  });
+/**
+ * Тело
+ * "refreshToken"
+ * Ответ:
+ * "success": true,
+ * "user": {
+ *   "email": "",
+ *   "name": ""
+ * }
+ */
+const getUser = () => {
+  return fetch(URL_GET_USER, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken")
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  }).then(getResponse);
+};
+
+/**
+ * Тело
+ * "refreshToken"
+ * Ответ:
+ * "success": true,
+ * "user": {
+ *   "email": "",
+ *   "name": ""
+ * }
+ */
+const updateUser = (form) => {
+  return fetch(URL_GET_USER, {
+    method: "PATCH",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken")
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(form),
+  }).then(getResponse);
+};
 
 /**
  * Тело
@@ -148,8 +191,7 @@ const refreshTokenRequest = () => {
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("refreshToken"),
+      "Content-Type": "application/json"
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -173,8 +215,10 @@ const logoutRequest = () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("refreshToken"),
     },
+    body: JSON.stringify({
+      "token": localStorage.getItem("refreshToken")
+    }),
     redirect: "follow",
     referrerPolicy: "no-referrer",
   }).then(getResponse);
@@ -188,4 +232,5 @@ export const api = {
   refreshTokenRequest,
   logoutRequest,
   getUser,
+  updateUser,
 };

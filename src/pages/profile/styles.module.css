@@ -36,6 +36,7 @@
     text-decoration: none;
     color: #fff;
     opacity: 0.5;
+    cursor: pointer;
 }
 
 .link:hover {
@@ -47,4 +48,9 @@
     composes: link;
     opacity: 1;
     pointer-events: none;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
 }

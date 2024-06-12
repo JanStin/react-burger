@@ -66,10 +66,18 @@ export const checkUserAuth = () => {
 
 export const logout = () => {
   return (dispatch) => {
-    return api.logout().then(() => {
+    return api.logoutRequest().then(() => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       dispatch(setUser(null));
+    });
+  };
+};
+
+export const updateUser = (form) => {
+  return (dispatch) => {
+    return api.updateUser(form).then((res) => {
+      dispatch(setUser(res.user));
     });
   };
 };

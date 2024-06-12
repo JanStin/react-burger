@@ -5,8 +5,7 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
   const user = useSelector((store) => store.user.user);
   const location = useLocation();
-  console.log(isAuthChecked)
-  console.log(user)
+
   if (!isAuthChecked) {
     return null;
   }

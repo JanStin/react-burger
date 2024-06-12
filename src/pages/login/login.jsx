@@ -16,7 +16,6 @@ export const LoginPage = () => {
   let loginClick = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(form);
       dispatch(login(form));
     },
     [dispatch, form]
