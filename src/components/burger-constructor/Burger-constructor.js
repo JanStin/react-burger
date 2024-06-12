@@ -16,12 +16,15 @@ import {
 } from "../../services/actions/constructor";
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
+import { useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const { isOpenPoup } = useSelector((state) => state.order);
   const { bun, ingredients } = useSelector((state) => state.constructor);
   const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
   const dispatch = useDispatch();
+  const user = useSelector((store) => store.user.user);
+  const navigate = useNavigate();
   const dropAnotherType = ["main", "sauce"];
 
   const collect = (monitor) => ({
@@ -100,6 +103,12 @@ export const BurgerConstructor = () => {
     if (!bun || ingredientsLength === 0) {
       return;
     }
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     let postIngredients = ingredients.map((item) => item._id);
     postIngredients.unshift(bun._id);
     postIngredients.push(bun._id);
