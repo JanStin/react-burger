@@ -98,7 +98,6 @@ export const forgotPasswordRequest = (form) => {
  * "message": "Password successfully reset"
  */
 export const resetPasswordRequest = (form) => {
-  console.log(form);
   return fetch(URL_RESET_PASSWORD, {
     method: "POST",
     mode: "cors",

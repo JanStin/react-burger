@@ -21,7 +21,6 @@ export const ForgotPasswordPage = () => {
         if (res.success) {
           setCookie("resetPassword", true, { "max-age": 3600 });
           setError(false);
-          console.log(res);
           navigate("/reset-password");
         } else {
           setError(res.message);

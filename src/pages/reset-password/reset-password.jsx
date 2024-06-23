@@ -27,8 +27,6 @@ export const ResetPasswordPage = () => {
         if (res.success) {
           setCookie(cookei, false, { "max-age": 0 })
           navigate("/login");
-        } else {
-          console.log(res);
         }
       });
     },
