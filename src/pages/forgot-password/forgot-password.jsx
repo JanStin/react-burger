@@ -14,7 +14,7 @@ export const ForgotPasswordPage = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  let restoreClick = useCallback(
+  const restoreClick = useCallback(
     (e) => {
       e.preventDefault();
       forgotPasswordRequest(form).then((res) => {

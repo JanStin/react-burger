@@ -15,7 +15,7 @@ export const RegisterPage = () => {
 
   const dispatch = useDispatch();
 
-  let register = useCallback(
+  const register = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(registeration(form));

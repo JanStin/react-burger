@@ -20,7 +20,7 @@ export const ResetPasswordPage = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let restoreClick = useCallback(
+  const restoreClick = useCallback(
     (e) => {
       e.preventDefault();
       resetPasswordRequest(form).then((res) => {

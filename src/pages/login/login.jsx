@@ -13,7 +13,7 @@ export const LoginPage = () => {
   const [form, setValue] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
 
-  let loginClick = useCallback(
+  const loginClick = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(login(form));
