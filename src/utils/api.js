@@ -1,12 +1,4 @@
-const URL_FORGOT_PASSWORD =
-  "https://norma.nomoreparties.space/api/password-reset";
-const URL_RESET_PASSWORD =
-  "https://norma.nomoreparties.space/api/password-reset/reset";
-const URL_REGISTER = "https://norma.nomoreparties.space/api/auth/register";
-const URL_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
-const URL_LOGOUT = "https://norma.nomoreparties.space/api/auth/logout";
-const URL_TOKEN = "https://norma.nomoreparties.space/api/auth/token";
-const URL_GET_USER = "https://norma.nomoreparties.space/api/auth/user";
+const BASE_URL = "https://norma.nomoreparties.space/api/";
 
 const getResponse = (res) => {
   if (res.ok) {
@@ -27,7 +19,7 @@ const getResponse = (res) => {
  * }
  */
 const getUser = () => {
-  return fetch(URL_GET_USER, {
+  return fetch(BASE_URL + "auth/user", {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -52,7 +44,7 @@ const getUser = () => {
  * }
  */
 const updateUser = (form) => {
-  return fetch(URL_GET_USER, {
+  return fetch(BASE_URL + "auth/user", {
     method: "PATCH",
     mode: "cors",
     cache: "no-cache",
@@ -75,7 +67,7 @@ const updateUser = (form) => {
  * "message": "Reset email sent"
  */
 export const forgotPasswordRequest = (form) => {
-  return fetch(URL_FORGOT_PASSWORD, {
+  return fetch(BASE_URL + "password-reset", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -98,7 +90,7 @@ export const forgotPasswordRequest = (form) => {
  * "message": "Password successfully reset"
  */
 export const resetPasswordRequest = (form) => {
-  return fetch(URL_RESET_PASSWORD, {
+  return fetch(BASE_URL + "password-reset/reset", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -129,7 +121,7 @@ export const resetPasswordRequest = (form) => {
    }
  */
 const registerationRequest = (form) => {
-  return fetch(URL_REGISTER, {
+  return fetch(BASE_URL + "auth/register", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -159,7 +151,7 @@ const registerationRequest = (form) => {
    }
  */
 const loginRequest = (form) => {
-  return fetch(URL_LOGIN, {
+  return fetch(BASE_URL + "auth/login", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -184,7 +176,7 @@ const loginRequest = (form) => {
    }
  */
 const refreshTokenRequest = () => {
-  return fetch(URL_TOKEN, {
+  return fetch(BASE_URL + "auth/token", {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -207,7 +199,7 @@ const refreshTokenRequest = () => {
    }
  */
 const logoutRequest = () => {
-  return fetch(URL_LOGOUT, {
+  return fetch(BASE_URL + "auth/logout", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
