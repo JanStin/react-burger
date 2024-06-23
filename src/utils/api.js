@@ -34,7 +34,7 @@ const getUser = () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("accessToken")
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -59,7 +59,7 @@ const updateUser = (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("accessToken")
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -74,7 +74,7 @@ const updateUser = (form) => {
  * "success": true,
  * "message": "Reset email sent"
  */
-const forgotPasswordRequest = (form) => {
+export const forgotPasswordRequest = (form) => {
   return fetch(URL_FORGOT_PASSWORD, {
     method: "POST",
     mode: "cors",
@@ -97,7 +97,8 @@ const forgotPasswordRequest = (form) => {
  * "success": true,
  * "message": "Password successfully reset"
  */
-const resetPasswordRequest = (form) => {
+export const resetPasswordRequest = (form) => {
+  console.log(form);
   return fetch(URL_RESET_PASSWORD, {
     method: "POST",
     mode: "cors",
@@ -105,7 +106,6 @@ const resetPasswordRequest = (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("refreshToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -191,7 +191,7 @@ const refreshTokenRequest = () => {
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -217,7 +217,7 @@ const logoutRequest = () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      "token": localStorage.getItem("refreshToken")
+      token: localStorage.getItem("refreshToken"),
     }),
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -225,8 +225,6 @@ const logoutRequest = () => {
 };
 
 export const api = {
-  forgotPasswordRequest,
-  resetPasswordRequest,
   registerationRequest,
   loginRequest,
   refreshTokenRequest,

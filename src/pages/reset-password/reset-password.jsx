@@ -5,15 +5,47 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { resetPasswordRequest } from "../../utils/api";
+import { setCookie, getCookie } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 export const ResetPasswordPage = () => {
+  const [form, setValue] = useState({ code: "", password: "" });
+  const cookei = "resetPassword";
+  const navigate = useNavigate();
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  let restoreClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      resetPasswordRequest(form).then((res) => {
+        if (res.success) {
+          setCookie(cookei, false, { "max-age": 0 })
+          navigate("/login");
+        } else {
+          console.log(res);
+        }
+      });
+    },
+    [navigate, form]
+  );
+
+  if (!getCookie(cookei)) {
+    return <Navigate to={"/forgot-password"} />;
+  }
+
   return (
-    <div class={styles.body}>
-      <div class={styles.form}>
-        <h1 class={styles.title}>Восстановление пароля</h1>
+    <div className={styles.body}>
+      <form className={styles.form}>
+        <h1 className={styles.title}>Восстановление пароля</h1>
         <PasswordInput
-          // onChange={onChange}
-          // value={value}
+          onChange={onChange}
+          value={form.password}
           placeholder="Введите новый пароль"
           name={"password"}
           extraClass="mb-6"
@@ -21,28 +53,31 @@ export const ResetPasswordPage = () => {
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
-          // onChange={(e) => setValue(e.target.value)}
-          // value={value}
-          // ref={inputRef}
-          // onIconClick={onIconClick}
+          onChange={onChange}
+          value={form.code}
           name={"code"}
           error={false}
           errorText={"Ошибка"}
           size={"default"}
           extraClass="mb-6"
         />
-        <div class={styles.button}>
-          <Button htmlType="button" type="primary" size="large">
+        <div className={styles.button}>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={restoreClick}
+          >
             Сохранить
           </Button>
         </div>
-        <p class={styles.text}>
+        <p className={styles.text}>
           Вспомнили пароль?{" "}
           <Link to="/login" className={styles.link}>
             Войти
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 };
