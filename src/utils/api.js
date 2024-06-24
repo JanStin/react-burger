@@ -8,6 +8,10 @@ const getResponse = (res) => {
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
+const request = (url, options) => {
+  return fetch(url, options).then(getResponse);
+};
+
 /**
  * Тело
  * "refreshToken"
@@ -19,7 +23,7 @@ const getResponse = (res) => {
  * }
  */
 const getUser = () => {
-  return fetch(BASE_URL + "auth/user", {
+  return request(BASE_URL + "auth/user", {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -30,7 +34,7 @@ const getUser = () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -44,7 +48,7 @@ const getUser = () => {
  * }
  */
 const updateUser = (form) => {
-  return fetch(BASE_URL + "auth/user", {
+  return request(BASE_URL + "auth/user", {
     method: "PATCH",
     mode: "cors",
     cache: "no-cache",
@@ -56,7 +60,7 @@ const updateUser = (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -67,7 +71,7 @@ const updateUser = (form) => {
  * "message": "Reset email sent"
  */
 export const forgotPasswordRequest = (form) => {
-  return fetch(BASE_URL + "password-reset", {
+  return request(BASE_URL + "password-reset", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -78,7 +82,7 @@ export const forgotPasswordRequest = (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -90,7 +94,7 @@ export const forgotPasswordRequest = (form) => {
  * "message": "Password successfully reset"
  */
 export const resetPasswordRequest = (form) => {
-  return fetch(BASE_URL + "password-reset/reset", {
+  return request(BASE_URL + "password-reset/reset", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -101,7 +105,7 @@ export const resetPasswordRequest = (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -121,7 +125,7 @@ export const resetPasswordRequest = (form) => {
    }
  */
 const registerationRequest = (form) => {
-  return fetch(BASE_URL + "auth/register", {
+  return request(BASE_URL + "auth/register", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -132,7 +136,7 @@ const registerationRequest = (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -151,7 +155,7 @@ const registerationRequest = (form) => {
    }
  */
 const loginRequest = (form) => {
-  return fetch(BASE_URL + "auth/login", {
+  return request(BASE_URL + "auth/login", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -162,7 +166,7 @@ const loginRequest = (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -176,7 +180,7 @@ const loginRequest = (form) => {
    }
  */
 const refreshTokenRequest = () => {
-  return fetch(BASE_URL + "auth/token", {
+  return request(BASE_URL + "auth/token", {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -186,7 +190,7 @@ const refreshTokenRequest = () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }).then(getResponse);
+  });
 };
 
 /**
@@ -199,7 +203,7 @@ const refreshTokenRequest = () => {
    }
  */
 const logoutRequest = () => {
-  return fetch(BASE_URL + "auth/logout", {
+  return request(BASE_URL + "auth/logout", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -212,7 +216,7 @@ const logoutRequest = () => {
     }),
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }).then(getResponse);
+  });
 };
 
 export const api = {
