@@ -6,7 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { forgotPasswordRequest } from "../../utils/api";
-import { setCookie } from "../../utils/utils";
+import { deleteCookie } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
 export const ForgotPasswordPage = () => {
@@ -14,12 +14,12 @@ export const ForgotPasswordPage = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const restoreClick = useCallback(
+  const submitRestore = useCallback(
     (e) => {
       e.preventDefault();
       forgotPasswordRequest(form).then((res) => {
         if (res.success) {
-          setCookie("resetPassword", true, { "max-age": 3600 });
+          deleteCookie("resetPassword");
           setError(false);
           navigate("/reset-password");
         } else {
@@ -36,7 +36,7 @@ export const ForgotPasswordPage = () => {
 
   return (
     <div className={styles.body}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitRestore}>
         <h1 className={styles.title}>Восстановление пароля</h1>
         <EmailInput
           onChange={onChange}
@@ -50,10 +50,9 @@ export const ForgotPasswordPage = () => {
         />
         <div className={styles.button}>
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="large"
-            onClick={restoreClick}
           >
             Восстановить
           </Button>

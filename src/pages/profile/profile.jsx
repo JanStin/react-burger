@@ -39,7 +39,7 @@ export const ProfilePage = () => {
     return false;
   };
 
-  const onSave = useCallback(
+  const submitSave = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(updateUser(form));
@@ -72,7 +72,7 @@ export const ProfilePage = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <form className={styles.main}>
+      <form className={styles.main} onSubmit={submitSave}>
         <Input
           type={"text"}
           placeholder={"Имя"}
@@ -103,10 +103,9 @@ export const ProfilePage = () => {
         {showButtons() && (
           <div className={styles.buttons}>
             <Button
-              htmlType="button"
+              htmlType="submit"
               type="primary"
               size="large"
-              onClick={(e) => onSave(e)}
             >
               Сохранить
             </Button>

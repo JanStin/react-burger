@@ -20,7 +20,7 @@ export const ResetPasswordPage = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const restoreClick = useCallback(
+  const submitResetPassword = useCallback(
     (e) => {
       e.preventDefault();
       resetPasswordRequest(form).then((res) => {
@@ -39,7 +39,7 @@ export const ResetPasswordPage = () => {
 
   return (
     <div className={styles.body}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitResetPassword}>
         <h1 className={styles.title}>Восстановление пароля</h1>
         <PasswordInput
           onChange={onChange}
@@ -61,10 +61,9 @@ export const ResetPasswordPage = () => {
         />
         <div className={styles.button}>
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="large"
-            onClick={restoreClick}
           >
             Сохранить
           </Button>

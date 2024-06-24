@@ -31,7 +31,7 @@ export const RegisterPage = () => {
     <div className={styles.body}>
       <div className={styles.main}>
         <h1 className={styles.title}>Регистрация</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={register}>
           <Input
             type={"text"}
             placeholder={"Имя"}
@@ -58,12 +58,7 @@ export const RegisterPage = () => {
             extraClass="mb-6"
           />
           <div className={styles.button}>
-            <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={register}
-            >
+            <Button htmlType="submit" type="primary" size="large">
               Зарегистрироваться
             </Button>
           </div>

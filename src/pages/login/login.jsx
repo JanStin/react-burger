@@ -13,7 +13,7 @@ export const LoginPage = () => {
   const [form, setValue] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
 
-  const loginClick = useCallback(
+  const submitClick = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(login(form));
@@ -27,7 +27,7 @@ export const LoginPage = () => {
 
   return (
     <div className={styles.body}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitClick}>
         <h1 className={styles.title}>Вход</h1>
         <EmailInput
           onChange={(e) => onChange(e)}
@@ -44,7 +44,7 @@ export const LoginPage = () => {
           extraClass="mb-6"
         />
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="large" onClick={loginClick}>
+          <Button htmlType="submit" type="primary" size="large">
             Войти
           </Button>
         </div>
