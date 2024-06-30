@@ -1,17 +1,10 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadIngredients } from "../../services/actions/ingredientsData";
+import { useSelector } from "react-redux";
 import { Main } from "../../components/main/main"
 
-
 export const HomePage = () => {
-  const dispatch = useDispatch();
   const { loading, ingredients, error } = useSelector(
     (state) => state.ingredients
   );
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch]);
 
   return (
     <>

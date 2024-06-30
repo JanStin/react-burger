@@ -19,6 +19,7 @@ import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
+import { loadIngredients } from "../../services/actions/ingredientsData";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ function App() {
     dispatch(checkUserAuth());
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    dispatch(loadIngredients());
+  }, [dispatch]);
 
   return (
     <>
