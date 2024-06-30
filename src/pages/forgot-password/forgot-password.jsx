@@ -6,7 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { forgotPasswordRequest } from "../../utils/api";
-import { deleteCookie } from "../../utils/utils";
+import { setCookie } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
 export const ForgotPasswordPage = () => {
@@ -19,7 +19,7 @@ export const ForgotPasswordPage = () => {
       e.preventDefault();
       forgotPasswordRequest(form).then((res) => {
         if (res.success) {
-          deleteCookie("resetPassword");
+          setCookie("resetPassword", true, { "max-age": 3600 });
           setError(false);
           navigate("/reset-password");
         } else {

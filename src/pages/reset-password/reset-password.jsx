@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { resetPasswordRequest } from "../../utils/api";
-import { setCookie, getCookie } from "../../utils/utils";
+import { deleteCookie, getCookie } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
 export const ResetPasswordPage = () => {
@@ -25,7 +25,7 @@ export const ResetPasswordPage = () => {
       e.preventDefault();
       resetPasswordRequest(form).then((res) => {
         if (res.success) {
-          setCookie(cookei, false, { "max-age": 0 })
+          deleteCookie(cookei);
           navigate("/login");
         }
       });
@@ -60,11 +60,7 @@ export const ResetPasswordPage = () => {
           extraClass="mb-6"
         />
         <div className={styles.button}>
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="large"
-          >
+          <Button htmlType="submit" type="primary" size="large">
             Сохранить
           </Button>
         </div>
