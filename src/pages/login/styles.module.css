@@ -1,0 +1,32 @@
+.body {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 480px;
+}
+
+.title {
+    composes: mb-6 text text_type_main-medium from global;
+}
+
+.button {
+    composes: mb-20 from global;
+}
+
+.text {
+    composes: mb-4 text text_type_main-default from global;
+    color: #8585ad;
+}
+
+.link {
+    text-decoration: none;
+    color: #4c4cff;
+}

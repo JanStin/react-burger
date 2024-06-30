@@ -1,7 +1,11 @@
+.link {
+    text-decoration: none;
+    color: #fff;
+}
+
 .card {
     position: relative;
     width: 272px;
-    cursor: pointer;
 }
 
 .image {
@@ -26,7 +30,6 @@
     text-align: center;
     font-size: 16px;
 }
-
 
 .number {
     position: absolute;

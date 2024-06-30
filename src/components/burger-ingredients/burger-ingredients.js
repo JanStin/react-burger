@@ -6,7 +6,10 @@ import { useSelector } from "react-redux";
 
 export const BurgerIngredients = () => {
   const [currentType, setCurrentType] = useState("bun");
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector(
+    (state) => state.ingredients
+  );
+
   const ingredientTypes = [
     {
       id: "bun",

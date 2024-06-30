@@ -5,16 +5,3 @@
   height: 100vh;
   margin: 0 auto;
 }
-
-.main {
-  display: flex;
-  height: calc(100% - 100px);
-}
-
-.column {
-  composes: pl-4 pr-4 from global;
-  box-sizing: border-box;
-  width: 50%;
-  height: 100%;
-}
-

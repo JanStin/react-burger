@@ -1,10 +1,10 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../modal/Modal";
+import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/Burger-constructor-ingredient";
 import styles from "./styles.module.css";
@@ -15,13 +15,16 @@ import {
   CHANGE_ORDER_INGREDIENTS,
 } from "../../services/actions/constructor";
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
-import { postOrder } from "../../services/actions/order";
+import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
+import { useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
-  const [isOpen, onTrigger] = useState(false);
+  const { isOpenPoup } = useSelector((state) => state.order);
   const { bun, ingredients } = useSelector((state) => state.constructor);
   const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
   const dispatch = useDispatch();
+  const user = useSelector((store) => store.user.user);
+  const navigate = useNavigate();
   const dropAnotherType = ["main", "sauce"];
 
   const collect = (monitor) => ({
@@ -100,11 +103,20 @@ export const BurgerConstructor = () => {
     if (!bun || ingredientsLength === 0) {
       return;
     }
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     let postIngredients = ingredients.map((item) => item._id);
     postIngredients.unshift(bun._id);
     postIngredients.push(bun._id);
     dispatch(postOrder(postIngredients));
-    onTrigger(true);
+  };
+
+  const onCloseOrder = () => {
+    dispatch({ type: CLOSE_ORDER });
   };
 
   return (
@@ -175,8 +187,8 @@ export const BurgerConstructor = () => {
         </div>
       </div>
 
-      {isOpen && (
-        <Modal title="" onTrigger={onTrigger}>
+      {isOpenPoup && (
+        <Modal title="" onTrigger={onCloseOrder}>
           <OrderDetails />
         </Modal>
       )}

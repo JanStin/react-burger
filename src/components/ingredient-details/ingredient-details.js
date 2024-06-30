@@ -1,8 +1,20 @@
 import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { GET_INGREDIENT } from "../../services/actions/ingredientsData";
 
 export const IngredientDetails = () => {
-  const popupData = useSelector((state) => state.ingredients.popupData);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { popupData, ingredients } = useSelector((state) => state.ingredients);
+  const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
+
+  useEffect(() => {
+    if (ingredientsLength !== 0 && popupData === false) {
+      dispatch({ type: GET_INGREDIENT, id: id });
+    }
+  }, [id, popupData, ingredientsLength, dispatch]);
 
   return (
     <div className={styles.body}>

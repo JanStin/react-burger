@@ -1,16 +1,15 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../modal/Modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
 import {
-  GET_POPUP_INGREDIENT,
+  GET_INGREDIENT,
+  OPEN_POPUP,
   INCREASE_INGREDIENT,
 } from "../../services/actions/ingredientsData";
 import {
@@ -20,12 +19,13 @@ import {
 } from "../../services/actions/constructor";
 
 export const BurgerCard = ({ data }) => {
-  const [isOpen, onTrigger] = React.useState(false);
+  const ingredientId = data._id;
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const open = () => {
-    dispatch({ type: GET_POPUP_INGREDIENT, id: data._id });
-    onTrigger(true);
+    dispatch({ type: GET_INGREDIENT, id: data._id });
+    dispatch({ type: OPEN_POPUP });
   };
 
   const [{ opacity }, drag] = useDrag(
@@ -54,7 +54,15 @@ export const BurgerCard = ({ data }) => {
   );
 
   return (
-    <>
+    <Link
+      key={ingredientId}
+      // Тут мы формируем динамический путь для нашего ингредиента
+      to={`/ingredients/${ingredientId}`}
+      // а также сохраняем в свойство background роут,
+      // на котором была открыта наша модалка
+      state={{ background: location }}
+      className={styles.link}
+    >
       <div
         className={styles.card}
         data-id={data._id}
@@ -75,12 +83,7 @@ export const BurgerCard = ({ data }) => {
         </div>
         <p className={styles.name}>{data.name}</p>
       </div>
-      {isOpen && (
-        <Modal title="Детали ингредиента" onTrigger={onTrigger}>
-          <IngredientDetails />
-        </Modal>
-      )}
-    </>
+    </Link>
   );
 };
 
