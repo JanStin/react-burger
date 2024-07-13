@@ -2,6 +2,9 @@ import styles from "./styles.module.css";
 import done from "../../images/done.png";
 import { useSelector } from "react-redux";
 import React from "react";
+import {
+  TRootState,
+} from "../../utils/types";
 
 type TOrderDetails = {
   loading: boolean;
@@ -11,7 +14,7 @@ type TOrderDetails = {
 
 export const OrderDetails = (): React.JSX.Element => {
   const { loading, order, error } : TOrderDetails = useSelector(
-    (state: TOrderDetails) => state.order
+    (state: TRootState) => state.order
   );
 
   return (
