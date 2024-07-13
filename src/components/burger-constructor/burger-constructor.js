@@ -5,7 +5,7 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/modal";
-import { OrderDetails } from "../order-details/OrderDetails";
+import { OrderDetails } from "../order-details/order-details";
 import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/Burger-constructor-ingredient";
 import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";

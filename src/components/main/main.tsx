@@ -4,7 +4,7 @@ import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import styles from "./styles.module.css";
 
-export const Main = () => {
+export const Main = (): React.JSX.Element => {
   return (
     <main className={styles.main}>
       <DndProvider backend={HTML5Backend}>

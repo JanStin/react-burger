@@ -1,9 +1,18 @@
 import styles from "./styles.module.css";
 import done from "../../images/done.png";
 import { useSelector } from "react-redux";
+import React from "react";
 
-export const OrderDetails = () => {
-  const { loading, order, error } = useSelector((state) => state.order);
+type TOrderDetails = {
+  loading: boolean;
+  order: any;
+  error: boolean;
+};
+
+export const OrderDetails = (): React.JSX.Element => {
+  const { loading, order, error } : TOrderDetails = useSelector(
+    (state: TOrderDetails) => state.order
+  );
 
   return (
     <div className={styles.body}>
