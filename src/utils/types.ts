@@ -29,3 +29,13 @@ export type TIngredientsReducer = {
   popupData?: boolean | TIngredient;
   popupIsOpen?: boolean;
 };
+
+export type TOrderResponse = {
+  success: boolean;
+  name: string;
+  order: TOrder;
+};
+
+type TOrder = {
+  number: number;
+};
