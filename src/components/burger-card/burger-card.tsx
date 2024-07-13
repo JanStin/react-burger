@@ -1,11 +1,10 @@
-import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
-import { useDrag } from "react-dnd";
+import { useDrag, DragSourceMonitor } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import {
   GET_INGREDIENT,
@@ -17,25 +16,41 @@ import {
   ADD_INGREDIENT,
   BUN,
 } from "../../services/actions/constructor";
+import { TIngredient } from "../../utils/types";
 
-export const BurgerCard = ({ data }) => {
-  const ingredientId = data._id;
+type TBurgerCard = {
+  data: TIngredient;
+};
+
+type TDragItem = {
+  type: string;
+};
+
+type TDropResult = {
+  [key: string]: any;
+};
+
+export const BurgerCard = ({ data }: TBurgerCard): React.JSX.Element => {
+  const ingredientId: string = data._id;
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const open = () => {
+  const open = (): void => {
     dispatch({ type: GET_INGREDIENT, id: data._id });
     dispatch({ type: OPEN_POPUP });
   };
 
-  const [{ opacity }, drag] = useDrag(
+  const [{ opacity }, drag] = useDrag<
+    TDragItem,
+    TDropResult,
+    { opacity: number }
+  >(
     () => ({
       type: data.type,
-      end(item, monitor) {
-        const dropResult = monitor.getDropResult();
+      end(item: TDragItem | undefined, monitor: DragSourceMonitor) {
+        const dropResult = monitor.getDropResult<TDragItem>();
         if (item && dropResult) {
-          let clone = { ...data };
-          clone.key = crypto.randomUUID();
+          const clone = { ...data, key: crypto.randomUUID() };
 
           if (data.type === BUN) {
             dispatch({ type: ADD_BUN, bun: clone });
@@ -70,7 +85,7 @@ export const BurgerCard = ({ data }) => {
         ref={drag}
         style={{ opacity: opacity }}
       >
-        {data.count > 0 && (
+        {typeof data.count == "number" && data.count > 0 && (
           <Counter
             count={data.count}
             size={data.count > 10 ? "small" : "default"}
@@ -79,14 +94,11 @@ export const BurgerCard = ({ data }) => {
         )}
         <img src={data.image} className={styles.image} alt={data.name} />
         <div className={styles.price}>
+          {/** @ts-ignore */}
           <span className={styles.span}>{data.price}</span> <CurrencyIcon />
         </div>
         <p className={styles.name}>{data.name}</p>
       </div>
     </Link>
   );
-};
-
-BurgerCard.propTypes = {
-  data: PropTypes.object.isRequired,
 };

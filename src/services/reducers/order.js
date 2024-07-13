@@ -9,6 +9,7 @@ const initialState = {
   order: null,
   loading: false,
   error: false,
+  isOpenPoup: false,
 };
 
 export const orderIngredients = (state = initialState, action) => {

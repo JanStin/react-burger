@@ -20,6 +20,7 @@ export type TIngredient = {
   image_large: string;
   __v: number;
   count?: number;
+  key?: string;
 };
 
 export type TIngredientType = "bun" | "main" | "sauce";

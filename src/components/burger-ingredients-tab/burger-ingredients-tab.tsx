@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { BurgerCard } from "../burger-card/Burger-card";
+import { BurgerCard } from "../burger-card/burger-card";
 import { TIngredientsArray } from "../../utils/types";
 
 type TBurgerIngredientsTab = {

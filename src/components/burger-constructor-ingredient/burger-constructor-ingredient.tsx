@@ -4,40 +4,66 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import {
+  useDrag,
+  useDrop,
+  DropTargetMonitor,
+  DragSourceMonitor,
+} from "react-dnd";
 import { REMOVE_INGREDIENT } from "../../services/actions/constructor";
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
+import { TIngredient } from "../../utils/types";
+
+type TBurgerConstructorIngredient = {
+  id: string;
+  elem: TIngredient;
+  index: number;
+  moveIngredients: (dragIndex: number, hoverIndex: number) => void;
+};
+
+type TDragObject = {
+  index: number;
+  id: string;
+  type: string;
+};
+
+type TDropCollectedProps = {
+  handlerId: string | symbol | null;
+};
 
 export const BurgerConstructorIngredient = ({
   id,
   elem,
   index,
   moveIngredients,
-}) => {
-  const ref = useRef(null);
+}: TBurgerConstructorIngredient): React.JSX.Element => {
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const position = "ingredient";
 
-  const handleClose = (elem) => {
+  const handleClose = (elem: TIngredient): void => {
     dispatch({ type: DECREASE_INGREDIENT, id: elem._id });
     dispatch({ type: REMOVE_INGREDIENT, key: elem.key });
   };
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+    TDragObject,
+    never,
+    TDropCollectedProps
+  >({
     accept: position,
-    collect(monitor) {
+    collect(monitor: DropTargetMonitor): TDropCollectedProps {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: TDragObject, monitor: DropTargetMonitor): void {
       if (!ref.current) {
         return;
       }
-      const dragIndex = item.index;
-      const hoverIndex = index;
+      const dragIndex: number = item.index;
+      const hoverIndex: number = index;
 
       if (dragIndex === hoverIndex) {
         return;
@@ -47,6 +73,11 @@ export const BurgerConstructorIngredient = ({
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+
+      if (!clientOffset) {
+        return;
+      }
+
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -61,16 +92,23 @@ export const BurgerConstructorIngredient = ({
       item.index = hoverIndex;
     },
   });
-  const [{ isDragging }, drag] = useDrag({
+
+  const [{ isDragging }, drag] = useDrag<
+    TDragObject,
+    never,
+    { isDragging: boolean }
+  >({
     type: position,
-    item: () => {
-      return { id, index };
+    item: (): TDragObject => {
+      return { id, index, type: position };
     },
-    collect: (monitor) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
-  const opacity = isDragging ? 0 : 1;
+
+  const opacity: number = isDragging ? 0 : 1;
+
   drag(drop(ref));
 
   return (
@@ -89,11 +127,4 @@ export const BurgerConstructorIngredient = ({
       />
     </div>
   );
-};
-
-BurgerConstructorIngredient.propTypes = {
-  id: PropTypes.string.isRequired,
-  elem: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  moveIngredients: PropTypes.func.isRequired,
 };
