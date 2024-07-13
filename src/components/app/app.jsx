@@ -13,7 +13,7 @@ import {
   ProfileOrdersPage,
 } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import Header from "../app-header/App-header";
+import Header from "../app-header/app-header";
 import { Modal } from "../modal/modal";
 import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
