@@ -3,12 +3,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GET_INGREDIENT } from "../../services/actions/ingredientsData";
-import { TIngredient, TRootState } from "../../utils/types";
+import { TIngredient, TRootState, TIngredientsArray } from "../../utils/types";
 
 export type TIngredientDetails = {
   popupData: TIngredient | boolean;
-  ingredients: Array<TIngredient>;
-};
+} & TIngredientsArray;
 
 export const IngredientDetails = (): React.JSX.Element => {
   const dispatch = useDispatch();
