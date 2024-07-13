@@ -23,9 +23,9 @@ import { loadIngredients } from "../../services/actions/ingredientsData";
 
 function App() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
-  const background = location.state && location.state.background;
+  const location = useLocation();
+  const background = location.state?.background;
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
@@ -34,11 +34,13 @@ function App() {
   };
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(checkUserAuth());
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(loadIngredients());
   }, [dispatch]);
 

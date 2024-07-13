@@ -17,7 +17,7 @@ import {
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
-import { TIngredient, TIngredientsArray, TRootState } from "../../utils/types";
+import { TIngredient, TIngredientsArray, TRootState, TUser } from "../../utils/types";
 
 type TBurgerConstructor = {
   bun: boolean | TIngredient;
@@ -41,8 +41,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const { bun, ingredients }: TBurgerConstructor = useSelector(
     (state: TRootState) => state.constructor
   );
-  // TODO: типизировать пользователя
-  const user = useSelector((store: TRootState) => store.user.user);
+  const user: TUser = useSelector((store: TRootState) => store.user.user);
   const ingredientsLength: number = Array.isArray(ingredients)
     ? ingredients.length
     : 0;

@@ -41,3 +41,14 @@ export type TOrderResponse = {
 type TOrder = {
   number: number;
 };
+
+export type TUserInfo = {
+  user: TUser;
+  isAuthChecked: boolean;
+};
+
+export type TUser = {
+  email: string;
+  name: string;
+  password?: string;
+};
