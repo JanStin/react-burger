@@ -27,7 +27,7 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
           setError(false);
           navigate("/reset-password");
         } else {
-          setError(res.message);
+          setError(!!res.message);
         }
       });
     },

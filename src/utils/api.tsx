@@ -1,15 +1,40 @@
-const BASE_URL = "https://norma.nomoreparties.space/api/";
+import { BASE_URL } from "./utils";
+import { TUser } from "./types";
 
-const getResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-
-  return Promise.reject(`Ошибка ${res.status}`);
+const getResponse = <T,>(res: Response): Promise<T> => {
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };
 
-const request = (url, options) => {
-  return fetch(url, options).then(getResponse);
+const request = <T,>(url: string, options: RequestInit): Promise<T> => {
+  return fetch(url, options).then((res) => getResponse<T>(res));
+};
+
+type TUserResponse = {
+  success: boolean;
+  user: TUser;
+};
+
+type TAuthResponse = {
+  user: TUser;
+} & TTokenResponse;
+
+type TTokenResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+
+type TMessageResponse = {
+  success: boolean;
+  message: string;
+};
+
+type TForm = {
+  email?: string;
+  password?: string;
+  name?: string;
+  token?: string;
+  code?: string;
 };
 
 /**
@@ -22,7 +47,7 @@ const request = (url, options) => {
  *   "name": ""
  * }
  */
-const getUser = () => {
+const getUser = (): Promise<TUserResponse> => {
   return request(BASE_URL + "auth/user", {
     method: "GET",
     mode: "cors",
@@ -30,7 +55,7 @@ const getUser = () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("accessToken"),
+      Authorization: localStorage.getItem("accessToken") || "",
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -47,7 +72,7 @@ const getUser = () => {
  *   "name": ""
  * }
  */
-const updateUser = (form) => {
+const updateUser = (form: TForm): Promise<TUserResponse> => {
   return request(BASE_URL + "auth/user", {
     method: "PATCH",
     mode: "cors",
@@ -55,7 +80,7 @@ const updateUser = (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("accessToken"),
+      Authorization: localStorage.getItem("accessToken") || "",
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -70,7 +95,9 @@ const updateUser = (form) => {
  * "success": true,
  * "message": "Reset email sent"
  */
-export const forgotPasswordRequest = (form) => {
+export const forgotPasswordRequest = (
+  form: TForm
+): Promise<TMessageResponse> => {
   return request(BASE_URL + "password-reset", {
     method: "POST",
     mode: "cors",
@@ -93,7 +120,9 @@ export const forgotPasswordRequest = (form) => {
  * "success": true,
  * "message": "Password successfully reset"
  */
-export const resetPasswordRequest = (form) => {
+export const resetPasswordRequest = (
+  form: TForm
+): Promise<TMessageResponse> => {
   return request(BASE_URL + "password-reset/reset", {
     method: "POST",
     mode: "cors",
@@ -124,7 +153,7 @@ export const resetPasswordRequest = (form) => {
     "refreshToken": ""
    }
  */
-const registerationRequest = (form) => {
+const registerationRequest = (form: TForm): Promise<TAuthResponse> => {
   return request(BASE_URL + "auth/register", {
     method: "POST",
     mode: "cors",
@@ -154,7 +183,7 @@ const registerationRequest = (form) => {
     "refreshToken": ""
    }
  */
-const loginRequest = (form) => {
+const loginRequest = (form: TForm): Promise<TAuthResponse> => {
   return request(BASE_URL + "auth/login", {
     method: "POST",
     mode: "cors",
@@ -179,7 +208,7 @@ const loginRequest = (form) => {
     "refreshToken": ""
    }
  */
-const refreshTokenRequest = () => {
+const refreshTokenRequest = (): Promise<TTokenResponse> => {
   return request(BASE_URL + "auth/token", {
     method: "GET",
     mode: "cors",
@@ -202,7 +231,7 @@ const refreshTokenRequest = () => {
     "message": "Successful logout
    }
  */
-const logoutRequest = () => {
+const logoutRequest = (): Promise<TMessageResponse> => {
   return request(BASE_URL + "auth/logout", {
     method: "POST",
     mode: "cors",
