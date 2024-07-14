@@ -3,51 +3,61 @@ import {
   Input,
   EmailInput,
   PasswordInput,
-  Button,
+  Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useState,
+  MouseEvent,
+  ChangeEvent,
+  FormEvent
+} from "react";
 import { useDispatch } from "react-redux";
 import { logout, updateUser } from "../../services/actions/auth";
+import { TRootState, TUser } from "../../utils/types";
 
-export const ProfilePage = () => {
-  const user = useSelector((store) => store.user.user);
-  const [form, setValue] = useState({
+export const ProfilePage = (): React.JSX.Element => {
+  const user = useSelector((store: TRootState) => store.user.user);
+  const [form, setValue] = useState<TUser>({
     name: user.name,
     email: user.email,
     password: "",
   });
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const logoutClick = useCallback(
-    (e) => {
+    (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
+      // @ts-ignore
       dispatch(logout());
     },
     [dispatch]
   );
 
-  const showButtons = () => {
-    if (form.name !== user.name) return true;
-    if (form.email !== user.email) return true;
-    if (form.password !== "") return true;
-    return false;
+  const showButtons = (): boolean => {
+    return (
+      form.name !== user.name ||
+      form.email !== user.email ||
+      form.password !== ""
+    );
   };
 
   const submitSave = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      // @ts-ignore
       dispatch(updateUser(form));
     },
     [dispatch, form]
   );
 
-  const onCanel = (e) => {
+  const onCanel = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     setValue({
       name: user.name,
@@ -73,6 +83,7 @@ export const ProfilePage = () => {
         </p>
       </div>
       <form className={styles.main} onSubmit={submitSave}>
+        {/** @ts-ignore */}
         <Input
           type={"text"}
           placeholder={"Имя"}
@@ -95,26 +106,18 @@ export const ProfilePage = () => {
         />
         <PasswordInput
           onChange={(e) => onChange(e)}
-          value={form.password}
+          value={form.password as string}
           icon={"EditIcon"}
           name={"password"}
           extraClass="mb-6"
         />
         {showButtons() && (
           <div className={styles.buttons}>
-            <Button
-              htmlType="submit"
-              type="primary"
-              size="large"
-            >
+            <Button htmlType="submit" type="primary" size="large">
               Сохранить
             </Button>
-            <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={(e) => onCanel(e)}
-            >
+            {/** @ts-ignore */}
+            <Button htmlType="button" type="primary" size="large" onClick={onCanel}>
               Отмена
             </Button>
           </div>

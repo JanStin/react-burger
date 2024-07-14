@@ -5,23 +5,29 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback, useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../services/actions/auth";
 
-export const LoginPage = () => {
-  const [form, setValue] = useState({ email: "", password: "" });
+type TLoginForm = {
+  email: string;
+  password: string;
+};
+
+export const LoginPage = (): React.JSX.Element => {
+  const [form, setValue] = useState<TLoginForm>({ email: "", password: "" });
   const dispatch = useDispatch();
 
   const submitClick = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      // @ts-ignore
       dispatch(login(form));
     },
     [dispatch, form]
   );
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -39,7 +45,7 @@ export const LoginPage = () => {
         />
         <PasswordInput
           onChange={(e) => onChange(e)}
-          value={form.password}
+          value={form.password as string}
           name={"password"}
           extraClass="mb-6"
         />

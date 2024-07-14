@@ -4,18 +4,22 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback, useState, ChangeEvent, FormEvent } from "react";
 import { forgotPasswordRequest } from "../../utils/api";
 import { setCookie } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
-export const ForgotPasswordPage = () => {
-  const [form, setValue] = useState({ email: "" });
-  const [error, setError] = useState(false);
+type TForgotPasswordPage = {
+  email: string;
+};
+
+export const ForgotPasswordPage = (): React.JSX.Element => {
+  const [form, setValue] = useState<TForgotPasswordPage>({ email: "" });
+  const [error, setError] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const submitRestore = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       forgotPasswordRequest(form).then((res) => {
         if (res.success) {
@@ -30,7 +34,7 @@ export const ForgotPasswordPage = () => {
     [navigate, form]
   );
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -38,22 +42,10 @@ export const ForgotPasswordPage = () => {
     <div className={styles.body}>
       <form className={styles.form} onSubmit={submitRestore}>
         <h1 className={styles.title}>Восстановление пароля</h1>
-        <EmailInput
-          onChange={onChange}
-          value={form.email}
-          name={"email"}
-          placeholder="Укажите e-mail"
-          isIcon={false}
-          extraClass="mb-6"
-          errorText="Ошибка"
-          error={error}
-        />
+        {/** @ts-ignore */}
+        <EmailInput onChange={onChange} value={form.email} name={"email"} placeholder="Укажите e-mail" isIcon={false} extraClass="mb-6" errorText="Ошибка" error={error} />
         <div className={styles.button}>
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="large"
-          >
+          <Button htmlType="submit" type="primary" size="large">
             Восстановить
           </Button>
         </div>

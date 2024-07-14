@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 
-export const NotFoundPage = () => {
+export const NotFoundPage = (): React.JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

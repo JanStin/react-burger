@@ -5,25 +5,36 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useState } from "react";
+import { useCallback, useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { registeration } from "../../services/actions/auth";
 
-export const RegisterPage = () => {
-  const [form, setValue] = useState({ name: "", email: "", password: "" });
+type TRegisterPage = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export const RegisterPage = (): React.JSX.Element => {
+  const [form, setValue] = useState<TRegisterPage>({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const dispatch = useDispatch();
 
   const register = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      // @ts-ignore
       dispatch(registeration(form));
     },
     [dispatch, form]
   );
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -32,6 +43,7 @@ export const RegisterPage = () => {
       <div className={styles.main}>
         <h1 className={styles.title}>Регистрация</h1>
         <form className={styles.form} onSubmit={register}>
+          {/** @ts-ignore */}
           <Input
             type={"text"}
             placeholder={"Имя"}

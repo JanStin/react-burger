@@ -5,23 +5,31 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback, useState, FormEvent, ChangeEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { resetPasswordRequest } from "../../utils/api";
 import { deleteCookie, getCookie } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
-export const ResetPasswordPage = () => {
-  const [form, setValue] = useState({ code: "", password: "" });
+type TResetPasswordPage = {
+  code: string;
+  password: string;
+};
+
+export const ResetPasswordPage = (): React.JSX.Element => {
+  const [form, setValue] = useState<TResetPasswordPage>({
+    code: "",
+    password: "",
+  });
   const cookei = "resetPassword";
   const navigate = useNavigate();
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const submitResetPassword = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       resetPasswordRequest(form).then((res) => {
         if (res.success) {
@@ -48,6 +56,7 @@ export const ResetPasswordPage = () => {
           name={"password"}
           extraClass="mb-6"
         />
+        {/** @ts-ignore */}
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
