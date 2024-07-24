@@ -5,11 +5,11 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../modal/modal";
-import { OrderDetails } from "../order-details/OrderDetails";
-import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/Burger-constructor-ingredient";
+import { OrderDetails } from "../order-details/order-details";
+import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useDrop } from "react-dnd";
+import { useDrop, DropTargetMonitor } from "react-dnd";
 import {
   BUN,
   CHANGE_ORDER_INGREDIENTS,
@@ -17,28 +17,54 @@ import {
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
+import { TIngredient, TIngredientsArray, TRootState, TUser } from "../../utils/types";
 
-export const BurgerConstructor = () => {
-  const { isOpenPoup } = useSelector((state) => state.order);
-  const { bun, ingredients } = useSelector((state) => state.constructor);
-  const ingredientsLength = Array.isArray(ingredients) ? ingredients.length : 0;
-  const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.user);
-  const navigate = useNavigate();
+type TBurgerConstructor = {
+  bun: boolean | TIngredient;
+} & TIngredientsArray;
+
+type TCollectProps = {
+  isOver: boolean;
+  canDrop: boolean;
+};
+
+type TDragObject = {
+  index: number;
+  id: string;
+  type: string;
+};
+
+export const BurgerConstructor = (): React.JSX.Element => {
+  const isOpenPoup: boolean = useSelector(
+    (state: TRootState) => state.order.isOpenPoup
+  );
+  const { bun, ingredients }: TBurgerConstructor = useSelector(
+    (state: TRootState) => state.constructor
+  );
+  const user: TUser = useSelector((store: TRootState) => store.user.user);
+  const ingredientsLength: number = Array.isArray(ingredients)
+    ? ingredients.length
+    : 0;
   const dropAnotherType = ["main", "sauce"];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const collect = (monitor) => ({
+  const collect = (monitor: DropTargetMonitor): TCollectProps => ({
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop(),
   });
 
-  const dropBun = () => {
-    if (bun !== undefined) {
+  const dropBun = (): void => {
+    if (bun && typeof bun !== "boolean") {
       dispatch({ type: DECREASE_INGREDIENT, id: bun._id });
     }
   };
 
-  const [{ canDrop, isOver }, dropBunTop] = useDrop(
+  const [{ canDrop, isOver }, dropBunTop] = useDrop<
+    TDragObject,
+    void,
+    TCollectProps
+  >(
     () => ({
       accept: BUN,
       drop: () => dropBun(),
@@ -47,7 +73,7 @@ export const BurgerConstructor = () => {
     [bun]
   );
 
-  const [, dropBunBottom] = useDrop(
+  const [, dropBunBottom] = useDrop<TDragObject, void, TCollectProps>(
     () => ({
       accept: BUN,
       drop: () => dropBun(),
@@ -56,7 +82,7 @@ export const BurgerConstructor = () => {
     [bun]
   );
 
-  const [, dropIngredients] = useDrop(
+  const [, dropIngredients] = useDrop<TDragObject, void, TCollectProps>(
     () => ({
       accept: dropAnotherType,
       collect: (monitor) => collect(monitor),
@@ -64,7 +90,7 @@ export const BurgerConstructor = () => {
     [ingredients]
   );
 
-  function selectBackgroundColor(isActive, canDrop) {
+  function selectBackgroundColor(isActive: boolean, canDrop: boolean): string {
     if (isActive) {
       return "darkgreen";
     } else if (canDrop) {
@@ -74,33 +100,40 @@ export const BurgerConstructor = () => {
     }
   }
 
-  const isActive = canDrop && isOver;
+  const isActive: boolean = canDrop && isOver;
   const backgroundColor = selectBackgroundColor(isActive, canDrop);
 
   const sum = useMemo(() => {
-    if (!bun || ingredientsLength === 0) {
+    if (!bun || ingredientsLength === 0 || typeof bun === "boolean") {
       return 0;
     }
 
-    const result = ingredients.reduce(function (sum, elem) {
+    const result = ingredients.reduce(function (
+      sum: number,
+      elem: TIngredient
+    ): number {
       return sum + elem.price;
-    }, bun.price * 2);
+    },
+    bun.price * 2);
 
     return result;
     // eslint-disable-next-line
   }, [bun, ingredientsLength]);
 
-  const moveIngredients = useCallback((dragIndex, hoverIndex) => {
-    dispatch({
-      type: CHANGE_ORDER_INGREDIENTS,
-      toIndex: hoverIndex,
-      fromIndex: dragIndex,
-    });
+  const moveIngredients = useCallback(
+    (dragIndex: number, hoverIndex: number): void => {
+      dispatch({
+        type: CHANGE_ORDER_INGREDIENTS,
+        toIndex: hoverIndex,
+        fromIndex: dragIndex,
+      });
+    },
     // eslint-disable-next-line
-  }, []);
+    []
+  );
 
-  const onOrder = () => {
-    if (!bun || ingredientsLength === 0) {
+  const onOrder = (): void => {
+    if (!bun || ingredientsLength === 0 || typeof bun === "boolean") {
       return;
     }
 
@@ -112,19 +145,21 @@ export const BurgerConstructor = () => {
     let postIngredients = ingredients.map((item) => item._id);
     postIngredients.unshift(bun._id);
     postIngredients.push(bun._id);
+    // @ts-ignore
     dispatch(postOrder(postIngredients));
   };
 
-  const onCloseOrder = () => {
+  const onCloseOrder = (): void => {
     dispatch({ type: CLOSE_ORDER });
   };
 
   return (
     <>
+      {/** @ts-ignore */}
       <div className={styles.constructor}>
         <div className={styles.body}>
           <div ref={dropBunTop}>
-            {bun ? (
+            {bun && typeof bun !== "boolean" ? (
               <ConstructorElement
                 type="top"
                 isLocked={true}
@@ -144,7 +179,7 @@ export const BurgerConstructor = () => {
               ingredients.map((elem, index) => (
                 <BurgerConstructorIngredient
                   key={elem.key}
-                  id={elem.key}
+                  id={elem.key as string}
                   index={index}
                   elem={elem}
                   moveIngredients={moveIngredients}
@@ -155,7 +190,7 @@ export const BurgerConstructor = () => {
             )}
           </div>
           <div ref={dropBunBottom}>
-            {bun ? (
+            {bun && typeof bun !== "boolean" ? (
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
@@ -174,6 +209,7 @@ export const BurgerConstructor = () => {
         <div className={styles.bottom}>
           <div className={styles.price}>
             {sum}
+            {/** @ts-ignore */}
             <CurrencyIcon type="primary" extraClass={styles.icon} />
           </div>
           <Button

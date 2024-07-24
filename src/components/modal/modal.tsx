@@ -1,13 +1,22 @@
 import { useEffect } from "react";
-import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import styles from "./styles.module.css";
 
-export const Modal = ({ onTrigger, title, children }) => {
+type TModal = {
+  onTrigger: () => void;
+  title?: string;
+  children: React.JSX.Element;
+};
+
+export const Modal = ({
+  onTrigger,
+  title,
+  children,
+}: TModal): React.JSX.Element => {
   const closeButton = "Escape";
   useEffect(() => {
-    const close = (e) => {
+    const close = (e: KeyboardEvent): void => {
       if (e.key === closeButton) {
         onTrigger();
       }
@@ -29,10 +38,4 @@ export const Modal = ({ onTrigger, title, children }) => {
       </div>
     </ModalOverlay>
   );
-};
-
-Modal.propTypes = {
-  onTrigger: PropTypes.func.isRequired,
-  title: PropTypes.string,
-  children: PropTypes.element.isRequired,
 };

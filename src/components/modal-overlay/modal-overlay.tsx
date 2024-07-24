@@ -1,9 +1,14 @@
-import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import { createPortal } from "react-dom";
+import React from "react";
 
-export const ModalOverlay = ({ onTrigger, children }) => {
-  const id = document.getElementById("modal-root");
+type TModalOverlay = {
+  onTrigger: () => void;
+  children: React.JSX.Element
+}
+
+export const ModalOverlay = ({ onTrigger, children }: TModalOverlay): React.JSX.Element => {
+  const id = document.getElementById("modal-root")!;
   const modal = (
     <>
       <div className={styles.overflow} onClick={() => onTrigger()} />
@@ -12,9 +17,4 @@ export const ModalOverlay = ({ onTrigger, children }) => {
   );
 
   return createPortal(modal, id);
-};
-
-ModalOverlay.propTypes = {
-  onTrigger: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
 };

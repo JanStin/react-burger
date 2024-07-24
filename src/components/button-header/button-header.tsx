@@ -1,10 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const ButtonHeader = ({ icon, href, text }) => {
+type TButtonHeader = {
+  icon: React.JSX.Element;
+  href: string;
+  text: string;
+};
+
+const ButtonHeader = ({
+  icon,
+  href,
+  text,
+}: TButtonHeader): React.JSX.Element => {
   const location = useLocation();
 
   const isActive = () => {
@@ -32,12 +41,6 @@ const ButtonHeader = ({ icon, href, text }) => {
       <p className="text text_type_main-default pl-2">{text}</p>
     </Link>
   );
-};
-
-ButtonHeader.propTypes = {
-  icon: PropTypes.element.isRequired,
-  text: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
 };
 
 export default React.memo(ButtonHeader);

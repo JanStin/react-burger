@@ -1,8 +1,17 @@
-import PropTypes from "prop-types";
 import styles from "./styles.module.css";
-import { BurgerCard } from "../burger-card/Burger-card";
+import { BurgerCard } from "../burger-card/burger-card";
+import { TIngredientsArray } from "../../utils/types";
 
-export const BurgerIngredientsTab = ({ title, id, ingredients }) => {
+type TBurgerIngredientsTab = {
+  title: string;
+  id: string;
+} & TIngredientsArray;
+
+export const BurgerIngredientsTab = ({
+  title,
+  id,
+  ingredients,
+}: TBurgerIngredientsTab): React.JSX.Element => {
   return (
     <div className={styles.container} data-id={id}>
       <h2 className={styles.title}>{title}</h2>
@@ -13,10 +22,4 @@ export const BurgerIngredientsTab = ({ title, id, ingredients }) => {
       </div>
     </div>
   );
-};
-
-BurgerIngredientsTab.propTypes = {
-  title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  ingredients: PropTypes.array.isRequired,
 };
