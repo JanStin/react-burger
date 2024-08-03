@@ -2,7 +2,8 @@ import styles from "./styles.module.css";
 import done from "../../images/done.png";
 import { useSelector } from "react-redux";
 import React from "react";
-import { TRootState, TOrderResponse } from "../../utils/types";
+import { TOrderResponse } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 type TOrderDetails = {
   loading: boolean;

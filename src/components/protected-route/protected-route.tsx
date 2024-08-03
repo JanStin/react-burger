@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import { TUser, TRootState } from "../../utils/types";
+import { TUser } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 type TProtectedProps = {
   onlyUnAuth?: boolean;

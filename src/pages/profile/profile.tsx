@@ -16,7 +16,8 @@ import {
 } from "react";
 import { useDispatch } from "react-redux";
 import { logout, updateUser } from "../../services/actions/auth";
-import { TRootState, TUser } from "../../utils/types";
+import { TUser } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 export const ProfilePage = (): React.JSX.Element => {
   const user = useSelector((store: TRootState) => store.user.user);

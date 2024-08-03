@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GET_INGREDIENT } from "../../services/actions/ingredientsData";
 import { IngredientDetails, TIngredientDetails } from "../../components/ingredient-details/ingredient-details";
-import { TIngredient, TRootState } from "../../utils/types";
+import { TIngredient } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 export const IngredientDetailsPage = (): React.JSX.Element => {
   const dispatch = useDispatch();

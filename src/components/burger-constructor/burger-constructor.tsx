@@ -17,7 +17,8 @@ import {
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
 import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
-import { TIngredient, TIngredientsArray, TRootState, TUser } from "../../utils/types";
+import { TIngredient, TIngredientsArray, TUser } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 type TBurgerConstructor = {
   bun: boolean | TIngredient;

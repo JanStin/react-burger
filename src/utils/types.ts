@@ -1,7 +1,3 @@
-import { reducer } from "../services/reduces";
-
-export type TRootState = ReturnType<typeof reducer>;
-
 export type TIngredientsArray = {
   ingredients: Array<TIngredient>;
 };

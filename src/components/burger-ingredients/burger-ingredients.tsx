@@ -3,7 +3,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from "../burger-ingredients-tab/burger-ingredients-tab";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
-import { TIngredientType, TRootState, TIngredientsArray } from "../../utils/types";
+import { TIngredientType, TIngredientsArray } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 export const BurgerIngredients = (): React.JSX.Element => {
   const [currentType, setCurrentType] = useState<TIngredientType>("bun");

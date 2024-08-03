@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Main } from "../../components/main/main";
-import { TIngredientsReducer, TRootState } from "../../utils/types";
+import { TIngredientsReducer } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 export const HomePage = (): React.JSX.Element => {
   const { loading, ingredients, error }: TIngredientsReducer = useSelector(

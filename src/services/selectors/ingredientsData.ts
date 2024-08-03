@@ -1,5 +1,5 @@
 import { name } from "../actions/ingredientsData";
-import { TRootState } from "../../utils/types";
+import { TRootState } from "../store";
 
 export const getIngredients = (store: TRootState) => store[name].ingredients;
 export const getLoading = (store: TRootState) => store[name].loading;

@@ -1,8 +1,9 @@
 import { api } from "../../utils/api";
-import { TRootState, TUser } from "../../utils/types";
+import { TUser } from "../../utils/types";
+import { TRootState } from "../store";
 import { ThunkAction } from "redux-thunk";
 
-export const name = "auth";
+export const name = "user";
 
 export const ActionTypes = {
   SET_AUTH_CHECKED: `${name}/SET_AUTH_CHECKED`,

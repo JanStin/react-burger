@@ -12,21 +12,21 @@ export const ActionTypes = {
 } as const;
 
 type TOrderLoadSuccessAction = {
-  type: typeof ActionTypes.ORDER_LOAD_SUCCESS;
+  readonly type: typeof ActionTypes.ORDER_LOAD_SUCCESS;
   payload: number;
 };
 
 type TOrderLoadingAction = {
-  type: typeof ActionTypes.ORDER_LOADING;
+  readonly type: typeof ActionTypes.ORDER_LOADING;
 };
 
 type TOrderErrorAction = {
-  type: typeof ActionTypes.ORDER_ERROR;
+  readonly type: typeof ActionTypes.ORDER_ERROR;
   payload: string;
 };
 
 type TCloseOrderAction = {
-  type: typeof ActionTypes.CLOSE_ORDER;
+  readonly type: typeof ActionTypes.CLOSE_ORDER;
 };
 
 export type TOrderActions =

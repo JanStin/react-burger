@@ -2,7 +2,7 @@ import { getIngredients } from "../../utils/ingredients";
 import { TIngredient } from "../../utils/types";
 import { Dispatch } from "redux";
 
-export const name = "ingredientsData";
+export const name = "ingredients";
 
 export const ActionTypes = {
   INGREDIENTS_LOAD_SUCCESS: `${name}/INGREDIENTS_LOAD_SUCCESS`,
@@ -16,39 +16,39 @@ export const ActionTypes = {
 } as const;
 
 type TIngredientsLoadSuccessAction = {
-  type: typeof ActionTypes.INGREDIENTS_LOAD_SUCCESS;
+  readonly type: typeof ActionTypes.INGREDIENTS_LOAD_SUCCESS;
   payload: TIngredient[];
 };
 
 type TLoadingIngredientsAction = {
-  type: typeof ActionTypes.LOADING_INGREDIENTS;
+  readonly type: typeof ActionTypes.LOADING_INGREDIENTS;
 };
 
 type TErrorIngredientsAction = {
-  type: typeof ActionTypes.ERROR_INGREDIENTS;
+  readonly type: typeof ActionTypes.ERROR_INGREDIENTS;
   payload: string;
 };
 
 type TGetIngredientsAction = {
-  type: typeof ActionTypes.GET_INGREDIENT;
+  readonly type: typeof ActionTypes.GET_INGREDIENT;
   id: string;
 };
 
 type TOpenPopupAction = {
-  type: typeof ActionTypes.OPEN_POPUP;
+  readonly type: typeof ActionTypes.OPEN_POPUP;
 };
 
 type TClosePopupAction = {
-  type: typeof ActionTypes.CLOSE_POPUP;
+  readonly type: typeof ActionTypes.CLOSE_POPUP;
 };
 
 type TIncreaseIngredientAction = {
-  type: typeof ActionTypes.INCREASE_INGREDIENT;
+  readonly type: typeof ActionTypes.INCREASE_INGREDIENT;
   id: string;
 };
 
 type TDecreaseIngredientAction = {
-  type: typeof ActionTypes.DECREASE_INGREDIENT;
+  readonly type: typeof ActionTypes.DECREASE_INGREDIENT;
   id: string;
 };
 
