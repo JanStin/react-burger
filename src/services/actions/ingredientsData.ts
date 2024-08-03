@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 export const name = "ingredients";
 
-export const ActionTypes = {
+export const ActionIngredientsTypes = {
   INGREDIENTS_LOAD_SUCCESS: `${name}/INGREDIENTS_LOAD_SUCCESS`,
   LOADING_INGREDIENTS: `${name}/LOADING_INGREDIENTS`,
   ERROR_INGREDIENTS: `${name}/ERROR_INGREDIENTS`,
@@ -16,39 +16,39 @@ export const ActionTypes = {
 } as const;
 
 type TIngredientsLoadSuccessAction = {
-  readonly type: typeof ActionTypes.INGREDIENTS_LOAD_SUCCESS;
+  readonly type: typeof ActionIngredientsTypes.INGREDIENTS_LOAD_SUCCESS;
   payload: TIngredient[];
 };
 
 type TLoadingIngredientsAction = {
-  readonly type: typeof ActionTypes.LOADING_INGREDIENTS;
+  readonly type: typeof ActionIngredientsTypes.LOADING_INGREDIENTS;
 };
 
 type TErrorIngredientsAction = {
-  readonly type: typeof ActionTypes.ERROR_INGREDIENTS;
+  readonly type: typeof ActionIngredientsTypes.ERROR_INGREDIENTS;
   payload: string;
 };
 
 type TGetIngredientsAction = {
-  readonly type: typeof ActionTypes.GET_INGREDIENT;
+  readonly type: typeof ActionIngredientsTypes.GET_INGREDIENT;
   id: string;
 };
 
 type TOpenPopupAction = {
-  readonly type: typeof ActionTypes.OPEN_POPUP;
+  readonly type: typeof ActionIngredientsTypes.OPEN_POPUP;
 };
 
 type TClosePopupAction = {
-  readonly type: typeof ActionTypes.CLOSE_POPUP;
+  readonly type: typeof ActionIngredientsTypes.CLOSE_POPUP;
 };
 
 type TIncreaseIngredientAction = {
-  readonly type: typeof ActionTypes.INCREASE_INGREDIENT;
+  readonly type: typeof ActionIngredientsTypes.INCREASE_INGREDIENT;
   id: string;
 };
 
 type TDecreaseIngredientAction = {
-  readonly type: typeof ActionTypes.DECREASE_INGREDIENT;
+  readonly type: typeof ActionIngredientsTypes.DECREASE_INGREDIENT;
   id: string;
 };
 
@@ -65,18 +65,18 @@ export type TIngredientsActions =
 // Типизация функции loadIngredients
 export const loadIngredients =
   () => (dispatch: Dispatch<TIngredientsActions>) => {
-    dispatch({ type: ActionTypes.LOADING_INGREDIENTS });
+    dispatch({ type: ActionIngredientsTypes.LOADING_INGREDIENTS });
 
     return getIngredients()
       .then((res) => {
         dispatch({
-          type: ActionTypes.INGREDIENTS_LOAD_SUCCESS,
+          type: ActionIngredientsTypes.INGREDIENTS_LOAD_SUCCESS,
           payload: res.data,
         });
       })
       .catch((err) => {
         dispatch({
-          type: ActionTypes.ERROR_INGREDIENTS,
+          type: ActionIngredientsTypes.ERROR_INGREDIENTS,
           payload: err.message,
         });
       });

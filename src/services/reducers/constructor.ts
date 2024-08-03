@@ -1,4 +1,4 @@
-import { ActionTypes, TConstructurActions } from "../actions/constructor";
+import { ActionConstructorTypes, TConstructurActions } from "../actions/constructor";
 import { TIngredient } from "../../utils/types";
 
 type TConstructorInitialState = {
@@ -16,17 +16,17 @@ export const constructorIngredients = (
   action: TConstructurActions
 ): TConstructorInitialState => {
   switch (action.type) {
-    case ActionTypes.ADD_BUN:
+    case ActionConstructorTypes.ADD_BUN:
       return {
         ...state,
         bun: action.payload,
       };
-    case ActionTypes.REMOVE_BUN:
+    case ActionConstructorTypes.REMOVE_BUN:
       return {
         ...state,
         bun: null,
       };
-    case ActionTypes.ADD_INGREDIENT:
+    case ActionConstructorTypes.ADD_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
@@ -41,7 +41,7 @@ export const constructorIngredients = (
     //   ...state,
     //   ingredients: ingredients,
     // };
-    case ActionTypes.REMOVE_INGREDIENT:
+    case ActionConstructorTypes.REMOVE_INGREDIENT:
       return {
         ...state,
         ingredients: state.ingredients.filter(
@@ -61,7 +61,7 @@ export const constructorIngredients = (
     //   ...state,
     //   ingredients: ingredients,
     // };
-    case ActionTypes.CHANGE_ORDER_INGREDIENTS:
+    case ActionConstructorTypes.CHANGE_ORDER_INGREDIENTS:
       const updatedIngredients = [...state.ingredients];
       const [movedIngredient] = updatedIngredients.splice(action.fromIndex, 1);
       updatedIngredients.splice(action.toIndex, 0, movedIngredient);

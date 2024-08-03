@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 export const name = "order";
 
-export const ActionTypes = {
+export const ActionOrderTypes = {
   ORDER_LOAD_SUCCESS: `${name}/ORDER_LOAD_SUCCESS`,
   ORDER_LOADING: `${name}/ORDER_LOADING`,
   ORDER_ERROR: `${name}/ORDER_ERROR`,
@@ -12,21 +12,21 @@ export const ActionTypes = {
 } as const;
 
 type TOrderLoadSuccessAction = {
-  readonly type: typeof ActionTypes.ORDER_LOAD_SUCCESS;
+  readonly type: typeof ActionOrderTypes.ORDER_LOAD_SUCCESS;
   payload: number;
 };
 
 type TOrderLoadingAction = {
-  readonly type: typeof ActionTypes.ORDER_LOADING;
+  readonly type: typeof ActionOrderTypes.ORDER_LOADING;
 };
 
 type TOrderErrorAction = {
-  readonly type: typeof ActionTypes.ORDER_ERROR;
+  readonly type: typeof ActionOrderTypes.ORDER_ERROR;
   payload: string;
 };
 
 type TCloseOrderAction = {
-  readonly type: typeof ActionTypes.CLOSE_ORDER;
+  readonly type: typeof ActionOrderTypes.CLOSE_ORDER;
 };
 
 export type TOrderActions =
@@ -37,18 +37,18 @@ export type TOrderActions =
 
 export const postOrder =
   (ingredients: TIngredient[]) => (dispatch: Dispatch<TOrderActions>) => {
-    dispatch({ type: ActionTypes.ORDER_LOADING });
+    dispatch({ type: ActionOrderTypes.ORDER_LOADING });
 
     return apiPostOrder(ingredients)
       .then((res) => {
         dispatch({
-          type: ActionTypes.ORDER_LOAD_SUCCESS,
+          type: ActionOrderTypes.ORDER_LOAD_SUCCESS,
           payload: res.order.number,
         });
       })
       .catch((err) => {
         dispatch({
-          type: ActionTypes.ORDER_ERROR,
+          type: ActionOrderTypes.ORDER_ERROR,
           payload: err.message,
         });
       });

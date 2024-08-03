@@ -1,4 +1,4 @@
-import { ActionTypes, TAuthActions } from "../actions/auth";
+import { ActionUsersTypes, TAuthActions } from "../actions/auth";
 import { TUser } from "../../utils/types";
 
 type TUserInitialState = {
@@ -16,12 +16,12 @@ export const userReducers = (
   action: TAuthActions
 ): TUserInitialState => {
   switch (action.type) {
-    case ActionTypes.SET_AUTH_CHECKED:
+    case ActionUsersTypes.SET_AUTH_CHECKED:
       return {
         ...state,
         isAuthChecked: action.payload,
       };
-    case ActionTypes.SET_USER:
+    case ActionUsersTypes.SET_USER:
       return {
         ...state,
         user: action.payload,

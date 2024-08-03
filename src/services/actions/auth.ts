@@ -5,30 +5,30 @@ import { ThunkAction } from "redux-thunk";
 
 export const name = "user";
 
-export const ActionTypes = {
+export const ActionUsersTypes = {
   SET_AUTH_CHECKED: `${name}/SET_AUTH_CHECKED`,
   SET_USER: `${name}/SET_USER`,
 } as const;
 
 type TSetAuthCheckedAction = {
-  readonly type: typeof ActionTypes.SET_AUTH_CHECKED;
+  readonly type: typeof ActionUsersTypes.SET_AUTH_CHECKED;
   payload: boolean;
 };
 
 type TSetUserAction = {
-  readonly type: typeof ActionTypes.SET_USER;
+  readonly type: typeof ActionUsersTypes.SET_USER;
   payload: TUser | null;
 };
 
 export type TAuthActions = TSetAuthCheckedAction | TSetUserAction;
 
 export const setAuthChecked = (value: boolean): TSetAuthCheckedAction => ({
-  type: ActionTypes.SET_AUTH_CHECKED,
+  type: ActionUsersTypes.SET_AUTH_CHECKED,
   payload: value,
 });
 
 export const setUser = (user: TUser | null): TSetUserAction => ({
-  type: ActionTypes.SET_USER,
+  type: ActionUsersTypes.SET_USER,
   payload: user,
 });
 

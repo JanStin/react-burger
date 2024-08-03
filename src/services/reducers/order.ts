@@ -1,4 +1,4 @@
-import { ActionTypes, TOrderActions } from "../actions/order";
+import { ActionOrderTypes, TOrderActions } from "../actions/order";
 
 type TOrderIngredientsInitialState = {
   loading: boolean;
@@ -19,26 +19,26 @@ export const orderIngredients = (
   action: TOrderActions
 ): TOrderIngredientsInitialState => {
   switch (action.type) {
-    case ActionTypes.ORDER_LOADING:
+    case ActionOrderTypes.ORDER_LOADING:
       return {
         ...state,
         loading: true,
         error: "",
       };
-    case ActionTypes.ORDER_ERROR:
+    case ActionOrderTypes.ORDER_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    case ActionTypes.ORDER_LOAD_SUCCESS:
+    case ActionOrderTypes.ORDER_LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
         order: action.payload,
         isOpenPoup: true,
       };
-    case ActionTypes.CLOSE_ORDER:
+    case ActionOrderTypes.CLOSE_ORDER:
       return {
         ...state,
         order: null,

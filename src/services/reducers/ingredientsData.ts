@@ -1,4 +1,4 @@
-import { ActionTypes, TIngredientsActions } from "../actions/ingredientsData";
+import { ActionIngredientsTypes, TIngredientsActions } from "../actions/ingredientsData";
 import { TIngredient } from "../../utils/types";
 
 type TIngredientsDataInitialState = {
@@ -22,42 +22,42 @@ export const reducerIngredients = (
   action: TIngredientsActions
 ): TIngredientsDataInitialState => {
   switch (action.type) {
-    case ActionTypes.LOADING_INGREDIENTS:
+    case ActionIngredientsTypes.LOADING_INGREDIENTS:
       return {
         ...state,
         loading: true,
         error: "",
       };
-    case ActionTypes.ERROR_INGREDIENTS:
+    case ActionIngredientsTypes.ERROR_INGREDIENTS:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    case ActionTypes.INGREDIENTS_LOAD_SUCCESS:
+    case ActionIngredientsTypes.INGREDIENTS_LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
         ingredients: action.payload,
       };
-    case ActionTypes.GET_INGREDIENT:
+    case ActionIngredientsTypes.GET_INGREDIENT:
       return {
         ...state,
         popupData:
           state.ingredients?.find((item) => item._id === action.id) || null,
       };
-    case ActionTypes.OPEN_POPUP:
+    case ActionIngredientsTypes.OPEN_POPUP:
       return {
         ...state,
         popupIsOpen: true,
       };
-    case ActionTypes.CLOSE_POPUP:
+    case ActionIngredientsTypes.CLOSE_POPUP:
       return {
         ...state,
         popupData: null,
         popupIsOpen: false,
       };
-    case ActionTypes.INCREASE_INGREDIENT:
+    case ActionIngredientsTypes.INCREASE_INGREDIENT:
       return {
         ...state,
         ingredients:
@@ -69,7 +69,7 @@ export const reducerIngredients = (
             }
           }) || null,
       };
-    case ActionTypes.DECREASE_INGREDIENT:
+    case ActionIngredientsTypes.DECREASE_INGREDIENT:
       return {
         ...state,
         ingredients:

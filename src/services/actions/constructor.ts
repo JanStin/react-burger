@@ -2,7 +2,7 @@ import { TIngredient } from "../../utils/types";
 
 export const name = "constructor";
 
-export const ActionTypes = {
+export const ActionConstructorTypes = {
   ADD_BUN: `${name}/ADD_BUN`,
   REMOVE_BUN: `${name}/REMOVE_BUN`,
   ADD_INGREDIENT: `${name}/ADD_INGREDIENT`,
@@ -11,26 +11,26 @@ export const ActionTypes = {
 } as const;
 
 type TAddBun = {
-  readonly type: typeof ActionTypes.ADD_BUN;
+  readonly type: typeof ActionConstructorTypes.ADD_BUN;
   payload: TIngredient;
 };
 
 type TRemoveBun = {
-  readonly type: typeof ActionTypes.REMOVE_BUN;
+  readonly type: typeof ActionConstructorTypes.REMOVE_BUN;
 };
 
 type TAddIngredient = {
-  readonly type: typeof ActionTypes.ADD_INGREDIENT;
+  readonly type: typeof ActionConstructorTypes.ADD_INGREDIENT;
   payload: TIngredient;
 };
 
 type TRemoveIngredient = {
-  readonly type: typeof ActionTypes.REMOVE_INGREDIENT;
+  readonly type: typeof ActionConstructorTypes.REMOVE_INGREDIENT;
   payload: string;
 };
 
 type TChangeOrderIngredients = {
-  readonly type: typeof ActionTypes.CHANGE_ORDER_INGREDIENTS;
+  readonly type: typeof ActionConstructorTypes.CHANGE_ORDER_INGREDIENTS;
   toIndex: number;
   fromIndex: number;
 };
