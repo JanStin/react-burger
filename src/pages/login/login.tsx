@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { useCallback, useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { login } from "../../services/actions/auth";
 
 type TLoginForm = {
@@ -21,7 +21,6 @@ export const LoginPage = (): React.JSX.Element => {
   const submitClick = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(login(form));
     },
     [dispatch, form]

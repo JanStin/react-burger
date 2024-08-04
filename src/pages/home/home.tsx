@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { Main } from "../../components/main/main";
-import { TIngredientsReducer } from "../../utils/types";
 import { TRootState } from "../../services/store";
 
 export const HomePage = (): React.JSX.Element => {
-  const { loading, ingredients, error }: TIngredientsReducer = useSelector(
+  const { loading, ingredients, error } = useSelector(
     (state: TRootState) => state.ingredients
   );
 
@@ -12,7 +11,7 @@ export const HomePage = (): React.JSX.Element => {
     <>
       {loading && "Загрузка..."}
       {error && "Произошла ошибка"}
-      {!loading && !error && ingredients.length > 0 && <Main />}
+      {!loading && !error && ingredients !== null && ingredients.length > 0 && <Main />}
     </>
   );
 };

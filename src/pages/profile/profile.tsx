@@ -14,18 +14,21 @@ import {
   ChangeEvent,
   FormEvent
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { logout, updateUser } from "../../services/actions/auth";
 import { TUser } from "../../utils/types";
 import { TRootState } from "../../services/store";
 
 export const ProfilePage = (): React.JSX.Element => {
   const user = useSelector((store: TRootState) => store.user.user);
-  const [form, setValue] = useState<TUser>({
-    name: user.name,
-    email: user.email,
+
+  const initialFormState: TUser = {
+    name: user?.name || "",
+    email: user?.email || "",
     password: "",
-  });
+  };
+
+  const [form, setValue] = useState<TUser>(initialFormState);
   const dispatch = useDispatch();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +38,6 @@ export const ProfilePage = (): React.JSX.Element => {
   const logoutClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(logout());
     },
     [dispatch]
@@ -43,8 +45,8 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const showButtons = (): boolean => {
     return (
-      form.name !== user.name ||
-      form.email !== user.email ||
+      form.name !== (user?.name || "") ||
+      form.email !== (user?.email || "") ||
       form.password !== ""
     );
   };
@@ -52,7 +54,6 @@ export const ProfilePage = (): React.JSX.Element => {
   const submitSave = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(updateUser(form));
     },
     [dispatch, form]
@@ -60,11 +61,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const onCanel = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    setValue({
-      name: user.name,
-      email: user.email,
-      password: "",
-    });
+    setValue(initialFormState);
   };
 
   return (

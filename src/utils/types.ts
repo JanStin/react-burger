@@ -21,13 +21,6 @@ export type TIngredient = {
 
 export type TIngredientType = "bun" | "main" | "sauce";
 
-export type TIngredientsReducer = {
-  loading?: boolean;
-  error?: boolean;
-  popupData?: boolean | TIngredient;
-  popupIsOpen?: boolean;
-} & TIngredientsArray;
-
 export type TOrderResponse = {
   success: boolean;
   name: string;

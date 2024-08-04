@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { useCallback, MouseEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { logout } from "../../services/actions/auth";
 
 export const ProfileOrdersPage = (): React.JSX.Element => {
@@ -10,7 +10,6 @@ export const ProfileOrdersPage = (): React.JSX.Element => {
   const logoutClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(logout());
     },
     [dispatch]
