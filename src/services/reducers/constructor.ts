@@ -1,4 +1,7 @@
-import { ActionConstructorTypes, TConstructurActions } from "../actions/constructor";
+import {
+  ActionConstructorTypes,
+  TConstructurActions,
+} from "../actions/constructor";
 import { TIngredient } from "../../utils/types";
 
 type TConstructorInitialState = {
@@ -27,20 +30,17 @@ export const constructorIngredients = (
         bun: null,
       };
     case ActionConstructorTypes.ADD_INGREDIENT:
-      return {
-        ...state,
-        ingredients: [...state.ingredients, action.item],
-      };
-    // ingredients = [];
-    // if (state.ingredients !== undefined && Array.isArray(state.ingredients)) {
-    //   ingredients = state.ingredients;
-    // }
-    // ingredients.push(action.payload);
-
-    // return {
-    //   ...state,
-    //   ingredients: ingredients,
-    // };
+      if (state.ingredients !== undefined && Array.isArray(state.ingredients)) {
+        return {
+          ...state,
+          ingredients: [...state.ingredients, action.item],
+        };
+      } else {
+        return {
+          ...state,
+          ingredients: [action.item],
+        };
+      }
     case ActionConstructorTypes.REMOVE_INGREDIENT:
       return {
         ...state,
@@ -48,19 +48,6 @@ export const constructorIngredients = (
           (ingredient) => ingredient.key !== action.key
         ),
       };
-    // ingredients = state.ingredients;
-
-    // const deleteIndex = ingredients.findIndex(
-    //   (element) => element.key === action.payload
-    // );
-    // if (deleteIndex !== -1) {
-    //   ingredients.splice(deleteIndex, 1);
-    // }
-
-    // return {
-    //   ...state,
-    //   ingredients: ingredients,
-    // };
     case ActionConstructorTypes.CHANGE_ORDER_INGREDIENTS:
       const updatedIngredients = [...state.ingredients];
       const [movedIngredient] = updatedIngredients.splice(action.fromIndex, 1);
@@ -70,19 +57,6 @@ export const constructorIngredients = (
         ...state,
         ingredients: updatedIngredients,
       };
-    // ingredients = state.ingredients;
-    // ingredients.splice(
-    //   action.toIndex,
-    //   0,
-    //   ingredients.splice(action.fromIndex, 1)[0]
-    // );
-    // ingredients = ingredients.filter(
-    //   (ingredient) => ingredient !== undefined
-    // );
-    // return {
-    //   ...state,
-    //   ingredients: ingredients,
-    // };
     default:
       return state;
   }

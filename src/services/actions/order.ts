@@ -1,5 +1,4 @@
 import { postOrder as apiPostOrder } from "../../utils/ingredients";
-import { TIngredient } from "../../utils/types";
 import { Dispatch } from "redux";
 import { TOrderResponse } from "../../utils/types";
 
