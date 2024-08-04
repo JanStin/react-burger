@@ -26,7 +26,7 @@ type TAddIngredient = {
 
 type TRemoveIngredient = {
   readonly type: typeof ActionConstructorTypes.REMOVE_INGREDIENT;
-  payload: string;
+  key: string;
 };
 
 type TChangeOrderIngredients = {

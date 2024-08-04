@@ -17,7 +17,7 @@ export const ActionIngredientsTypes = {
 
 type TIngredientsLoadSuccessAction = {
   readonly type: typeof ActionIngredientsTypes.INGREDIENTS_LOAD_SUCCESS;
-  payload: TIngredient[];
+  payload: Array<TIngredient>;
 };
 
 type TLoadingIngredientsAction = {

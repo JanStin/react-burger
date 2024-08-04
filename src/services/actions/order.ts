@@ -36,7 +36,7 @@ export type TOrderActions =
   | TCloseOrderAction;
 
 export const postOrder =
-  (ingredients: TIngredient[]) => (dispatch: Dispatch<TOrderActions>) => {
+  (ingredients: Array<TIngredient>) => (dispatch: Dispatch<TOrderActions>) => {
     dispatch({ type: ActionOrderTypes.ORDER_LOADING });
 
     return apiPostOrder(ingredients)

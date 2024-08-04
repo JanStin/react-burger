@@ -2,7 +2,7 @@ import { ActionConstructorTypes, TConstructurActions } from "../actions/construc
 import { TIngredient } from "../../utils/types";
 
 type TConstructorInitialState = {
-  ingredients: TIngredient[];
+  ingredients: Array<TIngredient>;
   bun: null | TIngredient;
 };
 
@@ -45,7 +45,7 @@ export const constructorIngredients = (
       return {
         ...state,
         ingredients: state.ingredients.filter(
-          (ingredient) => ingredient.key !== action.payload
+          (ingredient) => ingredient.key !== action.key
         ),
       };
     // ingredients = state.ingredients;

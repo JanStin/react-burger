@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { useEffect } from "react";
 import {
   HomePage,
@@ -15,7 +15,7 @@ import {
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Header from "../app-header/app-header";
 import { Modal } from "../modal/modal";
-import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
+import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
@@ -29,7 +29,7 @@ function App() {
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
-    dispatch({ type: CLOSE_POPUP });
+    dispatch({ type: ActionIngredientsTypes.CLOSE_POPUP });
     navigate(-1);
   };
 

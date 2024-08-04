@@ -8,20 +8,18 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerConstructorIngredient } from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import styles from "./styles.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import {
-  BUN,
-  CHANGE_ORDER_INGREDIENTS,
-} from "../../services/actions/constructor";
-import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
-import { postOrder, CLOSE_ORDER } from "../../services/actions/order";
+import { ActionConstructorTypes } from "../../services/actions/constructor";
+import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
+import { postOrder, ActionOrderTypes } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
 import { TIngredient, TIngredientsArray, TUser } from "../../utils/types";
 import { TRootState } from "../../services/store";
 
 type TBurgerConstructor = {
-  bun: boolean | TIngredient;
+  bun: null | TIngredient;
 } & TIngredientsArray;
 
 type TCollectProps = {
@@ -36,13 +34,14 @@ type TDragObject = {
 };
 
 export const BurgerConstructor = (): React.JSX.Element => {
+  const BUN = "bun";
   const isOpenPoup: boolean = useSelector(
     (state: TRootState) => state.order.isOpenPoup
   );
   const { bun, ingredients }: TBurgerConstructor = useSelector(
     (state: TRootState) => state.constructor
   );
-  const user: TUser = useSelector((store: TRootState) => store.user.user);
+  const user: TUser | null = useSelector((store: TRootState) => store.user.user);
   const ingredientsLength: number = Array.isArray(ingredients)
     ? ingredients.length
     : 0;
@@ -57,7 +56,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   const dropBun = (): void => {
     if (bun && typeof bun !== "boolean") {
-      dispatch({ type: DECREASE_INGREDIENT, id: bun._id });
+      dispatch({ type: ActionIngredientsTypes.DECREASE_INGREDIENT, id: bun._id });
     }
   };
 
@@ -124,7 +123,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const moveIngredients = useCallback(
     (dragIndex: number, hoverIndex: number): void => {
       dispatch({
-        type: CHANGE_ORDER_INGREDIENTS,
+        type: ActionConstructorTypes.CHANGE_ORDER_INGREDIENTS,
         toIndex: hoverIndex,
         fromIndex: dragIndex,
       });
@@ -151,7 +150,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   };
 
   const onCloseOrder = (): void => {
-    dispatch({ type: CLOSE_ORDER });
+    dispatch({ type: ActionOrderTypes.CLOSE_ORDER });
   };
 
   return (

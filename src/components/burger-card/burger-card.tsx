@@ -3,19 +3,11 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { useDrag, DragSourceMonitor } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import {
-  GET_INGREDIENT,
-  OPEN_POPUP,
-  INCREASE_INGREDIENT,
-} from "../../services/actions/ingredientsData";
-import {
-  ADD_BUN,
-  ADD_INGREDIENT,
-  BUN,
-} from "../../services/actions/constructor";
+import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
+import { ActionConstructorTypes } from "../../services/actions/constructor";
 import { TIngredient } from "../../utils/types";
 
 type TBurgerCard = {
@@ -34,10 +26,11 @@ export const BurgerCard = ({ data }: TBurgerCard): React.JSX.Element => {
   const ingredientId: string = data._id;
   const dispatch = useDispatch();
   const location = useLocation();
+  const BUN = "bun";
 
   const open = (): void => {
-    dispatch({ type: GET_INGREDIENT, id: data._id });
-    dispatch({ type: OPEN_POPUP });
+    dispatch({ type: ActionIngredientsTypes.GET_INGREDIENT, id: data._id });
+    dispatch({ type: ActionIngredientsTypes.OPEN_POPUP });
   };
 
   const [{ opacity }, drag] = useDrag<
@@ -53,12 +46,15 @@ export const BurgerCard = ({ data }: TBurgerCard): React.JSX.Element => {
           const clone = { ...data, key: crypto.randomUUID() };
 
           if (data.type === BUN) {
-            dispatch({ type: ADD_BUN, bun: clone });
+            dispatch({ type: ActionConstructorTypes.ADD_BUN, bun: clone });
           } else {
-            dispatch({ type: ADD_INGREDIENT, item: clone });
+            dispatch({ type: ActionConstructorTypes.ADD_INGREDIENT, item: clone });
           }
 
-          dispatch({ type: INCREASE_INGREDIENT, id: clone._id });
+          dispatch({
+            type: ActionIngredientsTypes.INCREASE_INGREDIENT,
+            id: clone._id,
+          });
         }
       },
       collect: (monitor) => ({
