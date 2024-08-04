@@ -1,6 +1,7 @@
 import { postOrder as apiPostOrder } from "../../utils/ingredients";
 import { TIngredient } from "../../utils/types";
 import { Dispatch } from "redux";
+import { TOrderResponse } from "../../utils/types";
 
 export const name = "order";
 
@@ -13,7 +14,7 @@ export const ActionOrderTypes = {
 
 type TOrderLoadSuccessAction = {
   readonly type: typeof ActionOrderTypes.ORDER_LOAD_SUCCESS;
-  payload: number;
+  payload: TOrderResponse;
 };
 
 type TOrderLoadingAction = {
@@ -43,7 +44,7 @@ export const postOrder =
       .then((res) => {
         dispatch({
           type: ActionOrderTypes.ORDER_LOAD_SUCCESS,
-          payload: res.order.number,
+          payload: res,
         });
       })
       .catch((err) => {

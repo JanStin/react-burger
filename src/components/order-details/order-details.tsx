@@ -5,14 +5,8 @@ import React from "react";
 import { TOrderResponse } from "../../utils/types";
 import { TRootState } from "../../services/store";
 
-type TOrderDetails = {
-  loading: boolean;
-  order: TOrderResponse | null;
-  error: boolean;
-};
-
 export const OrderDetails = (): React.JSX.Element => {
-  const { loading, order, error }: TOrderDetails = useSelector(
+  const { loading, order, error } = useSelector(
     (state: TRootState) => state.order
   );
 

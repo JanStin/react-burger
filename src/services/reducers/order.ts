@@ -1,10 +1,11 @@
 import { ActionOrderTypes, TOrderActions } from "../actions/order";
+import { TOrderResponse } from "../../utils/types";
 
 type TOrderIngredientsInitialState = {
   loading: boolean;
   error: string;
   isOpenPoup: boolean;
-  order: number | null;
+  order: TOrderResponse | null;
 };
 
 const initialState: TOrderIngredientsInitialState = {

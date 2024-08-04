@@ -1,19 +1,10 @@
 import { getResponse, BASE_URL } from "./utils";
 import { TIngredient } from "./types";
+import { TOrderResponse } from "./types";
 
 // TODO: Проверить необходимость импортировать типы.
 type TGetIngredients = {
   data: Array<TIngredient>;
-  success: boolean;
-};
-
-type TOrder = {
-  number: number;
-};
-
-type TOrderInfo = {
-  name: string;
-  order: TOrder;
   success: boolean;
 };
 
@@ -32,5 +23,5 @@ export const postOrder = (ingredients: Array<TIngredient>) => {
     body: JSON.stringify({
       ingredients: ingredients,
     }),
-  }).then((res) => getResponse<TOrderInfo>(res));
+  }).then((res) => getResponse<TOrderResponse>(res));
 };
