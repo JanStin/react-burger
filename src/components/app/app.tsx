@@ -34,13 +34,11 @@ function App() {
   };
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(checkUserAuth());
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(loadIngredients());
   }, [dispatch]);
 

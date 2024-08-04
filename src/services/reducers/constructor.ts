@@ -19,7 +19,7 @@ export const constructorIngredients = (
     case ActionConstructorTypes.ADD_BUN:
       return {
         ...state,
-        bun: action.payload,
+        bun: action.bun,
       };
     case ActionConstructorTypes.REMOVE_BUN:
       return {
@@ -29,7 +29,7 @@ export const constructorIngredients = (
     case ActionConstructorTypes.ADD_INGREDIENT:
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload],
+        ingredients: [...state.ingredients, action.item],
       };
     // ingredients = [];
     // if (state.ingredients !== undefined && Array.isArray(state.ingredients)) {

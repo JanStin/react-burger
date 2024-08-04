@@ -14,7 +14,7 @@ export const getIngredients = (): Promise<TGetIngredients> => {
   );
 };
 
-export const postOrder = (ingredients: Array<TIngredient>) => {
+export const postOrder = (ingredients: Array<string>) => {
   return fetch(BASE_URL + "orders", {
     method: "POST",
     headers: {

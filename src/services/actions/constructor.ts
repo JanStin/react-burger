@@ -12,7 +12,7 @@ export const ActionConstructorTypes = {
 
 type TAddBun = {
   readonly type: typeof ActionConstructorTypes.ADD_BUN;
-  payload: TIngredient;
+  bun: TIngredient;
 };
 
 type TRemoveBun = {
@@ -21,7 +21,7 @@ type TRemoveBun = {
 
 type TAddIngredient = {
   readonly type: typeof ActionConstructorTypes.ADD_INGREDIENT;
-  payload: TIngredient;
+  item: TIngredient;
 };
 
 type TRemoveIngredient = {

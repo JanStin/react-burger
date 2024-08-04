@@ -145,7 +145,6 @@ export const BurgerConstructor = (): React.JSX.Element => {
     let postIngredients = ingredients.map((item) => item._id);
     postIngredients.unshift(bun._id);
     postIngredients.push(bun._id);
-    // @ts-ignore
     dispatch(postOrder(postIngredients));
   };
 
