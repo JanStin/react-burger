@@ -14,7 +14,7 @@ function AppHeader() {
         {/** @ts-ignore */}
         <ButtonHeader icon={<BurgerIcon />} text="Конструктор" href="/" />
         {/** @ts-ignore */}
-        <ButtonHeader icon={<ListIcon />} text="Лента заказов" href="#" />
+        <ButtonHeader icon={<ListIcon />} text="Лента заказов" href="/feed" />
       </div>
       <div className={styles.center}>
         {/** @ts-ignore */}

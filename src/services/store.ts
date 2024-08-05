@@ -10,6 +10,8 @@ import { TIngredientsActions } from "./actions/ingredientsData";
 import { TConstructurActions } from "./actions/constructor";
 import { TOrderActions } from "./actions/order";
 import { TAuthActions } from "./actions/auth";
+import { TFeedActions } from "./actions/feed";
+import { socketMiddleware } from "./middleware/socketMiddleware";
 
 export type TRootState = ReturnType<typeof rootReducer>;
 
@@ -18,7 +20,8 @@ export type TAppActions =
   | TAuthActions
   | TOrderActions
   | TConstructurActions
-  | TIngredientsActions;
+  | TIngredientsActions
+  | TFeedActions;
 
 // Типизация thunk действия
 export type TAppThunk<TReturnType = void> = ThunkAction<
@@ -28,6 +31,8 @@ export type TAppThunk<TReturnType = void> = ThunkAction<
   TAppActions
 >;
 
+const wsUrl = "wss://norma.nomoreparties.space/orders/all";
+
 // Типизация dispatch с thunk
 type TAppDispatch = ThunkDispatch<TRootState, unknown, TAppActions>;
 
@@ -35,7 +40,7 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false
-  }).concat(thunk),
+  }).concat(thunk, socketMiddleware(wsUrl)),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

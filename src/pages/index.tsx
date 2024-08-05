@@ -7,8 +7,9 @@ import { ForgotPasswordPage } from "./forgot-password/forgot-password";
 import { ResetPasswordPage } from "./reset-password/reset-password";
 import { NotFoundPage } from "./not-found/not-found";
 import { ProfileOrdersPage } from "./orders/orders";
+import { FeedPage } from "./feed/feed";
 
-export {
+export const Pages = {
   LoginPage,
   IngredientDetailsPage,
   HomePage,
@@ -18,4 +19,5 @@ export {
   ResetPasswordPage,
   NotFoundPage,
   ProfileOrdersPage,
+  FeedPage,
 };

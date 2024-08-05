@@ -1,17 +1,7 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "../../services/store";
 import { useEffect } from "react";
-import {
-  HomePage,
-  IngredientDetailsPage,
-  LoginPage,
-  RegisterPage,
-  ProfilePage,
-  ForgotPasswordPage,
-  ResetPasswordPage,
-  NotFoundPage,
-  ProfileOrdersPage,
-} from "../../pages/index";
+import { Pages } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Header from "../app-header/app-header";
 import { Modal } from "../modal/modal";
@@ -47,33 +37,34 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Routes location={background || location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route path="/" element={<Pages.HomePage />} />
+          <Route path="/ingredients/:id" element={<Pages.IngredientDetailsPage />} />
           <Route
             path="/login"
-            element={<OnlyUnAuth component={<LoginPage />} />}
+            element={<OnlyUnAuth component={<Pages.LoginPage />} />}
           />
           <Route
             path="/register"
-            element={<OnlyUnAuth component={<RegisterPage />} />}
+            element={<OnlyUnAuth component={<Pages.RegisterPage />} />}
           />
           <Route
             path="/profile"
-            element={<OnlyAuth component={<ProfilePage />} />}
+            element={<OnlyAuth component={<Pages.ProfilePage />} />}
           />
           <Route
             path="/profile/orders"
-            element={<OnlyAuth component={<ProfileOrdersPage />} />}
+            element={<OnlyAuth component={<Pages.ProfileOrdersPage />} />}
           />
           <Route
             path="/forgot-password"
-            element={<OnlyUnAuth component={<ForgotPasswordPage />} />}
+            element={<OnlyUnAuth component={<Pages.ForgotPasswordPage />} />}
           />
           <Route
             path="/reset-password"
-            element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+            element={<OnlyUnAuth component={<Pages.ResetPasswordPage />} />}
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/feed" element={<Pages.FeedPage />} />
+          <Route path="*" element={<Pages.NotFoundPage />} />
         </Routes>
 
         {background && (
