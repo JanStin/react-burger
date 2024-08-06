@@ -16,6 +16,8 @@ export type TOrder = {
   createdAt: string;
   updatedAt: string;
   number: number;
+  owner?: string;
+  __v?: number;
 };
 
 export type TOrdersResponse = {

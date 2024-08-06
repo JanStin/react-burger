@@ -6,12 +6,11 @@ import {
 } from "../../services/actions/feed";
 import { TRootState } from "../../services/store";
 import styles from "./styles.module.css";
+import { FeedList } from "../../components/feed-list/feed-list";
 
 export const FeedPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
-  const { orders, wsConnected, error } = useSelector(
-    (state: TRootState) => state.feed
-  );
+  const { wsConnected, error } = useSelector((state: TRootState) => state.feed);
 
   useEffect(() => {
     // Подключение к WebSocket при монтировании компонента
@@ -35,15 +34,9 @@ export const FeedPage = (): React.JSX.Element => {
     <div>
       <h1>Лента заказов</h1>
       <div className={styles.main}>
-        <ul className={styles.column}>
-          {orders.map((order) => (
-            <li key={order._id}>
-              <p>Номер заказа: {order.number}</p>
-              <p>Название: {order.name}</p>
-              <p>Статус: {order.status}</p>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.column}>
+          <FeedList />
+        </div>
         <div className={styles.column}></div>
       </div>
     </div>
