@@ -31,7 +31,7 @@ export const FeedList = (): React.JSX.Element => {
 
   return (
     <ul className={styles.body}>
-      {orders.map((order) => (
+      {orders !== null && orders.orders.map((order) => (
         <li key={order._id} className={styles.order}>
           <div className={styles.line}>
             <p className={styles.number}>#{order.number}</p>

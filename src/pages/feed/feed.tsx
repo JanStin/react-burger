@@ -7,6 +7,7 @@ import {
 import { TRootState } from "../../services/store";
 import styles from "./styles.module.css";
 import { FeedList } from "../../components/feed-list/feed-list";
+import { FeedInfo } from "../../components/feed-info/feed-info"
 
 export const FeedPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -37,7 +38,9 @@ export const FeedPage = (): React.JSX.Element => {
         <div className={styles.column}>
           <FeedList />
         </div>
-        <div className={styles.column}></div>
+        <div className={styles.column}>
+          <FeedInfo />
+        </div>
       </div>
     </div>
   );

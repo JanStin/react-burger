@@ -5,13 +5,13 @@ import {
 } from "../actions/feed";
 
 type TOrdersState = {
-  orders: TOrdersResponse["orders"];
+  orders: TOrdersResponse | null;
   wsConnected: boolean;
   error: string | null;
 };
 
 const initialState: TOrdersState = {
-  orders: [],
+  orders: null,
   wsConnected: false,
   error: null,
 };
@@ -41,7 +41,7 @@ export const feedReducer = (
     case ActioFeedTypes.WS_GET_ORDERS:
       return {
         ...state,
-        orders: action.payload.orders,
+        orders: action.payload,
       };
     default:
       return state;
