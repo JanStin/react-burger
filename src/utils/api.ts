@@ -1,6 +1,5 @@
 import { BASE_URL } from "./utils";
-import { TUser } from "./types";
-import { TOrder } from "../services/actions/feed";
+import { TUser, TOrderDetails } from "./types";
 
 const getResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
@@ -40,7 +39,7 @@ type TForm = {
 
 type TOrderResponse = {
   success: boolean;
-  orders: TOrder[];
+  orders: TOrderDetails[];
 };
 
 /**

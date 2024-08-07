@@ -7,6 +7,7 @@ import { FeedInfo } from "../../components/feed-info/feed-info";
 
 export const FeedPage = (): React.JSX.Element => {
   const { wsConnected, error } = useSelector((state: TRootState) => state.feed);
+  const { orders } = useSelector((state: TRootState) => state.feed);
 
   if (error) {
     return <p>Ошибка: {error}</p>;
@@ -21,7 +22,7 @@ export const FeedPage = (): React.JSX.Element => {
       <h1>Лента заказов</h1>
       <div className={styles.main}>
         <div className={styles.column}>
-          <FeedList />
+          {orders !== null && <FeedList path="/feed/" orders={orders.orders} isShowStatus={false} />}
         </div>
         <div className={styles.column}>
           <FeedInfo />

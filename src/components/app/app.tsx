@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "../../services/store";
+import { TRootState, useDispatch, useSelector } from "../../services/store";
 import { useEffect } from "react";
 import { Pages } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
@@ -12,12 +12,17 @@ import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
 import { wsConnectionStart } from "../../services/actions/feed";
 import { DetailsOfOrder } from "../details-of-order/details-of-order";
+import {
+  wsUserConnectionClosed,
+  wsUserConnectionStart,
+} from "../../services/actions/userFeed";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
+  const user = useSelector((store: TRootState) => store.user.user);
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
@@ -39,6 +44,15 @@ function App() {
     // Подключение к WebSocket
     dispatch(wsConnectionStart());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Подключение к WebSocket
+    dispatch(wsUserConnectionStart());
+
+    return () => {
+      dispatch(wsUserConnectionClosed());
+    };
+  }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(loadIngredients());
@@ -71,6 +85,10 @@ function App() {
             element={<OnlyAuth component={<Pages.ProfileOrdersPage />} />}
           />
           <Route
+            path="/profile/orders/:number"
+            element={<OnlyAuth component={<Pages.ProfileOrdersPage />} />}
+          />
+          <Route
             path="/forgot-password"
             element={<OnlyUnAuth component={<Pages.ForgotPasswordPage />} />}
           />
@@ -99,6 +117,19 @@ function App() {
           <Routes>
             <Route
               path="/feed/:number"
+              element={
+                <Modal title="" onTrigger={handleModalOrderClose}>
+                  <DetailsOfOrder />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+
+        {background && (
+          <Routes>
+            <Route
+              path="/profile/orders/:number"
               element={
                 <Modal title="" onTrigger={handleModalOrderClose}>
                   <DetailsOfOrder />

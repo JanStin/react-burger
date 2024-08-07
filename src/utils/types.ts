@@ -41,3 +41,22 @@ export type TUser = {
   name: string;
   password?: string;
 };
+
+export type TOrderDetails = {
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  owner?: string;
+  __v?: number;
+};
+
+export type TOrdersResponse = {
+  success: boolean;
+  orders: TOrderDetails[];
+  total: number;
+  totalToday: number;
+};

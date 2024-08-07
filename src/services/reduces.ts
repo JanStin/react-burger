@@ -9,6 +9,8 @@ import { name as order } from "./actions/order";
 import { name as user } from "./actions/auth";
 import { name as feed } from "./actions/feed";
 import { combineReducers } from "redux";
+import { userFeedReducer } from "./reducers/userFeed";
+import { name as userFeed } from "./actions/userFeed";
 
 export const rootReducer = combineReducers({
   [ingredients]: reducerIngredients,
@@ -16,4 +18,5 @@ export const rootReducer = combineReducers({
   [order]: orderIngredients,
   [user]: userReducers,
   [feed]: feedReducer,
+  [userFeed]: userFeedReducer,
 });

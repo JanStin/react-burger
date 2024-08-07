@@ -2,7 +2,6 @@ import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TRootState, useSelector } from "../../services/store";
-import { TOrder } from "../../services/actions/feed";
 import { api } from "../../utils/api";
 import {
   CurrencyIcon,
@@ -10,12 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { OrderPrice } from "../order-price/order-price";
 import { getDate } from "../../utils/utils";
+import { TOrderDetails } from "../../utils/types";
 
 export const DetailsOfOrder = (): React.JSX.Element => {
   const { number } = useParams<{ number: string }>();
   const { orders } = useSelector((state: TRootState) => state.feed);
   const { ingredients } = useSelector((state: TRootState) => state.ingredients);
-  const [order, setOrder] = useState<TOrder | null | false>(false);
+  const [order, setOrder] = useState<TOrderDetails | null | false>(false);
 
   useEffect(() => {
     const fetchOrder = (orderNumber: string) => {
@@ -52,7 +52,7 @@ export const DetailsOfOrder = (): React.JSX.Element => {
   enum Status {
     "done" = "Выполнен",
     "created" = "Готовится",
-    "pending" = "В ожидании",
+    "pending" = "Создан",
   }
 
   const orderStatus = (orderStatus: string): string => {

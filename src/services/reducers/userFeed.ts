@@ -1,8 +1,8 @@
 import { TOrdersResponse } from "../../utils/types";
 import {
-  ActionFeedTypes,
-  TFeedActions,
-} from "../actions/feed";
+  ActionUserFeedTypes,
+  TUserFeedActions,
+} from "../actions/userFeed";
 
 type TOrdersState = {
   orders: TOrdersResponse | null;
@@ -16,29 +16,29 @@ const initialState: TOrdersState = {
   error: null,
 };
 
-export const feedReducer = (
+export const userFeedReducer = (
   state = initialState,
-  action: TFeedActions
+  action: TUserFeedActions
 ): TOrdersState => {
   switch (action.type) {
-    case ActionFeedTypes.WS_CONNECTION_SUCCESS:
+    case ActionUserFeedTypes.WS_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnected: true,
         error: null,
       };
-    case ActionFeedTypes.WS_CONNECTION_ERROR:
+    case ActionUserFeedTypes.WS_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
         error: action.payload,
       };
-    case ActionFeedTypes.WS_CONNECTION_CLOSED:
+    case ActionUserFeedTypes.WS_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false,
       };
-    case ActionFeedTypes.WS_GET_ORDERS:
+    case ActionUserFeedTypes.WS_GET_ORDERS:
       return {
         ...state,
         orders: action.payload,

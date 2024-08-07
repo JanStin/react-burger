@@ -15,7 +15,9 @@ const Protected = ({
   const isAuthChecked: boolean = useSelector(
     (store: TRootState) => store.user.isAuthChecked
   );
-  const user: TUser | null = useSelector((store: TRootState) => store.user.user);
+  const user: TUser | null = useSelector(
+    (store: TRootState) => store.user.user
+  );
   const location = useLocation();
 
   if (!isAuthChecked) {

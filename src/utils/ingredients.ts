@@ -2,7 +2,6 @@ import { getResponse, BASE_URL } from "./utils";
 import { TIngredient } from "./types";
 import { TOrderResponse } from "./types";
 
-// TODO: Проверить необходимость импортировать типы.
 type TGetIngredients = {
   data: Array<TIngredient>;
   success: boolean;
@@ -19,6 +18,7 @@ export const postOrder = (ingredients: Array<string>) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken") || "",
     },
     body: JSON.stringify({
       ingredients: ingredients,

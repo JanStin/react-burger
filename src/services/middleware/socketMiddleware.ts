@@ -1,9 +1,16 @@
 import { Middleware, MiddlewareAPI } from "redux";
-import { TWssAction, TAppDispatch, TRootState, TWssStoreActions } from "../store";
+import {
+  TWssAction,
+  TAppDispatch,
+  TRootState,
+  TWssStoreActions,
+} from "../store";
+import { api } from "../../utils/api";
 
 export const socketMiddleware = (
   wsUrl: string,
-  wsActions: TWssStoreActions
+  wsActions: TWssStoreActions,
+  isNeedUser: boolean
 ): Middleware => {
   return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {
     let socket: WebSocket | null = null;
@@ -11,18 +18,36 @@ export const socketMiddleware = (
     const reconnectInterval = 5000;
 
     return (next) => (action: TWssAction) => {
-      const { dispatch } = store;
+      const { dispatch, getState } = store;
       const { type } = action;
-      const { wsInit, onOpen, onClose, onError, onMessage } =
-        wsActions;
-
-      if (type === wsInit) {
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+      const { user } = getState().user;
+      if (type === wsInit && !isNeedUser) {
         socket = new WebSocket(`${wsUrl}`);
+      } else if (type === wsInit && isNeedUser && user) {
+        const token = localStorage.getItem("accessToken")?.split(" ")[1];
+        if (token) {
+          socket = new WebSocket(`${wsUrl}${token}`);
+        } else {
+          api
+            .refreshTokenRequest()
+            .then((data) => {
+              if (data.success) {
+                localStorage.setItem("accessToken", data.accessToken);
+                socket = new WebSocket(
+                  `${wsUrl}${data.accessToken.split(" ")[1]}`
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Ошибка обновления токена:", error);
+            });
+        }
       }
 
       if (socket) {
-        socket.onopen = (event) => {
-          dispatch({ type: onOpen, payload: event });
+        socket.onopen = () => {
+          dispatch({ type: onOpen });
 
           if (reconnectTimer) {
             clearTimeout(reconnectTimer);
@@ -45,8 +70,8 @@ export const socketMiddleware = (
           dispatch({ type: onMessage, payload: parsedData });
         };
 
-        socket.onclose = (event) => {
-          dispatch({ type: onClose, payload: event });
+        socket.onclose = () => {
+          dispatch({ type: onClose });
         };
       }
 
