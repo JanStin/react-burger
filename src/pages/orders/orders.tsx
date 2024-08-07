@@ -7,6 +7,7 @@ import { FeedList } from "../../components/feed-list/feed-list";
 
 export const ProfileOrdersPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
+  const { wsConnected, error } = useSelector((state: TRootState) => state.feed);
   const { orders } = useSelector((state: TRootState) => state.userFeed);
 
   const logoutClick = useCallback(
@@ -31,6 +32,8 @@ export const ProfileOrdersPage = (): React.JSX.Element => {
         </a>
       </div>
       <div className={styles.main}>
+        {error && <p>Ошибка: {error}</p>}
+        {!wsConnected && <p>Подключение...</p>}
         {orders !== null && (
           <FeedList
             path="/profile/orders/"

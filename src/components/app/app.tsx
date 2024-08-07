@@ -86,7 +86,7 @@ function App() {
           />
           <Route
             path="/profile/orders/:number"
-            element={<OnlyAuth component={<Pages.ProfileOrdersPage />} />}
+            element={<OnlyAuth component={<Pages.DetailsOrder />} />}
           />
           <Route
             path="/forgot-password"
