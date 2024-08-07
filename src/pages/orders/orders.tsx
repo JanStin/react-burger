@@ -4,6 +4,7 @@ import { useCallback, MouseEvent } from "react";
 import { TRootState, useDispatch, useSelector } from "../../services/store";
 import { logout } from "../../services/actions/auth";
 import { FeedList } from "../../components/feed-list/feed-list";
+import { TOrderDetails } from "../../utils/types";
 
 export const ProfileOrdersPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -17,6 +18,14 @@ export const ProfileOrdersPage = (): React.JSX.Element => {
     },
     [dispatch]
   );
+
+  const sortByCreatedAt = (orders: TOrderDetails[]) => {
+    return orders.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return  dateB.getTime() - dateA.getTime();
+    });
+  };
 
   return (
     <div className={styles.body}>
@@ -37,7 +46,7 @@ export const ProfileOrdersPage = (): React.JSX.Element => {
         {orders !== null && (
           <FeedList
             path="/profile/orders/"
-            orders={orders.orders}
+            orders={sortByCreatedAt(orders.orders)}
             isShowStatus={true}
           />
         )}
