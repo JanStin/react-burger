@@ -10,7 +10,7 @@ type TGetIngredients = {
 export const getIngredients = (): Promise<TGetIngredients> => {
   return fetch(BASE_URL + "ingredients").then((res) =>
     getResponse<TGetIngredients>(res)
-  );
+  ).catch((error) => error);
 };
 
 export const postOrder = (ingredients: Array<string>) => {
