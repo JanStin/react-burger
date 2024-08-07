@@ -81,7 +81,7 @@ export const DetailsOfOrder = (): React.JSX.Element => {
       count: countMap[ingredient._id] || 0,
     }))
     .filter((item) => item.count > 0);
-  console.log(enrichedIngredients);
+
   return (
     <div className={styles.body}>
       <p className={styles.number}>#{order.number}</p>

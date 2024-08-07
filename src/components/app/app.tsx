@@ -11,7 +11,7 @@ import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
 import { wsConnectionStart } from "../../services/actions/feed";
-// import { ActioFeedTypes } from "../../services/actions/feed"
+import { DetailsOfOrder } from "../details-of-order/details-of-order";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,11 +25,10 @@ function App() {
     navigate(-1);
   };
 
-  // const handleModalOrderClose = () => {
-  //   // Возвращаемся к предыдущему пути при закрытии модалки
-  //   dispatch({ type: ActioFeedTypes.CLOSE_DETAILS });
-  //   navigate(-1);
-  // };
+  const handleModalOrderClose = () => {
+    // Возвращаемся к предыдущему пути при закрытии модалки
+    navigate(-1);
+  };
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -96,20 +95,18 @@ function App() {
             />
           </Routes>
         )}
-        {
-          //background && (
-          //   <Routes>
-          //     <Route
-          //       path="/feed/:number"
-          //       element={
-          //         <Modal title="" onTrigger={handleModalOrderClose}>
-          //           <IngredientDetails />
-          //         </Modal>
-          //       }
-          //     />
-          //   </Routes>
-          // )
-        }
+        {background && (
+          <Routes>
+            <Route
+              path="/feed/:number"
+              element={
+                <Modal title="" onTrigger={handleModalOrderClose}>
+                  <DetailsOfOrder />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
       </div>
     </>
   );

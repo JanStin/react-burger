@@ -267,7 +267,7 @@ const fetchOrder = (orderNumber: string): Promise<TOrderResponse> => {
     const response = request<TOrderResponse>(url, options);
     return response;
   } catch (error) {
-    console.error(`Failed to fetch order ${orderNumber}:`, error);
+    console.error(`Ошибка в запросе ${orderNumber}:`, error);
     throw error;
   }
 };
