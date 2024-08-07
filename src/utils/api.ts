@@ -1,11 +1,12 @@
 import { BASE_URL } from "./utils";
 import { TUser } from "./types";
+import { TOrder } from "../services/actions/feed";
 
-const getResponse = <T,>(res: Response): Promise<T> => {
+const getResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };
 
-const request = <T,>(url: string, options: RequestInit): Promise<T> => {
+const request = <T>(url: string, options: RequestInit): Promise<T> => {
   return fetch(url, options).then((res) => getResponse<T>(res));
 };
 
@@ -35,6 +36,11 @@ type TForm = {
   name?: string;
   token?: string;
   code?: string;
+};
+
+type TOrderResponse = {
+  success: boolean;
+  orders: TOrder[];
 };
 
 /**
@@ -248,6 +254,24 @@ const logoutRequest = (): Promise<TMessageResponse> => {
   });
 };
 
+const fetchOrder = (orderNumber: string): Promise<TOrderResponse> => {
+  const url = `${BASE_URL}orders/${orderNumber}`;
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = request<TOrderResponse>(url, options);
+    return response;
+  } catch (error) {
+    console.error(`Failed to fetch order ${orderNumber}:`, error);
+    throw error;
+  }
+};
+
 export const api = {
   registerationRequest,
   loginRequest,
@@ -255,4 +279,5 @@ export const api = {
   logoutRequest,
   getUser,
   updateUser,
+  fetchOrder,
 };

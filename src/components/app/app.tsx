@@ -10,6 +10,8 @@ import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
+import { wsConnectionStart } from "../../services/actions/feed";
+// import { ActioFeedTypes } from "../../services/actions/feed"
 
 function App() {
   const dispatch = useDispatch();
@@ -23,10 +25,21 @@ function App() {
     navigate(-1);
   };
 
+  // const handleModalOrderClose = () => {
+  //   // Возвращаемся к предыдущему пути при закрытии модалки
+  //   dispatch({ type: ActioFeedTypes.CLOSE_DETAILS });
+  //   navigate(-1);
+  // };
+
   useEffect(() => {
     dispatch(checkUserAuth());
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    // Подключение к WebSocket
+    dispatch(wsConnectionStart());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadIngredients());
@@ -38,7 +51,10 @@ function App() {
         <Header />
         <Routes location={background || location}>
           <Route path="/" element={<Pages.HomePage />} />
-          <Route path="/ingredients/:id" element={<Pages.IngredientDetailsPage />} />
+          <Route
+            path="/ingredients/:id"
+            element={<Pages.IngredientDetailsPage />}
+          />
           <Route
             path="/login"
             element={<OnlyUnAuth component={<Pages.LoginPage />} />}
@@ -64,6 +80,7 @@ function App() {
             element={<OnlyUnAuth component={<Pages.ResetPasswordPage />} />}
           />
           <Route path="/feed" element={<Pages.FeedPage />} />
+          <Route path="/feed/:number" element={<Pages.DetailsOrder />} />
           <Route path="*" element={<Pages.NotFoundPage />} />
         </Routes>
 
@@ -79,6 +96,20 @@ function App() {
             />
           </Routes>
         )}
+        {
+          //background && (
+          //   <Routes>
+          //     <Route
+          //       path="/feed/:number"
+          //       element={
+          //         <Modal title="" onTrigger={handleModalOrderClose}>
+          //           <IngredientDetails />
+          //         </Modal>
+          //       }
+          //     />
+          //   </Routes>
+          // )
+        }
       </div>
     </>
   );

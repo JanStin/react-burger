@@ -32,9 +32,3 @@
     composes: text text_type_main-default mb-6 from global;
 }
 
-.price {
-   display: flex;
-   align-items: center;
-   gap: 10px;
-}
-

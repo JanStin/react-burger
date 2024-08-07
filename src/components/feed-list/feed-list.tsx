@@ -1,33 +1,14 @@
 import styles from "./styles.module.css";
 import { useSelector } from "../../services/store";
 import { TRootState } from "../../services/store";
-import { CurrencyIcon, FormattedDate  } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback } from "react";
+import { FormattedDate  } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FeedIcons } from "../feed-icons/feed-icons";
+import { OrderPrice } from "../order-price/order-price";
+
 
 export const FeedList = (): React.JSX.Element => {
   const { orders } = useSelector((state: TRootState) => state.feed);
-  const { ingredients } = useSelector((state: TRootState) => state.ingredients);
   const isShowStatus: boolean = false;
-
-  const sum = useCallback((order: string[]): number => {
-    if (ingredients === null) {
-      return 0;
-    }
-
-    const ingredientMap = new Map<string, number>();
-
-    ingredients.forEach((ingredient) => {
-      ingredientMap.set(ingredient._id, ingredient.price);
-    });
-
-    const result = order.reduce((total, id) => {
-      const price = ingredientMap.get(id);
-      return total + (price !== undefined ? price : 0);
-    }, 0);
-
-    return result;
-  }, [ingredients]);
 
   return (
     <ul className={styles.body}>
@@ -45,10 +26,7 @@ export const FeedList = (): React.JSX.Element => {
             <div className={styles.ingredients}>
               <FeedIcons order={order.ingredients} />
             </div>
-            <div className={styles.price}>
-              {sum(order.ingredients)}
-              <CurrencyIcon type="primary" />
-            </div>
+            <OrderPrice ingredients={order.ingredients} />
           </div>
         </li>
       ))}
