@@ -1,46 +1,56 @@
 import { Middleware, MiddlewareAPI } from "redux";
-import {
-  ActioFeedTypes,
-  wsConnectionSuccess,
-  wsConnectionError,
-  wsConnectionClosed,
-  wsGetOrders,
-} from "../actions/feed";
+import { TWssAction, TAppDispatch, TRootState, TWssStoreActions } from "../store";
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
-  return (store: MiddlewareAPI) => {
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: TWssStoreActions
+): Middleware => {
+  return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {
     let socket: WebSocket | null = null;
+    let reconnectTimer: number | null = null;
+    const reconnectInterval = 5000;
 
-    return (next) => (action: any) => {
+    return (next) => (action: TWssAction) => {
       const { dispatch } = store;
-      switch (action.type) {
-        case ActioFeedTypes.WS_CONNECTION_START:
-          socket = new WebSocket(wsUrl);
-          socket.onopen = () => {
-            dispatch(wsConnectionSuccess());
-          };
-          socket.onerror = (error) => {
-            dispatch(wsConnectionError(`WebSocket error: ${error}`));
-          };
-          socket.onmessage = (event) => {
-            const { data } = event;
-            const parsedData = JSON.parse(data);
-            dispatch(wsGetOrders(parsedData));
-          };
-          socket.onclose = () => {
-            dispatch(wsConnectionClosed());
-          };
-          break;
-        case ActioFeedTypes.WS_CONNECTION_CLOSED:
-          if (socket) {
-            socket.close();
+      const { type } = action;
+      const { wsInit, onOpen, onClose, onError, onMessage } =
+        wsActions;
+
+      if (type === wsInit) {
+        socket = new WebSocket(`${wsUrl}`);
+      }
+
+      if (socket) {
+        socket.onopen = (event) => {
+          dispatch({ type: onOpen, payload: event });
+
+          if (reconnectTimer) {
+            clearTimeout(reconnectTimer);
           }
-          break;
-        default:
-          break;
+        };
+
+        socket.onerror = (event) => {
+          dispatch({ type: onError, payload: event.toString() });
+
+          if (reconnectTimer === null) {
+            reconnectTimer = window.setTimeout(() => {
+              dispatch({ type: onOpen });
+            }, reconnectInterval);
+          }
+        };
+
+        socket.onmessage = (event) => {
+          const { data } = event;
+          const parsedData = JSON.parse(data);
+          dispatch({ type: onMessage, payload: parsedData });
+        };
+
+        socket.onclose = (event) => {
+          dispatch({ type: onClose, payload: event });
+        };
       }
 
       next(action);
     };
-  };
+  }) as Middleware;
 };

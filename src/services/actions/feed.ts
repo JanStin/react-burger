@@ -56,6 +56,14 @@ export type TFeedActions =
   | TWSConnectionClosedAction
   | TWSGetOrdersAction;
 
+export type TWSFeedActions = {
+  wsInit: typeof ActioFeedTypes.WS_CONNECTION_START;
+  onOpen: typeof ActioFeedTypes.WS_CONNECTION_SUCCESS;
+  onClose: typeof ActioFeedTypes.WS_CONNECTION_CLOSED;
+  onError: typeof ActioFeedTypes.WS_CONNECTION_ERROR;
+  onMessage: typeof ActioFeedTypes.WS_GET_ORDERS;
+};
+
 export const wsConnectionStart = (): TWSConnectionStartAction => ({
   type: ActioFeedTypes.WS_CONNECTION_START,
 });

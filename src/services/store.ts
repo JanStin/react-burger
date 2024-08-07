@@ -10,7 +10,7 @@ import { TIngredientsActions } from "./actions/ingredientsData";
 import { TConstructurActions } from "./actions/constructor";
 import { TOrderActions } from "./actions/order";
 import { TAuthActions } from "./actions/auth";
-import { TFeedActions } from "./actions/feed";
+import { ActioFeedTypes, TFeedActions, TWSFeedActions } from "./actions/feed";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 
 export type TRootState = ReturnType<typeof rootReducer>;
@@ -23,6 +23,9 @@ export type TAppActions =
   | TIngredientsActions
   | TFeedActions;
 
+export type TWssAction = TFeedActions;
+export type TWssStoreActions = TWSFeedActions;
+
 // Типизация thunk действия
 export type TAppThunk<TReturnType = void> = ThunkAction<
   TReturnType,
@@ -32,20 +35,29 @@ export type TAppThunk<TReturnType = void> = ThunkAction<
 >;
 
 const wsUrl = "wss://norma.nomoreparties.space/orders/all";
+const feedActions: TWssStoreActions = {
+  wsInit: ActioFeedTypes.WS_CONNECTION_START,
+  onOpen: ActioFeedTypes.WS_CONNECTION_SUCCESS,
+  onClose: ActioFeedTypes.WS_CONNECTION_CLOSED,
+  onError: ActioFeedTypes.WS_CONNECTION_ERROR,
+  onMessage: ActioFeedTypes.WS_GET_ORDERS,
+};
 
 // Типизация dispatch с thunk
-type TAppDispatch = ThunkDispatch<TRootState, unknown, TAppActions>;
+export type TAppDispatch = ThunkDispatch<TRootState, unknown, TAppActions>;
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false
-  }).concat(thunk, socketMiddleware(wsUrl)),
-  devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(thunk, socketMiddleware(wsUrl, feedActions)),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;
 
 // Экспорт типизированных версий useDispatch и useSelector
-export const useDispatch: () => TAppDispatch = dispatchHook as () => TAppDispatch;
+export const useDispatch: () => TAppDispatch =
+  dispatchHook as () => TAppDispatch;
 export const useSelector: TypedUseSelectorHook<TRootState> = selectorHook;
