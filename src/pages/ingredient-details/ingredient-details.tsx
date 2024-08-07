@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import { useParams } from "react-router-dom";
 import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
@@ -18,7 +18,7 @@ export const IngredientDetailsPage = (): React.JSX.Element => {
     : 0;
 
   useEffect(() => {
-    if (ingredientsLength !== 0) {
+    if (ingredientsLength !== 0 && typeof id === "string") {
       dispatch({ type: ActionIngredientsTypes.GET_INGREDIENT, id: id });
     }
   }, [id, ingredientsLength, dispatch]);

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { Main } from "../../components/main/main";
 import { TRootState } from "../../services/store";
 

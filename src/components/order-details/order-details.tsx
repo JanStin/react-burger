@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import done from "../../images/done.png";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import React from "react";
 import { TOrderResponse } from "../../utils/types";
 import { TRootState } from "../../services/store";

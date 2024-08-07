@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import { useParams } from "react-router-dom";
 import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { TIngredient } from "../../utils/types";
@@ -16,9 +16,8 @@ export const IngredientDetails = (): React.JSX.Element => {
   const ingredientsLength: number = Array.isArray(ingredients) ? ingredients.length : 0;
 
   useEffect(() => {
-    if (ingredientsLength !== 0 && popupData === null) {
+    if (ingredientsLength !== 0 && popupData === null && typeof id === "string") {
       dispatch({ type: ActionIngredientsTypes.GET_INGREDIENT, id: id });
-
     }
   }, [id, popupData, ingredientsLength, dispatch]);
 

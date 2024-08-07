@@ -6,7 +6,6 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   useCallback,
   useState,
@@ -14,7 +13,7 @@ import {
   ChangeEvent,
   FormEvent
 } from "react";
-import { useDispatch } from "../../services/store";
+import { useDispatch, useSelector } from "../../services/store";
 import { logout, updateUser } from "../../services/actions/auth";
 import { TUser } from "../../utils/types";
 import { TRootState } from "../../services/store";
