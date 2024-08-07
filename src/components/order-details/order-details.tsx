@@ -7,7 +7,7 @@ import { TRootState } from "../../services/store";
 
 export const OrderDetails = (): React.JSX.Element => {
   const { loading, order, error } = useSelector(
-    (state: TRootState) => state.order
+    state => state.order
   );
 
   const isTOrder = (data: any): data is TOrderResponse => {

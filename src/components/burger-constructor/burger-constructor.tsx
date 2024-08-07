@@ -35,10 +35,10 @@ type TDragObject = {
 export const BurgerConstructor = (): React.JSX.Element => {
   const BUN = "bun";
   const isOpenPoup: boolean = useSelector(
-    (state: TRootState) => state.order.isOpenPoup
+    state => state.order.isOpenPoup
   );
   const { bun, ingredients }: TBurgerConstructor = useSelector(
-    (state: TRootState) => state.constructor
+    state => state.constructor
   );
   const user: TUser | null = useSelector((store: TRootState) => store.user.user);
   const ingredientsLength: number = Array.isArray(ingredients)

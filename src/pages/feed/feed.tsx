@@ -6,8 +6,8 @@ import { FeedList } from "../../components/feed-list/feed-list";
 import { FeedInfo } from "../../components/feed-info/feed-info";
 
 export const FeedPage = (): React.JSX.Element => {
-  const { wsConnected, error } = useSelector((state: TRootState) => state.feed);
-  const { orders } = useSelector((state: TRootState) => state.feed);
+  const { wsConnected, error } = useSelector(state => state.feed);
+  const { orders } = useSelector(state => state.feed);
 
   if (error) {
     return <p>Ошибка: {error}</p>;

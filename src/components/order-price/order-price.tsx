@@ -12,7 +12,7 @@ export const OrderPrice = ({
   ingredients,
 }: TOrderPriceProps): React.JSX.Element => {
   const { ingredients: allIngredients } = useSelector(
-    (state: TRootState) => state.ingredients
+    state => state.ingredients
   );
 
   const totalPrice = useMemo(() => {

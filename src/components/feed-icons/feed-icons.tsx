@@ -8,7 +8,7 @@ type TFeedIcons = {
 };
 
 export const FeedIcons = ({ order }: TFeedIcons): React.JSX.Element => {
-  const { ingredients } = useSelector((state: TRootState) => state.ingredients);
+  const { ingredients } = useSelector(state => state.ingredients);
   const icons = useMemo(() => {
     if (!ingredients) {
       return [];

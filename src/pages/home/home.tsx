@@ -4,7 +4,7 @@ import { TRootState } from "../../services/store";
 
 export const HomePage = (): React.JSX.Element => {
   const { loading, ingredients, error } = useSelector(
-    (state: TRootState) => state.ingredients
+    state => state.ingredients
   );
 
   return (

@@ -8,8 +8,8 @@ import { TOrderDetails } from "../../utils/types";
 
 export const ProfileOrdersPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
-  const { wsConnected, error } = useSelector((state: TRootState) => state.feed);
-  const { orders } = useSelector((state: TRootState) => state.userFeed);
+  const { wsConnected, error } = useSelector(state => state.feed);
+  const { orders } = useSelector(state => state.userFeed);
 
   const logoutClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {

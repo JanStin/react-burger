@@ -3,7 +3,7 @@ import { useSelector } from "../../services/store";
 import { TRootState } from "../../services/store";
 
 export const FeedInfo = (): React.JSX.Element => {
-  const { orders } = useSelector((state: TRootState) => state.feed);
+  const { orders } = useSelector(state => state.feed);
   const done = "done";
 
   if (orders === null) {

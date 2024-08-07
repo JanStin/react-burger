@@ -11,7 +11,7 @@ export const IngredientDetailsPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { popupData, ingredients } = useSelector(
-    (state: TRootState) => state.ingredients
+    state => state.ingredients
   );
   const ingredientsLength: number = Array.isArray(ingredients)
     ? ingredients.length

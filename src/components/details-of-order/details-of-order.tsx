@@ -13,8 +13,8 @@ import { TOrderDetails } from "../../utils/types";
 
 export const DetailsOfOrder = (): React.JSX.Element => {
   const { number } = useParams<{ number: string }>();
-  const { orders } = useSelector((state: TRootState) => state.feed);
-  const { ingredients } = useSelector((state: TRootState) => state.ingredients);
+  const { orders } = useSelector(state => state.feed);
+  const { ingredients } = useSelector(state => state.ingredients);
   const [order, setOrder] = useState<TOrderDetails | null | false>(false);
 
   useEffect(() => {
