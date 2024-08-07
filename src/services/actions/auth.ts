@@ -43,6 +43,8 @@ export const getUser = (): AppThunk<Promise<void>> => {
   return (dispatch) => {
     return api.getUser().then((res) => {
       dispatch(setUser(res.user));
+    }).catch((error) => {
+      console.log("Ошибка: " + error)
     });
   };
 };
@@ -58,6 +60,12 @@ export const registeration = (form: {
       localStorage.setItem("refreshToken", res.refreshToken);
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
+    }).catch((error) => {
+      console.log("Ошибка при регистрации: " + error)
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      dispatch(setUser(null));
+      dispatch(setAuthChecked(false));
     });
   };
 };
@@ -72,6 +80,9 @@ export const login = (form: {
       localStorage.setItem("refreshToken", res.refreshToken);
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
+    }).catch((error) => {
+      console.log("Ошибка при попытке входа: " + error);
+      return error;
     });
   };
 };
@@ -104,7 +115,9 @@ export const logout = (): AppThunk<Promise<void>> => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       dispatch(setUser(null));
-    });
+    }).catch((error) => {
+      console.log("Ошибка при выходе: " + error)
+    });;
   };
 };
 
@@ -116,6 +129,8 @@ export const updateUser = (form: {
   return (dispatch) => {
     return api.updateUser(form).then((res) => {
       dispatch(setUser(res.user));
+    }).catch((error) => {
+      console.log("Ошибка при обновлении пользователя: " + error)
     });
   };
 };

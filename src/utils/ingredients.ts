@@ -23,5 +23,7 @@ export const postOrder = (ingredients: Array<string>) => {
     body: JSON.stringify({
       ingredients: ingredients,
     }),
-  }).then((res) => getResponse<TOrderResponse>(res));
+  })
+    .then((res) => getResponse<TOrderResponse>(res))
+    .catch((error) => error);
 };

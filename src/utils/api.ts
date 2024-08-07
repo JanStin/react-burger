@@ -6,7 +6,9 @@ const getResponse = <T>(res: Response): Promise<T> => {
 };
 
 const request = <T>(url: string, options: RequestInit): Promise<T> => {
-  return fetch(url, options).then((res) => getResponse<T>(res));
+  return fetch(url, options)
+    .then((res) => getResponse<T>(res))
+    .catch((error) => error);
 };
 
 type TUserResponse = {
