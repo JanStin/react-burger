@@ -9,6 +9,7 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { OrderPrice } from "../order-price/order-price";
+import { getDate } from "../../utils/utils";
 
 export const DetailsOfOrder = (): React.JSX.Element => {
   const { number } = useParams<{ number: string }>();
@@ -105,7 +106,7 @@ export const DetailsOfOrder = (): React.JSX.Element => {
           ))}
       </ul>
       <div className={styles.line}>
-        <FormattedDate date={new Date(order.createdAt)} />
+        <FormattedDate date={getDate(order.createdAt)} />
         <OrderPrice ingredients={order.ingredients} />
       </div>
     </div>

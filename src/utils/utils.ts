@@ -49,3 +49,23 @@ export function setCookie(
 export function deleteCookie(name: string): void {
   setCookie(name, null, { expires: -1 });
 }
+
+export const getDate = (date: string) => {
+  const today = new Date();
+  const orderDate = new Date(date);
+
+  return new Date(
+    today.getFullYear() === orderDate.getFullYear()
+      ? orderDate.getFullYear()
+      : orderDate.getFullYear() -
+        (today.getFullYear() - orderDate.getFullYear()),
+    today.getMonth() === orderDate.getMonth()
+      ? orderDate.getMonth()
+      : orderDate.getMonth() - (today.getMonth() - orderDate.getMonth()),
+    today.getDate() === orderDate.getDate()
+      ? today.getDate()
+      : orderDate.getDate() - (today.getDate() - orderDate.getDate()),
+    orderDate.getHours(),
+    orderDate.getMinutes()
+  );
+};
