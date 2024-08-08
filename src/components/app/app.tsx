@@ -10,7 +10,7 @@ import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
-import { wsConnectionStart } from "../../services/actions/feed";
+import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/feed";
 import { DetailsOfOrder } from "../details-of-order/details-of-order";
 import {
   wsUserConnectionClosed,
@@ -22,7 +22,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
-  const user = useSelector((store: TRootState) => store.user.user);
+  const user = useSelector(store => store.user.user);
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
@@ -38,7 +38,11 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuth());
     // eslint-disable-next-line
-  }, []);
+
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     // Подключение к WebSocket

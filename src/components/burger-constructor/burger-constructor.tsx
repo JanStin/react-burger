@@ -15,7 +15,6 @@ import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { postOrder, ActionOrderTypes } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
 import { TIngredient, TIngredientsArray, TUser } from "../../utils/types";
-import { TRootState } from "../../services/store";
 
 type TBurgerConstructor = {
   bun: null | TIngredient;
@@ -40,7 +39,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const { bun, ingredients }: TBurgerConstructor = useSelector(
     state => state.constructor
   );
-  const user: TUser | null = useSelector((store: TRootState) => store.user.user);
+  const user: TUser | null = useSelector(store => store.user.user);
   const ingredientsLength: number = Array.isArray(ingredients)
     ? ingredients.length
     : 0;

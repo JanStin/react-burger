@@ -1,7 +1,6 @@
 import { useSelector } from "../../services/store";
 import { Navigate, useLocation } from "react-router-dom";
 import { TUser } from "../../utils/types";
-import { TRootState } from "../../services/store";
 
 type TProtectedProps = {
   onlyUnAuth?: boolean;
@@ -13,10 +12,10 @@ const Protected = ({
   component,
 }: TProtectedProps): React.JSX.Element | null => {
   const isAuthChecked: boolean = useSelector(
-    (store: TRootState) => store.user.isAuthChecked
+    store => store.user.isAuthChecked
   );
   const user: TUser | null = useSelector(
-    (store: TRootState) => store.user.user
+    store => store.user.user
   );
   const location = useLocation();
 

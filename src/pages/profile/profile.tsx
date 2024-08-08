@@ -16,10 +16,9 @@ import {
 import { useDispatch, useSelector } from "../../services/store";
 import { logout, updateUser } from "../../services/actions/auth";
 import { TUser } from "../../utils/types";
-import { TRootState } from "../../services/store";
 
 export const ProfilePage = (): React.JSX.Element => {
-  const user = useSelector((store: TRootState) => store.user.user);
+  const user = useSelector(store => store.user.user);
 
   const initialFormState: TUser = {
     name: user?.name || "",
