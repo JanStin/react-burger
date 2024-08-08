@@ -33,8 +33,11 @@ type TDragObject = {
 
 export const BurgerConstructor = (): React.JSX.Element => {
   const BUN = "bun";
-  const isOpenPoup: boolean = useSelector(
+  const isOpenPoup = useSelector(
     state => state.order.isOpenPoup
+  );
+  const isLoading = useSelector(
+    state => state.order.loading
   );
   const { bun, ingredients }: TBurgerConstructor = useSelector(
     state => state.constructor
@@ -214,6 +217,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
             type="primary"
             size="large"
             onClick={() => onOrder()}
+            disabled={isLoading}
           >
             Оформить заказ
           </Button>
