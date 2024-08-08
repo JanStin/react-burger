@@ -2,14 +2,13 @@ import { useMemo, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientsTab } from "../burger-ingredients-tab/burger-ingredients-tab";
 import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
-import { TIngredientType, TRootState, TIngredientsArray } from "../../utils/types";
+import { useSelector } from "../../services/store";
+import { TIngredientType } from "../../utils/types";
+import { getIngredients } from "../../services/selectors/ingredientsData";
 
 export const BurgerIngredients = (): React.JSX.Element => {
   const [currentType, setCurrentType] = useState<TIngredientType>("bun");
-  const { ingredients }: TIngredientsArray = useSelector(
-    (state: TRootState) => state.ingredients
-  );
+  const ingredients = useSelector(getIngredients);
 
   const ingredientTypes = [
     {
@@ -94,17 +93,21 @@ export const BurgerIngredients = (): React.JSX.Element => {
       </div>
       <div className={styles.body} ref={listRef} onScroll={handleScroll}>
         {ingredientTypes.map((type) => {
-          const dataTab = ingredients.filter(
-            (element) => element.type === type.id
-          );
-          return (
-            <BurgerIngredientsTab
-              title={type.name}
-              ingredients={dataTab}
-              key={type.id}
-              id={type.id}
-            />
-          );
+          if (ingredients !== null) {
+            const dataTab = ingredients.filter(
+              (element) => element.type === type.id
+            );
+            return (
+              <BurgerIngredientsTab
+                title={type.name}
+                ingredients={dataTab}
+                key={type.id}
+                id={type.id}
+              />
+            );
+          } else {
+            return <></>;
+          }
         })}
       </div>
     </>

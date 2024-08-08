@@ -4,15 +4,15 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import {
   useDrag,
   useDrop,
   DropTargetMonitor,
   DragSourceMonitor,
 } from "react-dnd";
-import { REMOVE_INGREDIENT } from "../../services/actions/constructor";
-import { DECREASE_INGREDIENT } from "../../services/actions/ingredientsData";
+import { ActionConstructorTypes } from "../../services/actions/constructor";
+import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { TIngredient } from "../../utils/types";
 
 type TBurgerConstructorIngredient = {
@@ -43,8 +43,16 @@ export const BurgerConstructorIngredient = ({
   const position = "ingredient";
 
   const handleClose = (elem: TIngredient): void => {
-    dispatch({ type: DECREASE_INGREDIENT, id: elem._id });
-    dispatch({ type: REMOVE_INGREDIENT, key: elem.key });
+    if (typeof elem.key == "string") {
+      dispatch({
+        type: ActionIngredientsTypes.DECREASE_INGREDIENT,
+        id: elem._id,
+      });
+      dispatch({
+        type: ActionConstructorTypes.REMOVE_INGREDIENT,
+        key: elem.key,
+      });
+    }
   };
 
   const [{ handlerId }, drop] = useDrop<

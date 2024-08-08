@@ -1,25 +1,16 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { useEffect } from "react";
-import {
-  HomePage,
-  IngredientDetailsPage,
-  LoginPage,
-  RegisterPage,
-  ProfilePage,
-  ForgotPasswordPage,
-  ResetPasswordPage,
-  NotFoundPage,
-  ProfileOrdersPage,
-} from "../../pages/index";
+import { Pages } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Header from "../app-header/app-header";
 import { Modal } from "../modal/modal";
-import { CLOSE_POPUP } from "../../services/actions/ingredientsData";
+import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
+import { DetailsOfOrder } from "../details-of-order/details-of-order";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,18 +20,21 @@ function App() {
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
-    dispatch({ type: CLOSE_POPUP });
+    dispatch({ type: ActionIngredientsTypes.CLOSE_POPUP });
+    navigate(-1);
+  };
+
+  const handleModalOrderClose = () => {
+    // Возвращаемся к предыдущему пути при закрытии модалки
     navigate(-1);
   };
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(checkUserAuth());
     // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(loadIngredients());
   }, [dispatch]);
 
@@ -49,33 +43,42 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Routes location={background || location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route path="/" element={<Pages.HomePage />} />
+          <Route
+            path="/ingredients/:id"
+            element={<Pages.IngredientDetailsPage />}
+          />
           <Route
             path="/login"
-            element={<OnlyUnAuth component={<LoginPage />} />}
+            element={<OnlyUnAuth component={<Pages.LoginPage />} />}
           />
           <Route
             path="/register"
-            element={<OnlyUnAuth component={<RegisterPage />} />}
+            element={<OnlyUnAuth component={<Pages.RegisterPage />} />}
           />
           <Route
             path="/profile"
-            element={<OnlyAuth component={<ProfilePage />} />}
+            element={<OnlyAuth component={<Pages.ProfilePage />} />}
           />
           <Route
             path="/profile/orders"
-            element={<OnlyAuth component={<ProfileOrdersPage />} />}
+            element={<OnlyAuth component={<Pages.ProfileOrdersPage />} />}
+          />
+          <Route
+            path="/profile/orders/:number"
+            element={<OnlyAuth component={<Pages.DetailsOrder />} />}
           />
           <Route
             path="/forgot-password"
-            element={<OnlyUnAuth component={<ForgotPasswordPage />} />}
+            element={<OnlyUnAuth component={<Pages.ForgotPasswordPage />} />}
           />
           <Route
             path="/reset-password"
-            element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+            element={<OnlyUnAuth component={<Pages.ResetPasswordPage />} />}
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/feed" element={<Pages.FeedPage />} />
+          <Route path="/feed/:number" element={<Pages.DetailsOrder />} />
+          <Route path="*" element={<Pages.NotFoundPage />} />
         </Routes>
 
         {background && (
@@ -85,6 +88,31 @@ function App() {
               element={
                 <Modal title="Детали ингредиента" onTrigger={handleModalClose}>
                   <IngredientDetails />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+        {background && (
+          <Routes>
+            <Route
+              path="/feed/:number"
+              element={
+                <Modal title="" onTrigger={handleModalOrderClose}>
+                  <DetailsOfOrder />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+
+        {background && (
+          <Routes>
+            <Route
+              path="/profile/orders/:number"
+              element={
+                <Modal title="" onTrigger={handleModalOrderClose}>
+                  <DetailsOfOrder />
                 </Modal>
               }
             />

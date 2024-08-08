@@ -42,3 +42,8 @@
     opacity: 1;
     pointer-events: none;
 }
+
+.main {
+    max-width: 840px;
+    width: 100%;
+}

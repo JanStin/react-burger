@@ -1,0 +1,42 @@
+.body {
+    composes: custom-scroll from global;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: calc(100vh - 190px);
+    margin: 0;
+    padding: 0;
+    scrollbar-width: thin;
+}
+
+.order {
+    composes: mb-2 mr-2 p-6 from global;
+    border-radius: 24px;
+    list-style-type: none;
+    background-color: #1C1C21;
+}
+
+.number {
+    composes: text text_type_main-small from global;
+    margin: 0;
+}
+
+.line {
+    composes: mb-6 from global;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.line:last-child {
+    margin: 0;
+}
+
+.name {
+    composes: text text_type_main-default mb-6 from global;
+}
+
+.link {
+    text-decoration: none;
+    color: #fff;
+}

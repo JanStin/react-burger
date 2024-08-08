@@ -1,18 +1,13 @@
 import styles from "./styles.module.css";
 import done from "../../images/done.png";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import React from "react";
-import { TRootState, TOrderResponse } from "../../utils/types";
-
-type TOrderDetails = {
-  loading: boolean;
-  order: TOrderResponse | null;
-  error: boolean;
-};
+import { TOrderResponse } from "../../utils/types";
+import { TRootState } from "../../services/store";
 
 export const OrderDetails = (): React.JSX.Element => {
-  const { loading, order, error }: TOrderDetails = useSelector(
-    (state: TRootState) => state.order
+  const { loading, order, error } = useSelector(
+    state => state.order
   );
 
   const isTOrder = (data: any): data is TOrderResponse => {

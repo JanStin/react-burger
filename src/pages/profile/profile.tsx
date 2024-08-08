@@ -6,7 +6,6 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   useCallback,
   useState,
@@ -14,17 +13,20 @@ import {
   ChangeEvent,
   FormEvent
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import { logout, updateUser } from "../../services/actions/auth";
-import { TRootState, TUser } from "../../utils/types";
+import { TUser } from "../../utils/types";
 
 export const ProfilePage = (): React.JSX.Element => {
-  const user = useSelector((store: TRootState) => store.user.user);
-  const [form, setValue] = useState<TUser>({
-    name: user.name,
-    email: user.email,
+  const user = useSelector(store => store.user.user);
+
+  const initialFormState: TUser = {
+    name: user?.name || "",
+    email: user?.email || "",
     password: "",
-  });
+  };
+
+  const [form, setValue] = useState<TUser>(initialFormState);
   const dispatch = useDispatch();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +36,6 @@ export const ProfilePage = (): React.JSX.Element => {
   const logoutClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(logout());
     },
     [dispatch]
@@ -42,8 +43,8 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const showButtons = (): boolean => {
     return (
-      form.name !== user.name ||
-      form.email !== user.email ||
+      form.name !== (user?.name || "") ||
+      form.email !== (user?.email || "") ||
       form.password !== ""
     );
   };
@@ -51,7 +52,6 @@ export const ProfilePage = (): React.JSX.Element => {
   const submitSave = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(updateUser(form));
     },
     [dispatch, form]
@@ -59,11 +59,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const onCanel = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    setValue({
-      name: user.name,
-      email: user.email,
-      password: "",
-    });
+    setValue(initialFormState);
   };
 
   return (

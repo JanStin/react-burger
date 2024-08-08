@@ -1,7 +1,3 @@
-import { reducer } from "../services/reduces";
-
-export type TRootState = ReturnType<typeof reducer>;
-
 export type TIngredientsArray = {
   ingredients: Array<TIngredient>;
 };
@@ -25,13 +21,6 @@ export type TIngredient = {
 
 export type TIngredientType = "bun" | "main" | "sauce";
 
-export type TIngredientsReducer = {
-  loading?: boolean;
-  error?: boolean;
-  popupData?: boolean | TIngredient;
-  popupIsOpen?: boolean;
-} & TIngredientsArray;
-
 export type TOrderResponse = {
   success: boolean;
   name: string;
@@ -51,4 +40,23 @@ export type TUser = {
   email: string;
   name: string;
   password?: string;
+};
+
+export type TOrderDetails = {
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  owner?: string;
+  __v?: number;
+};
+
+export type TOrdersResponse = {
+  success: boolean;
+  orders: TOrderDetails[];
+  total: number;
+  totalToday: number;
 };

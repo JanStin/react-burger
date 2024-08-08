@@ -6,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useCallback, useState, FormEvent, ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/store";
 import { Link } from "react-router-dom";
 import { registeration } from "../../services/actions/auth";
 
@@ -28,7 +28,6 @@ export const RegisterPage = (): React.JSX.Element => {
   const register = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(registeration(form));
     },
     [dispatch, form]
