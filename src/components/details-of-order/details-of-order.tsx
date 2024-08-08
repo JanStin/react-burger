@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TRootState, useSelector } from "../../services/store";
+import { useSelector } from "../../services/store";
 import { api } from "../../utils/api";
 import {
   CurrencyIcon,

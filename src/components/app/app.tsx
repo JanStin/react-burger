@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import { TRootState, useDispatch, useSelector } from "../../services/store";
+import { useDispatch } from "../../services/store";
 import { useEffect } from "react";
 import { Pages } from "../../pages/index";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
@@ -10,19 +10,13 @@ import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import styles from "./styles.module.css";
 import { checkUserAuth } from "../../services/actions/auth";
 import { loadIngredients } from "../../services/actions/ingredientsData";
-import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/feed";
 import { DetailsOfOrder } from "../details-of-order/details-of-order";
-import {
-  wsUserConnectionClosed,
-  wsUserConnectionStart,
-} from "../../services/actions/userFeed";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
-  const user = useSelector(store => store.user.user);
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
@@ -38,25 +32,7 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuth());
     // eslint-disable-next-line
-
-    return () => {
-      dispatch(wsConnectionClosed());
-    };
   }, [dispatch]);
-
-  useEffect(() => {
-    // Подключение к WebSocket
-    dispatch(wsConnectionStart());
-  }, [dispatch]);
-
-  useEffect(() => {
-    // Подключение к WebSocket
-    dispatch(wsUserConnectionStart());
-
-    return () => {
-      dispatch(wsUserConnectionClosed());
-    };
-  }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(loadIngredients());

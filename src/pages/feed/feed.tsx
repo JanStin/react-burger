@@ -1,11 +1,21 @@
-import React from "react";
-import { useSelector } from "../../services/store";
-import { TRootState } from "../../services/store";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "../../services/store";
 import styles from "./styles.module.css";
 import { FeedList } from "../../components/feed-list/feed-list";
 import { FeedInfo } from "../../components/feed-info/feed-info";
+import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/feed";
 
 export const FeedPage = (): React.JSX.Element => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // Подключение к WebSocket
+    dispatch(wsConnectionStart());
+
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
+  }, [dispatch]);
+
   const { wsConnected, error } = useSelector(state => state.feed);
   const { orders } = useSelector(state => state.feed);
 
