@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
 // ***********************************************
-// This example commands.ts shows you how to
+// This example commands.js shows you how to
 // create various custom commands and overwrite
 // existing commands.
 //
@@ -24,14 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+Cypress.Commands.add("prepare", () => {
+    cy.visit('http://localhost:3000/')
+    cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", { fixture: "ingredients" }).as('getData');
+    cy.wait('@getData');
+})
+
+Cypress.Commands.add("prepareIngredientPopup", () => {
+    cy.visit('http://localhost:3000/')
+    cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", { fixture: "ingredients" }).as('getData');
+    cy.wait('@getData');
+    cy.get("div[data-id=essential-element]").first().click();
+    cy.url().should('include', '/ingredients/essential-element');
+})
