@@ -25,15 +25,19 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("prepare", () => {
-    cy.visit('http://localhost:3000/')
-    cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", { fixture: "ingredients" }).as('getData');
-    cy.wait('@getData');
-})
+  cy.visit("http://localhost:3000/");
+  cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", {
+    fixture: "ingredients",
+  }).as("getData");
+  cy.wait("@getData");
+});
 
 Cypress.Commands.add("prepareIngredientPopup", () => {
-    cy.visit('http://localhost:3000/')
-    cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", { fixture: "ingredients" }).as('getData');
-    cy.wait('@getData');
-    cy.get("div[data-id=essential-element]").first().click();
-    cy.url().should('include', '/ingredients/essential-element');
-})
+  cy.visit("http://localhost:3000/");
+  cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", {
+    fixture: "ingredients",
+  }).as("getData");
+  cy.wait("@getData");
+  cy.get("div[data-id=essential-element-bun]").first().click();
+  cy.url().should("include", "/ingredients/essential-element-bun");
+});

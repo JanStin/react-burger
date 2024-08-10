@@ -1,8 +1,8 @@
 describe("Popup tests", () => {
   it("should open ingredient popup after click on element", () => {
     cy.prepare();
-    cy.get("div[data-id=essential-element]").first().click();
-    cy.url().should("include", "/ingredients/essential-element");
+    cy.get("div[data-id=essential-element-bun]").first().click();
+    cy.url().should("include", "/ingredients/essential-element-bun");
     cy.get('[data-test-id="title"]').should("have.text", "Ингредиент");
     cy.get('[data-test-id="calories"]').should("have.text", "420");
     cy.get('[data-test-id="proteins"]').should("have.text", "10");

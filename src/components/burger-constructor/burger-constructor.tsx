@@ -158,7 +158,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
       {/** @ts-ignore */}
       <div className={styles.constructor}>
         <div className={styles.body}>
-          <div ref={dropBunTop}>
+          <div ref={dropBunTop} data-test-id="bun-constructor">
             {bun && typeof bun !== "boolean" ? (
               <ConstructorElement
                 type="top"
@@ -174,7 +174,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
               </div>
             )}
           </div>
-          <div className={styles.ingredients} ref={dropIngredients}>
+          <div className={styles.ingredients} ref={dropIngredients} data-test-id="constructor">
             {ingredients && ingredients.length > 0 ? (
               ingredients.map((elem, index) => (
                 <BurgerConstructorIngredient

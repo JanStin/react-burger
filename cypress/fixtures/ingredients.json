@@ -2,7 +2,7 @@
   "success": true,
   "data": [
     {
-      "_id": "essential-element",
+      "_id": "essential-element-bun",
       "name": "Ингредиент",
       "type": "bun",
       "proteins": 10,
@@ -16,7 +16,7 @@
       "__v": 0
     },
     {
-      "_id": "643d69a5c3f7b9001cfa0941",
+      "_id": "essential-element-main",
       "name": "Биокотлета из марсианской Магнолии",
       "type": "main",
       "proteins": 420,
@@ -44,7 +44,7 @@
       "__v": 0
     },
     {
-      "_id": "643d69a5c3f7b9001cfa0942",
+      "_id": "essential-element-sauce",
       "name": "Соус Spicy-X",
       "type": "sauce",
       "proteins": 30,
