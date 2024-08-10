@@ -9,7 +9,7 @@ type TIngredientsDataInitialState = {
   popupIsOpen: boolean;
 };
 
-const initialState: TIngredientsDataInitialState = {
+export const initialState: TIngredientsDataInitialState = {
   ingredients: null,
   loading: false,
   error: "",
