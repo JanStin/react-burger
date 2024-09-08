@@ -28,7 +28,7 @@ export const Modal = ({
   return (
     <ModalOverlay onTrigger={onTrigger}>
       <div className={styles.body}>
-        <button className={styles.close} onClick={() => onTrigger()}>
+        <button className={styles.close} onClick={() => onTrigger()} data-test-id="close">
           <CloseIcon type="primary" />
         </button>
         <div className={styles.top}>

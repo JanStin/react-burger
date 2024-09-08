@@ -8,7 +8,7 @@ type TOrderIngredientsInitialState = {
   order: TOrderResponse | null;
 };
 
-const initialState: TOrderIngredientsInitialState = {
+export const initialState: TOrderIngredientsInitialState = {
   order: null,
   loading: false,
   error: "",

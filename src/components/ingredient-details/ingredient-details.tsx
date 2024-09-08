@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "../../services/store";
 import { useParams } from "react-router-dom";
 import { ActionIngredientsTypes } from "../../services/actions/ingredientsData";
 import { TIngredient } from "../../utils/types";
-import { TRootState } from "../../services/store";
 
 export const IngredientDetails = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -33,23 +32,23 @@ export const IngredientDetails = (): React.JSX.Element => {
       {isTIngredient(popupData) && (
         <>
           <img className={styles.image} src={popupData.image_large} alt="" />
-          <p className={styles.title}>{popupData.name}</p>
+          <p className={styles.title} data-test-id='title'>{popupData.name}</p>
           <div className={styles.values}>
             <div className={styles.value}>
               <p>Калории,ккал</p>
-              <p className={styles.number}>{popupData.calories}</p>
+              <p className={styles.number} data-test-id='calories'>{popupData.calories}</p>
             </div>
             <div className={styles.value}>
               <p>Белки, г</p>
-              <p className={styles.number}>{popupData.proteins}</p>
+              <p className={styles.number} data-test-id='proteins'>{popupData.proteins}</p>
             </div>
             <div className={styles.value}>
               <p>Жиры, г</p>
-              <p className={styles.number}>{popupData.fat}</p>
+              <p className={styles.number} data-test-id='fat'>{popupData.fat}</p>
             </div>
             <div className={styles.value}>
               <p>Углеводы, г</p>
-              <p className={styles.number}>{popupData.carbohydrates}</p>
+              <p className={styles.number} data-test-id='carbohydrates'>{popupData.carbohydrates}</p>
             </div>
           </div>
         </>
