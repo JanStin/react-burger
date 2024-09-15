@@ -2,7 +2,7 @@
 
 Данный проект реализован в ходе обучения на курсе Яндекс.Практикума React-разработчик. Написан на TypeScript. Инициализирован с помощью CRA.
 
-Демо [https://kirilin.nomorepartiesco.ru/](https://kirilin.nomorepartiesco.ru/).
+Демо [https://janstin.github.io/react-burger/#/](https://janstin.github.io/react-burger/#/).
 
 ## Команды
 
